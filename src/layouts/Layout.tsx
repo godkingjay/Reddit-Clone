@@ -1,18 +1,21 @@
-import NavBar from '@/components/NavBar'
+
+import NavBar from '@/components/NavBar/NavBar'
 
 import React, {
   ReactElement
 } from 'react'
 
-const Layout = ({
-  children
-}:{
+type LayoutProps = {
   children: React.ReactNode
+}
+
+const Layout: React.FC<LayoutProps> = ({
+  children
 }) => {
   return (
-    <main className='flex flex-col max-h-screen h-screen'>
+    <main className='flex flex-col max-h-screen h-screen overflow-hidden'>
       <NavBar />
-      <div className='bg-gray-100 flex-1'>
+      <div className='bg-gray-200 flex-1 overflow-y-scroll'>
         { children }
       </div>
     </main>
