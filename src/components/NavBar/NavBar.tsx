@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import React from 'react';
 import SearchInput from './SearchInput';
+import RightContent from './RightContent/RightContent';
 
 const NavBar: React.FC = () => {
   return (
@@ -22,7 +23,7 @@ const NavBar: React.FC = () => {
       </div>
       {/* <Directory /> */}
       <SearchInput />
-      {/* <WriteInput /> */}
+      <RightContent />
     </div>
   );
 }
