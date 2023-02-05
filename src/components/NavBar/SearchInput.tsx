@@ -18,7 +18,7 @@ const SearchInput: React.FC<SearchInputProps> = () => {
           name="search-reddit"
           id="search-reddit"
           placeholder='Search Reddit...'
-          className='bg-transparent outline-none flex-1 text-sm'
+          className='bg-transparent outline-none flex-1 text-sm min-w-0 w-0'
         />
       </div>
     </div>
