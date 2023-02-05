@@ -1,7 +1,5 @@
-import GuestLayout from '@/layouts/GuestLayout'
+import Layout from '@/layouts/Layout'
 import Head from 'next/head'
-import Image from 'next/image'
-import Link from 'next/link'
 import { ReactElement } from 'react'
 
 const Home = () => {
@@ -22,9 +20,9 @@ const Home = () => {
 
 Home.getLayout = function getLayout(page: ReactElement) {
   return (
-    <GuestLayout>
+    <Layout>
       { page }
-    </GuestLayout>
+    </Layout>
   )
 }
 
