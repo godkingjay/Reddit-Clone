@@ -1,9 +1,10 @@
 import Image from 'next/image';
 import React from 'react';
+import SearchInput from './SearchInput';
 
-const NavBar = () => {
+const NavBar: React.FC = () => {
   return (
-    <div className='flex bg-hsl(0, 0%, 100%) px-[16px] py-[12px]'>
+    <div className='flex bg-hsl(0, 0%, 100%) px-[16px] py-[8px] space-x-2'>
       <div className='flex'>
         <Image
           src={"/images/redditFace.svg"}
@@ -19,9 +20,9 @@ const NavBar = () => {
           className='hidden sm:block'
         />
       </div>
-      {/* <Directory />
+      {/* <Directory /> */}
       <SearchInput />
-      <WriteInput /> */}
+      {/* <WriteInput /> */}
     </div>
   );
 }
