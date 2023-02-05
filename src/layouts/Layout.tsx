@@ -7,7 +7,7 @@ import React, {
 const Layout = ({
   children
 }:{
-  children: ReactElement
+  children: React.ReactNode
 }) => {
   return (
     <>

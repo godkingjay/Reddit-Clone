@@ -1,3 +1,4 @@
+import Layout from '@/layouts/Layout';
 import '@/styles/globals.scss'
 
 import {
@@ -26,7 +27,9 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
   return (
     <>
-      { getLayout(<Component {...pageProps} />) }
+      <Layout>
+        { getLayout(<Component {...pageProps} />) }
+      </Layout>
     </>
   );
 }

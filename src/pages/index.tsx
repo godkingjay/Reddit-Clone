@@ -1,6 +1,4 @@
-import Layout from '@/layouts/Layout'
 import Head from 'next/head'
-import { ReactElement } from 'react'
 
 const Home = () => {
   return (
@@ -15,14 +13,6 @@ const Home = () => {
         <h1>Hello</h1>
       </main>
     </>
-  )
-}
-
-Home.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <Layout>
-      { page }
-    </Layout>
   )
 }
 
