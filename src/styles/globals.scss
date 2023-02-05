@@ -1,3 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  font-family: "Open Sans", sans-serif;
+}
+
+@layer components {
+  .auth-button {
+    @apply border-[2px] border-solid px-[4px] rounded-full py-1 w-[80px] font-bold bg-transparent outline-none text-sm sm:text-base sm:w-[96px];
+  }
+}
