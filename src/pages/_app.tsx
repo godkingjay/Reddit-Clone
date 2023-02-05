@@ -1,5 +1,5 @@
 import Layout from '@/components/Layout/Layout';
-import '@/styles/globals.scss'
+import '@/styles/globals.scss';
 
 import {
   NextPage
@@ -7,7 +7,7 @@ import {
 
 import type {
   AppProps
-} from 'next/app'
+} from 'next/app';
 
 import {
   ReactElement,

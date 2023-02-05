@@ -1,9 +1,7 @@
-import React from 'react'
-import { BsSearch } from 'react-icons/bs'
+import React from 'react';
+import { BsSearch } from 'react-icons/bs';
 
-type SearchInputProps = {
-
-}
+type SearchInputProps = {};
 
 const SearchInput: React.FC<SearchInputProps> = () => {
   return (
@@ -22,7 +20,7 @@ const SearchInput: React.FC<SearchInputProps> = () => {
         />
       </div>
     </div>
-  )
+  );
 }
 
-export default SearchInput
+export default SearchInput;
