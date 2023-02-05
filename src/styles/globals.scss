@@ -10,6 +10,6 @@
 
 @layer components {
   .auth-button {
-    @apply border-[2px] border-solid px-[4px] rounded-full py-1 w-[80px] font-bold bg-transparent outline-none text-sm sm:text-base sm:w-[96px];
+    @apply border-[2px] border-solid px-[4px] rounded-full py-1 w-[80px] font-bold bg-transparent outline-1 text-sm sm:text-base sm:w-[96px];
   }
 }
