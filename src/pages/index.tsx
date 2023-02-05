@@ -1,4 +1,4 @@
-import Head from 'next/head'
+import Head from 'next/head';
 
 const Home = () => {
   return (
@@ -13,7 +13,7 @@ const Home = () => {
         <h1>Hello</h1>
       </section>
     </>
-  )
+  );
 }
 
 export default Home;
