@@ -10,12 +10,12 @@ const Layout = ({
   children: React.ReactNode
 }) => {
   return (
-    <>
+    <main className='flex flex-col max-h-screen h-screen'>
       <NavBar />
-      <main>
+      <div className='bg-gray-100 flex-1'>
         { children }
-      </main>
-    </>
+      </div>
+    </main>
   )
 }
 
