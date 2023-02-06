@@ -1,6 +1,11 @@
-import { AuthModalState, authModalState } from '@/atoms/authModalAtom';
+import {
+  AuthModalState,
+  authModalState
+} from '@/atoms/authModalAtom';
 import React from 'react';
-import { useSetRecoilState } from 'recoil';
+import {
+  useSetRecoilState
+} from 'recoil';
 
 type AuthButtonsProps = {};
 
