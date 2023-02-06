@@ -5,7 +5,7 @@ import RightContent from './RightContent/RightContent';
 
 const NavBar: React.FC = () => {
   return (
-    <div className='flex bg-hsl(0, 0%, 100%) px-[16px] py-[8px] space-x-2'>
+    <div className='flex bg-hsl(0, 0%, 100%) px-[16px] py-[8px] gap-x-2'>
       <div className='flex'>
         <Image
           src={"/images/redditFace.svg"}
