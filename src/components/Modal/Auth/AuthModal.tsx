@@ -26,7 +26,7 @@ const AuthModal: React.FC<AuthModalProps> = () => {
           <section
             className='fixed h-screen w-screen max-h-screen max-w-screen bg-[#00000080] top-0 left-0 px-8 py-12 flex justify-center'
           >
-            <div className='relative bg-white max-h-[640px] max-w-[400px] rounded-[16px] w-full pb-12 pt-16'>
+            <div className='relative flex flex-col bg-white h-min max-h-[640px] max-w-[400px] rounded-[16px] w-full pb-12 pt-16 overflow-y-clip'>
               <button
                 type='button'
                 title='Close'
@@ -35,7 +35,7 @@ const AuthModal: React.FC<AuthModalProps> = () => {
               >
                 <BsXLg className='h-full w-full aspect-square' />
               </button>
-              <div className='h-full overflow-y-auto px-16'>
+              <div className='flex-1 overflow-y-auto px-16'>
                 <h1>Hello</h1>
               </div>
             </div>
