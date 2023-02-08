@@ -59,7 +59,7 @@ const Login: React.FC<LoginProps> = () => {
       >
         Login
       </button>
-      <p className="text-center text-xs">New to Reddit? <a className="auth-modal-link font-bold underline" tabIndex={0} onClick={() => handleChangeAuth()}>Sign Up</a></p>
+      <p className="text-center text-xs">New to Reddit? <button type="button" title="Sign Up" className="auth-modal-link font-bold underline" tabIndex={0} onClick={() => handleChangeAuth()}>Sign Up</button></p>
     </form>
   )
 }
