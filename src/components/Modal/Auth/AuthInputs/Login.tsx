@@ -1,6 +1,8 @@
+import { authModalState } from "@/atoms/authModalAtom";
 import React, {
   useState
 } from "react"
+import { useSetRecoilState } from "recoil";
 
 type LoginProps = {}
 
@@ -10,6 +12,8 @@ const Login: React.FC<LoginProps> = () => {
     password: ""
   })
 
+  const setAuthModal = useSetRecoilState(authModalState);
+
   const handleSubmit = () => {
 
   }
@@ -18,6 +22,13 @@ const Login: React.FC<LoginProps> = () => {
     setLoginForm((prev) => ({
       ...prev,
       [e.target.name]: e.target.value
+    }));
+  }
+
+  const handleChangeAuth = () => {
+    setAuthModal((prev) => ({
+      ...prev,
+      view: "signup"
     }));
   }
 
@@ -48,6 +59,7 @@ const Login: React.FC<LoginProps> = () => {
       >
         Login
       </button>
+      <p className="text-center text-xs">New to Reddit? <a className="auth-modal-link font-bold underline" tabIndex={0} onClick={() => handleChangeAuth()}>Sign Up</a></p>
     </form>
   )
 }
