@@ -4,7 +4,7 @@ type OAuthProps = {};
 
 const OAuthButtons: React.FC<OAuthProps> = () => {
   return (
-    <section className="w-full flex flex-col py-1 mb-2">
+    <section className="w-full flex flex-col py-1">
       <button type="button" title="Continue with Google" className="o-auth-buttons">
         <Image
           src={"/images/googlelogo.png"}
