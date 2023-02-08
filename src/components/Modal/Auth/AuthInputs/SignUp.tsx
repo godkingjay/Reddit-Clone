@@ -33,29 +33,31 @@ const SignUp: React.FC<SignUpProps> = () => {
   }
 
   return (
-    <form className="w-full flex flex-col gap-y-4 py-1" onSubmit={handleSubmit}>
-      <input
-        required
-        title="Email"
-        type="email"
-        name="email"
-        placeholder="Email"
-        className="auth-input"
-        onChange={(e) => handleChange(e)}
-      />
-      <input
-        required
-        title="Password"
-        type="password"
-        name="password"
-        placeholder="Password"
-        className="auth-input"
-        onChange={(e) => handleChange(e)}
-      />
+    <form className="w-full flex flex-col" onSubmit={handleSubmit}>
+      <div className="w-full flex flex-col mt-1 gap-y-4">
+        <input
+          required
+          title="Email"
+          type="email"
+          name="email"
+          placeholder="Email"
+          className="auth-input"
+          onChange={(e) => handleChange(e)}
+        />
+        <input
+          required
+          title="Password"
+          type="password"
+          name="password"
+          placeholder="Password"
+          className="auth-input"
+          onChange={(e) => handleChange(e)}
+        />
+      </div>
       <button
         type="submit"
         title="Sign Up"
-        className="auth-button-modal bg-blue-500 border-blue-500 hover:bg-transparent hover:text-blue-500 focus:bg-transparent focus:text-blue-500"
+        className="auth-button-modal my-4 bg-blue-500 border-blue-500 hover:bg-transparent hover:text-blue-500 focus:bg-transparent focus:text-blue-500"
       >
         Sign Up
       </button>
