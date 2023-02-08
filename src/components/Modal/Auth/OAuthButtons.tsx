@@ -12,6 +12,7 @@ const OAuthButtons: React.FC<OAuthProps> = () => {
           width={128}
           className="o-auth-button-img"
           alt="Google Logo"
+          loading="lazy"
         />
         <label className="o-auth-button-label">Continue with Google</label>
       </button>
