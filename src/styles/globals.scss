@@ -24,4 +24,16 @@
   .auth-button-modal {
     @apply border-2 border-blue-500 text-white py-2 px-4 rounded-full font-bold bg-blue-500 text-base outline-1;
   }
+
+  .o-auth-buttons {
+    @apply flex flex-row items-center w-full min-w-0 border-[1px] rounded-full border-gray-300 outline-1 hover:border-blue-500 hover:bg-blue-500 hover:bg-opacity-[3%] focus:border-blue-500 focus:bg-blue-500 focus:bg-opacity-[3%] outline-none;
+    
+    .o-auth-button-img {
+      @apply aspect-square h-[20px] w-[20px] m-3 pointer-events-none;
+    }
+
+      .o-auth-button-label {
+      @apply flex-1 font-semibold text-sm text-gray-600 pointer-events-none;
+    }
+  }
 }

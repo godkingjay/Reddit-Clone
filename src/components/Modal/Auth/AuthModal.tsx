@@ -11,6 +11,7 @@ import {
   useRecoilState
 } from 'recoil';
 import AuthInputs from './AuthInputs';
+import OAuthButtons from './OAuthButtons';
 
 type AuthModalProps = {};
 
@@ -50,7 +51,7 @@ const AuthModal: React.FC<AuthModalProps> = () => {
                 </p>
               </header>
               <div className='flex flex-col items-center justify-center flex-1 overflow-y-auto px-16'>
-                {/* <OAuthButtons /> */}
+                <OAuthButtons />
                 <AuthInputs />
                 {/* <ResetPassword /> */}
               </div>
