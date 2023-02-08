@@ -1,6 +1,22 @@
-import { authModalState } from "@/atoms/authModalAtom";
-import { useState } from "react"
-import { useSetRecoilState } from "recoil";
+import {
+  authModalState
+} from "@/atoms/authModalAtom";
+
+import React, {
+  useState
+} from "react"
+
+import {
+  useSetRecoilState
+} from "recoil";
+
+import {
+  useCreateUserWithEmailAndPassword
+} from "react-firebase-hooks/auth";
+
+import {
+  auth
+} from "@/firebase/clientApp";
 
 type SignUpProps = {
 
@@ -15,8 +31,26 @@ const SignUp: React.FC<SignUpProps> = () => {
 
   const setAuthModal = useSetRecoilState(authModalState);
 
-  const handleSubmit = () => {
+  const [
+    createUserWithEmailAndPassword,
+    user,
+    loading,
+    error,
+  ] = useCreateUserWithEmailAndPassword(auth);
 
+  const [formError, setFormError] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formError) setFormError(false);
+    if (signUpForm.password !== signUpForm.confirmPassword) {
+      setFormError(true);
+      return;
+    }
+    createUserWithEmailAndPassword(
+      signUpForm.email,
+      signUpForm.password
+    );
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,7 +86,10 @@ const SignUp: React.FC<SignUpProps> = () => {
           name="password"
           placeholder="Password"
           className="auth-input"
-          onChange={(e) => handleChange(e)}
+          onChange={(e) => {
+            handleChange(e);
+            setFormError(false);
+          }}
         />
         <input
           required
@@ -61,13 +98,21 @@ const SignUp: React.FC<SignUpProps> = () => {
           name="confirmPassword"
           placeholder="Confirm Password"
           className="auth-input"
-          onChange={(e) => handleChange(e)}
+          onChange={(e) => {
+            handleChange(e);
+            setFormError(false);
+          }}
         />
       </div>
+      {formError && (
+        <>
+          <p className="text-center text-sm text-red-500 my-2">Password does not match.</p>
+        </>
+      ) }
       <button
         type="submit"
         title="Sign Up"
-        className="auth-button-modal my-4 bg-blue-500 border-blue-500 hover:bg-transparent hover:text-blue-500 focus:bg-transparent focus:text-blue-500"
+        className="auth-button-modal bg-blue-500 border-blue-500 hover:bg-transparent hover:text-blue-500 focus:bg-transparent focus:text-blue-500"
       >
         Sign Up
       </button>
