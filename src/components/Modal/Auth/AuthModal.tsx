@@ -41,10 +41,13 @@ const AuthModal: React.FC<AuthModalProps> = () => {
               </button>
               <header className='px-16'>
                 <h1 className='font-medium text-xl'>
-                  { authModal.view === "login" && "Login" }
+                  { authModal.view === "login" && "Log In" }
                   { authModal.view === "signup" && "Sign Up" }
                   { authModal.view === "resetPassword" && "Reset Password" }
                 </h1>
+                <p className='text-xs mt-2'>
+                  By continuing, you agree are setting up a Reddit account and agree to our <a className='auth-modal-link' tabIndex={0}>User Agreement</a> and <a className='auth-modal-link' tabIndex={0}>Privacy Policy</a>. 
+                </p>
               </header>
               <div className='flex flex-col items-center justify-center flex-1 overflow-y-auto px-16'>
                 {/* <OAuthButtons /> */}
