@@ -1,15 +1,16 @@
 import { authModalState } from "@/atoms/authModalAtom";
-import React, {
-  useState
-} from "react"
+import { useState } from "react"
 import { useSetRecoilState } from "recoil";
 
-type LoginProps = {}
+type SignUpProps = {
 
-const Login: React.FC<LoginProps> = () => {
-  const [loginForm, setLoginForm] = useState({
+}
+
+const SignUp: React.FC<SignUpProps> = () => {
+  const [signUpForm, setSignUpForm] = useState({
     email: "",
-    password: ""
+    password: "",
+    confirmPassword: "",
   })
 
   const setAuthModal = useSetRecoilState(authModalState);
@@ -19,22 +20,22 @@ const Login: React.FC<LoginProps> = () => {
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLoginForm((prev) => ({
+    setSignUpForm((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     }));
   }
 
   const handleChangeAuth = () => {
     setAuthModal((prev) => ({
       ...prev,
-      view: "signup"
+      view: "login"
     }));
   }
 
   return (
     <form className="w-full flex flex-col" onSubmit={handleSubmit}>
-      <div className="w-full flex flex-col gap-y-4 mt-1">
+      <div className="w-full flex flex-col mt-1 gap-y-4">
         <input
           required
           title="Email"
@@ -53,18 +54,26 @@ const Login: React.FC<LoginProps> = () => {
           className="auth-input"
           onChange={(e) => handleChange(e)}
         />
+        <input
+          required
+          title="Confirm Password"
+          type="password"
+          name="confirmPassword"
+          placeholder="Confirm Password"
+          className="auth-input"
+          onChange={(e) => handleChange(e)}
+        />
       </div>
-      {/* <p className="text-left text-xs mt-4 mb-2">Forgot your username or password?</p> */}
       <button
         type="submit"
-        title="Login"
-        className="auth-button-modal bg-brand-100 border-brand-100 hover:bg-transparent hover:text-brand-100 focus:bg-transparent focus:text-brand-100"
+        title="Sign Up"
+        className="auth-button-modal my-4 bg-blue-500 border-blue-500 hover:bg-transparent hover:text-blue-500 focus:bg-transparent focus:text-blue-500"
       >
-        Login
+        Sign Up
       </button>
-      <p className="text-center text-xs">New to Reddit? <button type="button" title="Sign Up" className="auth-modal-link font-bold underline" tabIndex={0} onClick={() => handleChangeAuth()}>Sign Up</button></p>
+      <p className="text-xs text-center">Already a redditor? <button type="button" title="Log In" className="auth-modal-link underline font-bold" tabIndex={0} onClick={() => handleChangeAuth()}>Log In</button></p>
     </form>
   )
 }
 
-export default Login
+export default SignUp
