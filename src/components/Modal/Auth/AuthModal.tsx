@@ -52,7 +52,11 @@ const AuthModal: React.FC<AuthModalProps> = () => {
               </header>
               <div className='flex flex-col items-center justify-center flex-1 overflow-y-auto px-16'>
                 <OAuthButtons />
-                <p className='text-gray-600'>OR</p>
+                <div className='w-full flex flex-row items-center justify-center my-4 gap-x-4'>
+                  <span className='flex-1 h-[1px] bg-gray-200'></span>
+                  <p className='text-gray-500 font-bold text-[14px]'>OR</p>
+                  <span className='flex-1 h-[1px] bg-gray-200'></span>
+                </div>
                 <AuthInputs />
                 {/* <ResetPassword /> */}
               </div>
