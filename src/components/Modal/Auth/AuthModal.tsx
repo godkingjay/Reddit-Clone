@@ -46,7 +46,7 @@ const AuthModal: React.FC<AuthModalProps> = () => {
                   { authModal.view === "resetPassword" && "Reset Password" }
                 </h1>
                 <p className='text-xs mt-2'>
-                  By continuing, you agree are setting up a Reddit account and agree to our <a className='auth-modal-link' tabIndex={0}>User Agreement</a> and <a className='auth-modal-link' tabIndex={0}>Privacy Policy</a>. 
+                  By continuing, you agree are setting up a Reddit account and agree to our <button type='button' title='User Agreement' className='auth-modal-link' tabIndex={0}>User Agreement</button> and <button type='button' title='Privacy Policy' className='auth-modal-link' tabIndex={0}>Privacy Policy</button>. 
                 </p>
               </header>
               <div className='flex flex-col items-center justify-center flex-1 overflow-y-auto px-16'>
