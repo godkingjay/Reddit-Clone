@@ -9,7 +9,8 @@ type SignUpProps = {
 const SignUp: React.FC<SignUpProps> = () => {
   const [signUpForm, setSignUpForm] = useState({
     email: "",
-    password: ""
+    password: "",
+    confirmPassword: "",
   })
 
   const setAuthModal = useSetRecoilState(authModalState);
@@ -21,7 +22,7 @@ const SignUp: React.FC<SignUpProps> = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSignUpForm((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     }));
   }
 
@@ -50,6 +51,15 @@ const SignUp: React.FC<SignUpProps> = () => {
           type="password"
           name="password"
           placeholder="Password"
+          className="auth-input"
+          onChange={(e) => handleChange(e)}
+        />
+        <input
+          required
+          title="Confirm Password"
+          type="password"
+          name="confirmPassword"
+          placeholder="Confirm Password"
           className="auth-input"
           onChange={(e) => handleChange(e)}
         />
