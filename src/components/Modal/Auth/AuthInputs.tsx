@@ -9,6 +9,7 @@ import {
 } from 'recoil';
 
 import Login from './AuthInputs/Login';
+import SignUp from './AuthInputs/SignUp';
 
 type AuthInputsProps = {
 
@@ -20,7 +21,7 @@ const AuthInputs: React.FC<AuthInputsProps> = () => {
   return (
     <div className='flex flex-col items-center w-full'>
       { authModal.view === 'login' && <Login /> }
-      {/* { authModal.view === 'signup' && <SignUp /> } */}
+      { authModal.view === 'signup' && <SignUp /> }
     </div>
   );
 };
