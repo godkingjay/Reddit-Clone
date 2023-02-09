@@ -122,23 +122,23 @@ const SignUp: React.FC<SignUpProps> = () => {
       <div className="w-full mb-4 mt-6 flex flex-col">
         {
           !loading
-            ? (
-              <button
-                type="submit"
-                title="Sign Up"
-                className="auth-button-modal bg-blue-500 border-blue-500 hover:bg-transparent hover:text-blue-500 focus:bg-transparent focus:text-blue-500"
-                disabled={formError || userError ? true : false}
-              >
-                Sign Up
-              </button>
-            )
-            : (
-              <div className="w-full flex flex-col items-center justify-center py-1">
-                <LoadingSpinner
-                  className="aspect-square h-[35px] w-[35px] animate-spin [&>path]:stroke-blue-500"
-                />
-              </div>
-            )
+          ? (
+            <button
+              type="submit"
+              title="Sign Up"
+              className="auth-button-modal bg-blue-500 border-blue-500 hover:bg-transparent hover:text-blue-500 focus:bg-transparent focus:text-blue-500"
+              disabled={formError || userError ? true : false}
+            >
+              Sign Up
+            </button>
+          )
+          : (
+            <div className="w-full h-max flex flex-col items-center justify-center my-1">
+              <LoadingSpinner
+                className="aspect-square h-[32px] w-[32px] animate-spin [&>path]:stroke-blue-500"
+              />
+            </div>
+          )
         }
       </div>
       {error && userError && (
