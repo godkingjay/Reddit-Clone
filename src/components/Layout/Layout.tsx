@@ -15,8 +15,8 @@ const Layout: React.FC<LayoutProps> = ({
   return (
     <main className='flex flex-col max-h-screen h-screen overflow-hidden'>
       <NavBar />
-      <div className='bg-gray-200 flex-1 overflow-y-scroll'>
-        { children }
+      <div className='bg-gray-200 flex-1 overflow-y-auto scroll-y-style'>
+        {children}
       </div>
     </main>
   )

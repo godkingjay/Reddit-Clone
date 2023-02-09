@@ -51,7 +51,7 @@ const AuthModal: React.FC<AuthModalProps> = () => {
                     By continuing, you agree are setting up a Reddit account and agree to our <button type='button' title='User Agreement' className='auth-modal-link' tabIndex={0}>User Agreement</button> and <button type='button' title='Privacy Policy' className='auth-modal-link' tabIndex={0}>Privacy Policy</button>. 
                   </p>
                 </header>
-                <div className='relative flex flex-col flex-1 items-center px-16 w-full overflow-y-auto'>
+                <div className='relative flex flex-col flex-1 items-center px-16 w-full overflow-y-auto scroll-y-style'>
                   <OAuthButtons />
                   <div className='w-full flex flex-row items-center justify-center my-4 gap-x-4'>
                     <span className='flex-1 h-[1px] bg-gray-200'></span>
