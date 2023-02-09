@@ -18,7 +18,7 @@ import {
   auth
 } from "@/firebase/clientApp";
 
-import LoadingSpinner from "public/svgs/loading-spinner.svg";
+import LoadingSpinner from "public/svg/loading-spinner.svg";
 
 type SignUpProps = {
 
