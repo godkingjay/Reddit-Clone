@@ -46,7 +46,7 @@ const SignUp: React.FC<SignUpProps> = () => {
   const [userError, setUserError] = useState<typeof error | null>(null);
 
   useEffect(() => {
-    setUserError(error as typeof error);
+    setUserError(error);
   }, [error]);
 
   const handleSubmit = (e: React.FormEvent) => {
