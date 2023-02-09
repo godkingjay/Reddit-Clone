@@ -18,7 +18,7 @@ import {
   auth
 } from "@/firebase/clientApp";
 
-import LoadingSpinner from "public/svgs/loading-spinner.svg";
+import LoadingSpinner from "public/svg/loading-spinner.svg";
 
 type SignUpProps = {
 
@@ -110,7 +110,7 @@ const SignUp: React.FC<SignUpProps> = () => {
         <>
           <p className="text-center text-sm text-red-500 mt-2">Password does not match.</p>
         </>
-      ) }
+      )}
       {
         !loading
           ? (
@@ -130,6 +130,9 @@ const SignUp: React.FC<SignUpProps> = () => {
             </div>
           )
       }
+      {error && (
+        <p className="w-full break-words text-sm text-center mb-4 text-red-500">Something went wrong. Please try again later.</p>
+      ) }
       <p className="text-xs text-center">Already a redditor? <button type="button" title="Log In" className="auth-modal-link underline font-bold" tabIndex={0} onClick={() => handleChangeAuth()}>Log In</button></p>
     </form>
   )
