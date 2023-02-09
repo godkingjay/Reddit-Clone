@@ -55,13 +55,15 @@ const Login: React.FC<LoginProps> = () => {
         />
       </div>
       {/* <p className="text-left text-xs mt-4 mb-2">Forgot your username or password?</p> */}
-      <button
-        type="submit"
-        title="Login"
-        className="auth-button-modal bg-brand-100 border-brand-100 hover:bg-transparent hover:text-brand-100 focus:bg-transparent focus:text-brand-100"
-      >
-        Login
-      </button>
+      <div className="w-full mb-4 mt-6 flex flex-col">
+        <button
+          type="submit"
+          title="Login"
+          className="auth-button-modal bg-brand-100 border-brand-100 hover:bg-transparent hover:text-brand-100 focus:bg-transparent focus:text-brand-100"
+        >
+          Login
+        </button>
+      </div>
       <p className="text-center text-xs">New to Reddit? <button type="button" title="Sign Up" className="auth-modal-link font-bold underline" tabIndex={0} onClick={() => handleChangeAuth()}>Sign Up</button></p>
     </form>
   )
