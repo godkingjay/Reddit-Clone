@@ -47,7 +47,6 @@ const Login: React.FC<LoginProps> = () => {
   useEffect(() => {
     setUserError(error);
   }, [error])
-  
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,7 +80,6 @@ const Login: React.FC<LoginProps> = () => {
           name="email"
           placeholder="Email"
           className="auth-input"
-          value={ loginForm.email }
           onChange={(e) => {
             setUserError(null);
             handleChange(e);
@@ -94,7 +92,6 @@ const Login: React.FC<LoginProps> = () => {
           name="password"
           placeholder="Password"
           className="auth-input"
-          value={ loginForm.password }
           onChange={(e) => {
             setUserError(null);
             handleChange(e);
