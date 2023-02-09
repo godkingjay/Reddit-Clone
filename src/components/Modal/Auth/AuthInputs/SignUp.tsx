@@ -45,10 +45,6 @@ const SignUp: React.FC<SignUpProps> = () => {
   const [formError, setFormError] = useState(false);
   const [userError, setUserError] = useState<typeof error | null>(null);
 
-  useEffect(() => {
-    setUserError(error);
-  }, [error]);
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (formError) setFormError(false);
@@ -75,6 +71,10 @@ const SignUp: React.FC<SignUpProps> = () => {
       view: "login"
     }));
   }
+
+  useEffect(() => {
+    setUserError(error);
+  }, [error]);
 
   return (
     <form className="w-full flex flex-col" onSubmit={handleSubmit}>

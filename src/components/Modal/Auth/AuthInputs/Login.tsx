@@ -42,12 +42,7 @@ const Login: React.FC<LoginProps> = () => {
 
   const setAuthModal = useSetRecoilState(authModalState);
 
-  const [userError, setUserError] = useState<typeof error | null | undefined>(null)
-
-  useEffect(() => {
-    setUserError(error);
-  }, [error])
-  
+  const [userError, setUserError] = useState<typeof error | null | undefined>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,6 +66,10 @@ const Login: React.FC<LoginProps> = () => {
     }));
   }
 
+  useEffect(() => {
+    setUserError(error);
+  }, [error]);
+
   return (
     <form className="w-full flex flex-col" onSubmit={handleSubmit}>
       <div className="w-full flex flex-col gap-y-4 mt-1">
@@ -81,7 +80,6 @@ const Login: React.FC<LoginProps> = () => {
           name="email"
           placeholder="Email"
           className="auth-input"
-          value={ loginForm.email }
           onChange={(e) => {
             setUserError(null);
             handleChange(e);
@@ -94,7 +92,6 @@ const Login: React.FC<LoginProps> = () => {
           name="password"
           placeholder="Password"
           className="auth-input"
-          value={ loginForm.password }
           onChange={(e) => {
             setUserError(null);
             handleChange(e);
