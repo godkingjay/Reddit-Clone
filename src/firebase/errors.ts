@@ -3,4 +3,5 @@ export const FIREBASE_ERRORS = {
   "Firebase: Error (auth/user-not-found).": "Incorrect username or password.",
   "Firebase: Error (auth/wrong-password).": "Incorrect username or password.",
   "Firebase: Error (auth/network-request-failed)": "Network request failed. Please try again later.",
+  "Firebase: Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later. (auth/too-many-requests).": "Multiple failed login attempts. Please try again later",
 }
