@@ -42,11 +42,7 @@ const Login: React.FC<LoginProps> = () => {
 
   const setAuthModal = useSetRecoilState(authModalState);
 
-  const [userError, setUserError] = useState<typeof error | null | undefined>(null)
-
-  useEffect(() => {
-    setUserError(error);
-  }, [error])
+  const [userError, setUserError] = useState<typeof error | null | undefined>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -69,6 +65,10 @@ const Login: React.FC<LoginProps> = () => {
       view: "signup"
     }));
   }
+
+  useEffect(() => {
+    setUserError(error);
+  }, [error]);
 
   return (
     <form className="w-full flex flex-col" onSubmit={handleSubmit}>
