@@ -1,16 +1,29 @@
 import {
   authModalState
 } from '@/atoms/authModalAtom';
+
 import React, {
   useEffect
 } from 'react';
+
 import {
   BsXLg
 } from 'react-icons/bs';
+
 import {
   useRecoilState
 } from 'recoil';
+
+import {
+  auth
+} from "@/firebase/clientApp";
+
+import {
+  useAuthState
+} from 'react-firebase-hooks/auth';
+
 import AuthInputs from './AuthInputs';
+
 import OAuthButtons from './OAuthButtons';
 
 type AuthModalProps = {};
@@ -18,12 +31,22 @@ type AuthModalProps = {};
 const AuthModal: React.FC<AuthModalProps> = () => {
   const [authModal, setAuthModal] = useRecoilState(authModalState);
 
+  const [
+    user,
+    loading,
+    error
+  ] = useAuthState(auth);
+
   const handleClose = () => {
     setAuthModal((prev) => ({
       ...prev,
       open: false
     }));
   }
+
+  useEffect(() => {
+    if (user) handleClose();
+  }, [user]);
 
   return (
     <>
