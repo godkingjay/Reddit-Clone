@@ -1,4 +1,4 @@
-import { authModalState } from "@/atoms/authModalAtom";
+import { AuthModalState, authModalState } from "@/atoms/authModalAtom";
 
 import React, { useEffect, useState } from "react";
 
@@ -41,10 +41,10 @@ const Login: React.FC<LoginProps> = () => {
 		}));
 	};
 
-	const handleChangeAuth = () => {
+	const handleChangeAuth = (view: AuthModalState["view"]) => {
 		setAuthModal((prev) => ({
 			...prev,
-			view: "signup",
+			view: view,
 		}));
 	};
 
@@ -107,6 +107,27 @@ const Login: React.FC<LoginProps> = () => {
 						: userError.message}
 				</p>
 			)}
+			<p className="text-center text-xs mb-4">
+				Forgot your{" "}
+				<button
+					type="button"
+					title="Forgot Username"
+					className="auth-modal-link"
+					onClick={() => handleChangeAuth("resetPassword")}
+				>
+					username
+				</button>{" "}
+				or{" "}
+				<button
+					type="button"
+					title="Forgot Password"
+					className="auth-modal-link"
+					onClick={() => handleChangeAuth("resetPassword")}
+				>
+					password
+				</button>
+				?
+			</p>
 			<p className="text-center text-xs">
 				New to Reddit?{" "}
 				<button
@@ -114,7 +135,7 @@ const Login: React.FC<LoginProps> = () => {
 					title="Sign Up"
 					className="auth-modal-link font-bold underline"
 					tabIndex={0}
-					onClick={() => handleChangeAuth()}
+					onClick={() => handleChangeAuth("signup")}
 				>
 					Sign Up
 				</button>
