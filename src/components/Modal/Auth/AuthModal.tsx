@@ -13,6 +13,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import AuthInputs from "./AuthInputs";
 
 import OAuthButtons from "./OAuthButtons";
+import AuthResetPassword from "./AuthResetPassword";
 
 type AuthModalProps = {};
 
@@ -49,45 +50,53 @@ const AuthModal: React.FC<AuthModalProps> = () => {
 						>
 							<BsXLg className="h-full w-full aspect-square" />
 						</button>
-						<div className="relative flex flex-1 flex-col overflow-y-hidden items-center">
-							<header className="h-max px-16">
-								<h1 className="font-medium text-xl">
+						<div className="relative flex flex-1 flex-col overflow-y-hidden items-center w-full">
+							<header className="h-max px-16 w-full">
+								<h1 className="font-medium text-xl w-full">
 									{authModal.view === "login" && "Log In"}
 									{authModal.view === "signup" && "Sign Up"}
 									{authModal.view === "resetPassword" && "Reset Password"}
 								</h1>
-								<p className="text-xs mt-2">
-									By continuing, you agree are setting up a Reddit account and
-									agree to our{" "}
-									<button
-										type="button"
-										title="User Agreement"
-										className="auth-modal-link"
-										tabIndex={0}
-									>
-										User Agreement
-									</button>{" "}
-									and{" "}
-									<button
-										type="button"
-										title="Privacy Policy"
-										className="auth-modal-link"
-										tabIndex={0}
-									>
-										Privacy Policy
-									</button>
-									.
-								</p>
+								{(authModal.view === "login" ||
+									authModal.view === "signup") && (
+									<p className="text-xs mt-2">
+										By continuing, you agree are setting up a Reddit account and
+										agree to our{" "}
+										<button
+											type="button"
+											title="User Agreement"
+											className="auth-modal-link"
+											tabIndex={0}
+										>
+											User Agreement
+										</button>{" "}
+										and{" "}
+										<button
+											type="button"
+											title="Privacy Policy"
+											className="auth-modal-link"
+											tabIndex={0}
+										>
+											Privacy Policy
+										</button>
+										.
+									</p>
+								)}
 							</header>
 							<div className="relative flex flex-col flex-1 items-center px-16 w-full overflow-y-auto scroll-y-style">
-								<OAuthButtons />
-								<div className="w-full flex flex-row items-center justify-center my-4 gap-x-4">
-									<span className="flex-1 h-[1px] bg-gray-200"></span>
-									<p className="text-gray-500 font-bold text-[14px]">OR</p>
-									<span className="flex-1 h-[1px] bg-gray-200"></span>
-								</div>
-								<AuthInputs />
-								{/* <ResetPassword /> */}
+								{authModal.view == "login" || authModal.view == "signup" ? (
+									<>
+										<OAuthButtons />
+										<div className="w-full flex flex-row items-center justify-center my-4 gap-x-4">
+											<span className="flex-1 h-[1px] bg-gray-200"></span>
+											<p className="text-gray-500 font-bold text-[14px]">OR</p>
+											<span className="flex-1 h-[1px] bg-gray-200"></span>
+										</div>
+										<AuthInputs />
+									</>
+								) : (
+									<AuthResetPassword />
+								)}
 							</div>
 						</div>
 					</div>
