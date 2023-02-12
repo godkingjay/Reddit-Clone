@@ -108,7 +108,7 @@ const Login: React.FC<LoginProps> = () => {
 			)}
 			<p className="text-center text-xs mb-4">
 				Forgot your{" "}
-				<button
+				{/* <button
 					type="button"
 					title="Forgot Username"
 					className="auth-modal-link"
@@ -116,7 +116,7 @@ const Login: React.FC<LoginProps> = () => {
 				>
 					username
 				</button>{" "}
-				or{" "}
+				or{" "} */}
 				<button
 					type="button"
 					title="Forgot Password"
