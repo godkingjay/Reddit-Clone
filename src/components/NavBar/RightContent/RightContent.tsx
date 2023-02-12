@@ -1,42 +1,37 @@
-import React from 'react';
+import React from "react";
 
-import AuthButtons from './AuthButtons';
+import AuthButtons from "./AuthButtons";
 
-import AuthModal from '@/components/Modal/Auth/AuthModal';
+import AuthModal from "@/components/Modal/Auth/AuthModal";
 
-import {
-  auth
-} from "@/firebase/clientApp";
+import { auth } from "@/firebase/clientApp";
 
-import {
-  useAuthState
-} from 'react-firebase-hooks/auth';
+import { useAuthState } from "react-firebase-hooks/auth";
+import { signOut } from "firebase/auth";
 
-type RightContentProps = {};
+type RightContentProps = {
+	user: any;
+};
 
-const RightContent: React.FC<RightContentProps> = () => {
-  const [
-    user,
-    loading,
-    error
-  ] = useAuthState(auth);
-
-  return (
-    <>
-      <AuthModal />
-      <div className='flex flex-row items-center space-x-2'>
-        {
-          user
-          ? (
-            <p>Logged In</p>
-          )
-          : (
-            <AuthButtons />
-          )
-        }
-      </div>
-    </>
-  );
-}
+const RightContent: React.FC<RightContentProps> = ({ user }) => {
+	return (
+		<>
+			<AuthModal />
+			<div className="flex flex-row items-center space-x-2">
+				{user ? (
+					<button
+						title="Sign Out"
+						type="button"
+						onClick={() => signOut(auth)}
+					>
+						Sign out
+					</button>
+				) : (
+					<AuthButtons />
+				)}
+			</div>
+		</>
+	);
+};
 
 export default RightContent;
