@@ -83,7 +83,6 @@ const Login: React.FC<LoginProps> = () => {
 					}}
 				/>
 			</div>
-			{/* <p className="text-left text-xs mt-4 mb-2">Forgot your username or password?</p> */}
 			<div className="w-full mb-4 mt-6 flex flex-col">
 				{!loading ? (
 					<button
@@ -94,8 +93,8 @@ const Login: React.FC<LoginProps> = () => {
 						Login
 					</button>
 				) : (
-					<div className="w-full h-max flex flex-col items-center justify-center my-1">
-						<LoadingSpinner className="aspect-square h-[32px] w-[32px] animate-spin [&>path]:stroke-blue-500" />
+					<div className="auth-modal-loading-spinner-container">
+						<LoadingSpinner className="auth-modal-loading-spinner" />
 					</div>
 				)}
 			</div>

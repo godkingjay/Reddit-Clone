@@ -115,8 +115,8 @@ const SignUp: React.FC<SignUpProps> = () => {
 						Sign Up
 					</button>
 				) : (
-					<div className="w-full h-max flex flex-col items-center justify-center my-1">
-						<LoadingSpinner className="aspect-square h-[32px] w-[32px] animate-spin [&>path]:stroke-blue-500" />
+					<div className="auth-modal-loading-spinner-container">
+						<LoadingSpinner className="auth-modal-loading-spinner" />
 					</div>
 				)}
 			</div>
