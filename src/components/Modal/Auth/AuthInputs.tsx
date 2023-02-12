@@ -1,29 +1,23 @@
-import {
-  authModalState
-} from '@/atoms/authModalAtom';
+import { authModalState } from "@/atoms/authModalAtom";
 
-import React from 'react';
+import React from "react";
 
-import {
-  useRecoilValue
-} from 'recoil';
+import { useRecoilValue } from "recoil";
 
-import Login from './AuthInputs/Login';
-import SignUp from './AuthInputs/SignUp';
+import Login from "./AuthInputs/Login";
+import SignUp from "./AuthInputs/SignUp";
 
-type AuthInputsProps = {
-
-};
+type AuthInputsProps = {};
 
 const AuthInputs: React.FC<AuthInputsProps> = () => {
-  const authModal = useRecoilValue(authModalState);
+	const authModal = useRecoilValue(authModalState);
 
-  return (
-    <div className='flex flex-col items-center w-full'>
-      { authModal.view === 'login' && <Login /> }
-      { authModal.view === 'signup' && <SignUp /> }
-    </div>
-  );
+	return (
+		<div className="flex flex-col items-center w-full">
+			{authModal.view === "login" && <Login />}
+			{authModal.view === "signup" && <SignUp />}
+		</div>
+	);
 };
 
 export default AuthInputs;
