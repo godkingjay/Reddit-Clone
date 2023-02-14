@@ -25,7 +25,7 @@ const AuthButtons: React.FC<AuthButtonsProps> = () => {
 				Log In
 			</button>
 			<button
-				className="auth-button  border-blue-500 bg-blue-500 text-white hover:text-blue-500 hover:bg-transparent active:text-blue-500 active:bg-transparent focus:text-blue-500 focus:bg-transparent"
+				className="auth-button  border-blue-500 bg-blue-500 text-white hover:border-blue-600 hover:bg-blue-600 focus:border-blue-600 focus:bg-blue-600"
 				type="button"
 				title="Sign Up"
 				onClick={() => handleClick(true, "signup")}
