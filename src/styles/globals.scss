@@ -56,4 +56,30 @@
 			@apply flex-1 font-semibold text-sm text-gray-600 pointer-events-none;
 		}
 	}
+
+	.dropdown-user-list {
+		li {
+			@apply w-full;
+
+			button {
+				@apply flex flex-row items-center w-full gap-x-4 px-4 py-2 cursor-pointer hover:bg-gray-600 focus:bg-gray-600 hover:bg-opacity-10 focus:bg-opacity-10;
+			}
+
+			button * {
+				@apply pointer-events-none;
+			}
+
+			.icon {
+				@apply aspect-square h-[28px] w-[28px] fill-gray-600;
+			}
+
+			.label {
+				@apply font-semibold;
+			}
+
+			.user-logout {
+				@apply hover:bg-red-500 focus:bg-red-500 hover:bg-opacity-10 focus:bg-opacity-10;
+			}
+		}
+	}
 }
