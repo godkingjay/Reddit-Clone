@@ -29,9 +29,9 @@ const ResetPassword: React.FC<ResetPasswordProps> = () => {
 
 	const [emailSent, setEmailSent] = useState(false);
 
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		sendPasswordResetEmail(resetForm.email);
+		await sendPasswordResetEmail(resetForm.email);
 		setEmailSent(true);
 	};
 
