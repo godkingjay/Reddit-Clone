@@ -29,9 +29,9 @@ const Login: React.FC<LoginProps> = () => {
 		null
 	);
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		signInWithEmailAndPassword(loginForm.email, loginForm.password);
+		await signInWithEmailAndPassword(loginForm.email, loginForm.password);
 	};
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

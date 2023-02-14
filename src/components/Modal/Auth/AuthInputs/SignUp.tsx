@@ -28,14 +28,14 @@ const SignUp: React.FC<SignUpProps> = () => {
 	const [formError, setFormError] = useState(false);
 	const [userError, setUserError] = useState<typeof error | null>(null);
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (formError) setFormError(false);
 		if (signUpForm.password !== signUpForm.confirmPassword) {
 			setFormError(true);
 			return;
 		}
-		createUserWithEmailAndPassword(signUpForm.email, signUpForm.password);
+		await createUserWithEmailAndPassword(signUpForm.email, signUpForm.password);
 	};
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
