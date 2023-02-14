@@ -55,7 +55,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = () => {
 				if (error.message === "Firebase: Error (auth/user-not-found).") {
 					return {
 						...prev,
-						message: "Email not found.",
+						message: "A user with that email does not exist.",
 					};
 				} else {
 					return error;
