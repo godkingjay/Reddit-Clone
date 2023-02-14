@@ -57,6 +57,16 @@
 		}
 	}
 
+	.right-content-icons {
+		.button {
+			@apply aspect-square h-[36px] w-[36px] p-[6px] duration-100 hover:bg-opacity-10 hover:rounded-lg hover:bg-gray-600 focus:bg-opacity-10 focus:rounded-lg focus:bg-gray-700 [&:hover>.icon]:fill-gray-800 [&:focus>.icon]:fill-gray-800 outline-none;
+
+			.icon {
+				@apply aspect-square h-full w-full fill-gray-600;
+			}
+		}
+	}
+
 	.dropdown-user-list {
 		li {
 			@apply w-full;
