@@ -9,4 +9,7 @@ export const FIREBASE_ERRORS = {
 		"Multiple failed login attempts. Please try again later",
 	'Firebase: Error (auth/invalid-json-payload-received.-unknown-name-"email":-proto-field-is-not-repeating,-cannot-start-list.).':
 		"Unknown email.",
+	"Firebase: Error (auth/expired-action-code).": "Action code expired.",
+	"Firebase: Error (auth/invalid-action-code).": "Action code invalid.",
+	"Firebase: Error (auth/user-disabled).": "User has been disabled.",
 };
