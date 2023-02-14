@@ -13,10 +13,10 @@ const DropdownUserMenu: React.FC<DropdownUserMenuProps> = () => {
 			<details className="relative h-full w-full [&[open]>summary>.caret]:fill-gray-600 [&[open]>summary>.caret]:rotate-180">
 				<summary className="dropdown-user list-none h-full w-full flex flex-row items-center justify-center gap-x-2 px-2 border-gray-300 border-solid border rounded-md cursor-pointer group">
 					<FaRegUserCircle className="icon aspect-square h-[24px] w-[24px] fill-gray-600" />
-					<h2 className="label">Profile</h2>
+					<h2 className="label hidden sm:inline">Profile</h2>
 					<FaCaretDown className="caret fill-gray-400 group-hover:fill-gray-600 focus:fill-gray-600 transition-transform ml-4" />
 				</summary>
-				<div className="absolute bg-white top-[130%] w-max h-max right-0 rounded py-1 min-w-[240px]">
+				<div className="absolute bg-white top-[130%] w-max h-max right-0 rounded py-1 min-w-[192px] xs:min-w-[240px]">
 					<ul className="dropdown-user-list h-full w-full flex flex-col">
 						<li className="group">
 							<button
