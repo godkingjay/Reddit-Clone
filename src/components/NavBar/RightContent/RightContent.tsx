@@ -4,10 +4,12 @@ import AuthButtons from "./AuthButtons";
 
 import AuthModal from "@/components/Modal/Auth/AuthModal";
 
-import DropdownUserMenu from "./DropdownUserMenu";
+import DropdownUserMenu from "./Icons/DropdownUserMenu";
+import { User } from "firebase/auth";
+import Icons from "./Icons";
 
 type RightContentProps = {
-	user: any;
+	user?: User | null;
 };
 
 const RightContent: React.FC<RightContentProps> = ({ user }) => {
@@ -15,7 +17,7 @@ const RightContent: React.FC<RightContentProps> = ({ user }) => {
 		<>
 			<AuthModal />
 			<div className="flex flex-row items-center space-x-2">
-				{user ? <DropdownUserMenu /> : <AuthButtons />}
+				{user ? <Icons /> : <AuthButtons />}
 			</div>
 		</>
 	);
