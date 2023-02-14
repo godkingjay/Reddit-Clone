@@ -12,4 +12,6 @@ export const FIREBASE_ERRORS = {
 	"Firebase: Error (auth/expired-action-code).": "Action code expired.",
 	"Firebase: Error (auth/invalid-action-code).": "Action code invalid.",
 	"Firebase: Error (auth/user-disabled).": "User has been disabled.",
+	"Firebase: Error (auth/network-request-failed).":
+		"Something went wrong. Check your internet connection.",
 };
