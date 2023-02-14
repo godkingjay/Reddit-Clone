@@ -124,7 +124,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = () => {
 							<button
 								type="submit"
 								title="Reset Password"
-								className="auth-button-modal bg-red-500 border-red-500 hover:bg-transparent hover:text-red-500 focus:bg-transparent focus:text-red-500"
+								className="auth-button-modal bg-red-500 border-red-500 hover:bg-red-600 hover:border-red-600 focus:bg-red-600 focus:border-red-600"
 							>
 								Reset Password
 							</button>

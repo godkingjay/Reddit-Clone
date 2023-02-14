@@ -88,7 +88,7 @@ const Login: React.FC<LoginProps> = () => {
 					<button
 						type="submit"
 						title="Login"
-						className="auth-button-modal bg-brand-100 border-brand-100 hover:bg-transparent hover:text-brand-100 focus:bg-transparent focus:text-brand-100"
+						className="auth-button-modal bg-brand-100 border-brand-100 hover:bg-brand-200 hover:border-brand-200 focus:bg-brand-200 focus:border-brand-200"
 					>
 						Login
 					</button>
