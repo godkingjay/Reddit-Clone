@@ -109,7 +109,7 @@ const SignUp: React.FC<SignUpProps> = () => {
 					<button
 						type="submit"
 						title="Sign Up"
-						className="auth-button-modal bg-blue-500 border-blue-500 hover:bg-transparent hover:text-blue-500 focus:bg-transparent focus:text-blue-500"
+						className="auth-button-modal bg-blue-500 border-blue-500 hover:bg-blue-600 hover:border-blue-600 focus:bg-blue-600 focus:border-blue-600"
 						disabled={formError || userError ? true : false}
 					>
 						Sign Up
