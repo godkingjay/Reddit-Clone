@@ -80,11 +80,11 @@
 			}
 
 			.icon {
-				@apply aspect-square h-[28px] w-[28px] fill-gray-600;
+				@apply aspect-square w-full h-[28px] max-w-[28px] fill-gray-600;
 			}
 
 			.label {
-				@apply font-semibold;
+				@apply font-semibold flex-1 text-left;
 			}
 
 			.user-logout {
