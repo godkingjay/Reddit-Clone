@@ -12,7 +12,7 @@ const DropdownUserMenu: React.FC<DropdownUserMenuProps> = ({ user }) => {
 
 	return (
 		<details className="relative h-full w-full [&[open]>summary>.caret]:fill-gray-600 [&[open]>summary>.caret]:rotate-180">
-			<summary className="dropdown-user list-none h-full w-full flex flex-row items-center justify-center gap-x-2 px-2 border-gray-300 border-solid border rounded-md cursor-pointer group">
+			<summary className="dropdown-user list-none h-full w-full flex flex-row items-center justify-center gap-x-2 px-2 border-gray-300 border-solid border hover:border-gray-400 focus:border-gray-400 rounded-md cursor-pointer group">
 				<FaRegUserCircle className="icon aspect-square h-[24px] w-[24px] fill-gray-600" />
 				<h2 className="label hidden sm:inline mr-2">
 					{user?.displayName ? user.displayName?.split(" ")[0] : "Profile"}
