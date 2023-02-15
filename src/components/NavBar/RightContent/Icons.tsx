@@ -1,13 +1,16 @@
+import { User } from "firebase/auth";
 import DropdownUserMenu from "./Icons/DropdownUserMenu";
 import RightContentIcons from "./Icons/RightContentIcons";
 
-type IconsProps = {};
+type IconsProps = {
+	user?: User | null;
+};
 
-const Icons: React.FC<IconsProps> = () => {
+const Icons: React.FC<IconsProps> = ({ user }) => {
 	return (
 		<section className="flex flex-row w-full h-full items-center">
 			<RightContentIcons />
-			<DropdownUserMenu />
+			<DropdownUserMenu user={user} />
 		</section>
 	);
 };
