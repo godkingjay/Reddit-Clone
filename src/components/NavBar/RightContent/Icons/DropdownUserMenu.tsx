@@ -29,7 +29,7 @@ const DropdownUserMenu: React.FC<DropdownUserMenuProps> = ({ user }) => {
 				</div>
 				<FaCaretDown className="caret fill-gray-400 group-hover:fill-gray-600 focus:fill-gray-600 transition-transform" />
 			</summary>
-			<div className="absolute bg-white top-[130%] h-max right-0 rounded py-1 min-w-[192px] max-w-[192px] xs:min-w-[240px] xs:max-w-[240px]">
+			<div className="absolute bg-white top-[140%] h-max right-0 rounded py-1 min-w-[192px] max-w-[192px] xs:min-w-[240px] xs:max-w-[240px]">
 				<ul className="dropdown-user-list h-full w-full flex flex-col">
 					<li className="group">
 						<button
