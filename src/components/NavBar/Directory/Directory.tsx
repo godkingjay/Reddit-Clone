@@ -16,7 +16,7 @@ const Directory: React.FC<DirectoryProps> = () => {
 							directory.slice(1, directory.length)}
 					</h2>
 				</summary>
-				<div className="directory-content absolute w-[192px]  xs:w-[240px] bg-white top-[130%] h-max left-0 rounded py-1 shadow-sm max-h-[80vh] overflow-y-auto scroll-y-style">
+				<div className="directory-content absolute w-[192px]  xs:w-[240px] bg-white top-[130%] h-max left-0 rounded py-1 shadow-sm max-h-[60vh] overflow-y-auto scroll-y-style">
 					<details
 						className="directory-communities"
 						open

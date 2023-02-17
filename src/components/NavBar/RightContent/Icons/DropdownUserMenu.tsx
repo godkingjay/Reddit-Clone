@@ -2,13 +2,33 @@ import { useState } from "react";
 import { FaCaretDown, FaDoorOpen, FaRegUserCircle } from "react-icons/fa";
 import { auth } from "@/firebase/clientApp";
 import { User, signOut } from "firebase/auth";
+import { IconType } from "react-icons";
 
 type DropdownUserMenuProps = {
 	user?: User | null;
 };
 
+// type DropdownItem = {
+// 	icon: React.ReactNode;
+// 	title: string;
+// 	class: string[] | null;
+// };
+
 const DropdownUserMenu: React.FC<DropdownUserMenuProps> = ({ user }) => {
 	const [dropdownActive, setDropdownActive] = useState(false);
+
+	// const DropdownItems: DropdownItem[] = [
+	// 	{
+	// 		icon: <FaRegUserCircle className="icon" />,
+	// 		title: user?.displayName ? user.displayName : "Profile",
+	// 		class: null,
+	// 	},
+	// 	{
+	// 		icon: <FaDoorOpen className="icon" />,
+	// 		title: "Log Out",
+	// 		class: ["user-logout"],
+	// 	},
+	// ];
 
 	return (
 		<details className="relative h-full w-full [&[open]>summary>.caret]:fill-gray-600 [&[open]>summary>.caret]:rotate-180">
@@ -29,9 +49,9 @@ const DropdownUserMenu: React.FC<DropdownUserMenuProps> = ({ user }) => {
 				</div>
 				<FaCaretDown className="caret fill-gray-400 group-hover:fill-gray-600 focus:fill-gray-600 transition-transform" />
 			</summary>
-			<div className="absolute bg-white top-[130%] h-max right-0 rounded py-1 min-w-[192px] max-w-[192px] xs:min-w-[240px] xs:max-w-[240px]">
+			<div className="absolute bg-white top-[130%] h-max right-0 rounded py-1 min-w-[192px] max-w-[192px] xs:min-w-[240px] xs:max-w-[240px] shadow-sm max-h-[60vh] overflow-y-auto scroll-y-style">
 				<ul className="dropdown-user-list h-full w-full flex flex-col">
-					<li className="group">
+					<li>
 						<button
 							type="button"
 							title="Profile"
@@ -42,21 +62,29 @@ const DropdownUserMenu: React.FC<DropdownUserMenuProps> = ({ user }) => {
 							</label>
 						</button>
 					</li>
-					<li
-						className="group"
-						onClick={() => signOut(auth)}
-					>
+					<li onClick={() => signOut(auth)}>
 						<button
 							type="button"
 							title="Log Out"
 							className="user-logout"
 						>
-							<FaDoorOpen className="icon group-hover:fill-red-500 group-focus-within:fill-red-500" />
-							<label className="label group-hover:text-red-500 group-focus-within:text-red-500">
-								Log Out
-							</label>
+							<FaDoorOpen className="icon" />
+							<label className="label">Log Out</label>
 						</button>
 					</li>
+					{/* {DropdownItems.map((item: DropdownItem) => {
+						return (
+							<li key={item.title}>
+								<button
+									type="button"
+									title={item.title}
+								>
+									{item.icon}
+									<label className="label truncate">{item.title}</label>
+								</button>
+							</li>
+						);
+					})} */}
 				</ul>
 			</div>
 		</details>
