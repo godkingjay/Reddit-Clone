@@ -7,8 +7,8 @@ const Directory: React.FC<DirectoryProps> = () => {
 
 	return (
 		<section className="h-full flex items-center">
-			<details className="relative">
-				<summary className="list-none">
+			<details className="relative h-full">
+				<summary className="list-none h-full flex items-center px-4 border-[1px] border-solid border-gray-300 rounded-md">
 					{directory.slice(0, 1).toUpperCase() +
 						directory.slice(1, directory.length)}
 				</summary>
