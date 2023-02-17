@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { HiOutlinePlus, HiPlus } from "react-icons/hi";
+import { VscAdd } from "react-icons/vsc";
 
 type DirectoryProps = {};
 
@@ -6,20 +8,47 @@ const Directory: React.FC<DirectoryProps> = () => {
 	const [directory, setDirectory] = useState("home");
 
 	return (
-		<section className="h-full flex items-center">
-			<details className="relative h-full">
-				<summary className="list-none h-full flex items-center px-4 border-[1px] border-solid border-gray-300 rounded-md">
-					{directory.slice(0, 1).toUpperCase() +
-						directory.slice(1, directory.length)}
+		<section className="h-full flex items-center w-max">
+			<details className="directory-container relative h-full max-w-[240px]">
+				<summary className="directory-header h-full w-max xs:w-[96px] md:w-[128px] lg:w-[129px] xl:w-[240px] flex items-center px-4 border-[1px] border-solid border-gray-300 rounded-md">
+					<h2 className="hidden xs:block">
+						{directory.slice(0, 1).toUpperCase() +
+							directory.slice(1, directory.length)}
+					</h2>
 				</summary>
-				<div className="absolute w-max bg-white px-4">
-					<details open>
+				<div className="directory-content absolute w-[192px]  xs:w-[240px] bg-white top-[130%] h-max left-0 rounded py-1 shadow-sm max-h-[80vh] overflow-y-auto scroll-y-style">
+					<details
+						className="directory-communities"
+						open
+					>
 						<summary>My Communities</summary>
-						<p>sample</p>
+						<ul>
+							<li>
+								<button
+									type="button"
+									title="some title"
+								>
+									<VscAdd className="icon" />
+									<p className="label">Create Community</p>
+								</button>
+							</li>
+						</ul>
 					</details>
-					<details open>
+					<details
+						className="directory-feeds"
+						open
+					>
 						<summary>Feeds</summary>
-						<p>sample</p>
+						<ul>
+							<li>
+								<button
+									type="button"
+									title="some title"
+								>
+									<p>sample</p>
+								</button>
+							</li>
+						</ul>
 					</details>
 				</div>
 			</details>
