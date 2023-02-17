@@ -1,0 +1,89 @@
+@layer components {
+	.auth-button {
+		@apply border-[2px] border-solid px-[4px] rounded-full py-1 w-[80px] font-bold bg-transparent text-sm sm:text-base sm:w-[96px] outline-1;
+	}
+
+	.auth-modal-link {
+		@apply cursor-pointer text-blue-500 hover:text-blue-800 hover:underline focus:text-blue-800 focus:underline outline-1 focus-within:outline-dotted;
+	}
+
+	.auth-input {
+		@apply rounded-full py-2 px-4 bg-gray-100 w-full min-w-0 border-[1px] border-transparent hover:border-gray-300 focus:border-blue-500 outline-none;
+	}
+
+	.auth-button-modal {
+		@apply border-2 border-blue-500 text-white py-2 px-4 rounded-full font-bold bg-blue-500 text-base outline-1;
+	}
+
+	.auth-modal-loading-spinner-container {
+		@apply w-full h-max flex flex-col items-center justify-center my-1;
+	}
+
+	.auth-modal-loading-spinner {
+		@apply aspect-square h-[32px] w-[32px] animate-spin [&>path]:stroke-blue-500;
+	}
+
+	.o-auth-buttons {
+		@apply flex flex-row items-center w-full min-w-0 border-[1px] rounded-full border-gray-300 outline-1 hover:border-blue-500 hover:bg-blue-500 hover:bg-opacity-[3%] focus:border-blue-500 focus:bg-blue-500 focus:bg-opacity-[3%] outline-none;
+
+		.o-auth-button-img {
+			@apply aspect-square h-[20px] w-[20px] m-3 pointer-events-none;
+		}
+
+		.o-auth-button-label {
+			@apply flex-1 font-semibold text-sm text-gray-600 pointer-events-none;
+		}
+	}
+
+	.right-content-icons {
+		.button {
+			@apply aspect-square h-[36px] w-[36px] p-[6px] duration-100 hover:bg-opacity-10 hover:rounded-lg hover:bg-gray-600 focus:bg-opacity-10 focus:rounded-lg focus:bg-gray-700 [&:hover>.icon]:fill-gray-800 [&:focus>.icon]:fill-gray-800 outline-none;
+
+			.icon {
+				@apply aspect-square h-full w-full fill-gray-600;
+			}
+		}
+	}
+
+	.dropdown-user {
+		.label {
+			* {
+				@apply w-full;
+			}
+
+			h2 {
+				@apply text-xs font-semibold;
+			}
+
+			p {
+				@apply text-xs text-gray-500 font-semibold;
+			}
+		}
+	}
+
+	.dropdown-user-list {
+		li {
+			@apply w-full;
+
+			button {
+				@apply flex flex-row items-center w-full gap-x-4 px-4 py-2 cursor-pointer hover:bg-gray-600 focus:bg-gray-600 hover:bg-opacity-10 focus:bg-opacity-10;
+			}
+
+			button * {
+				@apply pointer-events-none;
+			}
+
+			.icon {
+				@apply aspect-square w-full h-[28px] max-w-[28px] fill-gray-600;
+			}
+
+			.label {
+				@apply font-semibold flex-1 text-left;
+			}
+
+			.user-logout {
+				@apply hover:bg-red-500 focus:bg-red-500 hover:bg-opacity-10 focus:bg-opacity-10;
+			}
+		}
+	}
+}
