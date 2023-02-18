@@ -150,7 +150,7 @@
 
 			&:hover,
 			&:focus-within {
-				@apply border-gray-400;
+				@apply border-gray-200;
 
 				.icon {
 					@apply fill-gray-600;
@@ -195,12 +195,16 @@
 		}
 
 		&[open] {
-			.icon {
-				@apply fill-gray-600;
-			}
+			& > summary {
+				@apply border-gray-200;
 
-			.caret {
-				@apply fill-gray-600;
+				.icon {
+					@apply fill-gray-600;
+				}
+
+				.caret {
+					@apply fill-gray-600;
+				}
 			}
 		}
 	}
