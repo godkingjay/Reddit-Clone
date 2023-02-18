@@ -140,9 +140,25 @@
 		}
 
 		.directory-header {
+			.icon {
+				@apply aspect-square h-[20px] w-[20px] fill-gray-400;
+			}
+
+			.label {
+				@apply truncate;
+			}
+
 			&:hover,
 			&:focus-within {
 				@apply border-gray-400;
+
+				.icon {
+					@apply fill-gray-600;
+				}
+
+				.caret {
+					@apply fill-gray-600;
+				}
 			}
 		}
 
@@ -155,8 +171,9 @@
 
 			ul {
 				li {
+					.item,
 					button {
-						@apply px-6 py-2 w-full flex flex-row items-center gap-x-1;
+						@apply px-6 py-2 w-full flex flex-row items-center gap-x-3;
 
 						.icon {
 							@apply aspect-square h-[20px] w-[20px] fill-gray-600;
@@ -168,11 +185,22 @@
 					}
 
 					&:hover {
+						& > .item,
 						& > button {
 							@apply bg-gray-500 bg-opacity-10;
 						}
 					}
 				}
+			}
+		}
+
+		&[open] {
+			.icon {
+				@apply fill-gray-600;
+			}
+
+			.caret {
+				@apply fill-gray-600;
 			}
 		}
 	}
