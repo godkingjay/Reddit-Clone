@@ -26,7 +26,7 @@ const NavBar: React.FC = () => {
 					className="hidden sm:block"
 				/>
 			</div>
-			<Directory />
+			{ user && <Directory /> }
 			<SearchInput />
 			<RightContent user={user} />
 		</div>
