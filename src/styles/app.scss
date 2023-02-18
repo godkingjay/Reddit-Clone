@@ -45,6 +45,31 @@
 		}
 	}
 
+	.nav-bar-dropdown {
+		& > summary {
+			.caret {
+				@apply aspect-square h-full max-h-[20px];
+			}
+		}
+
+		&:hover,
+		&:focus-within {
+			& > summary {
+				@apply border-gray-400;
+			}
+		}
+
+		&[open] {
+			& > summary {
+				@apply border-gray-400;
+
+				.caret {
+					@apply fill-gray-600 rotate-180;
+				}
+			}
+		}
+	}
+
 	.dropdown-user {
 		.label {
 			* {
@@ -59,6 +84,13 @@
 				@apply text-xs text-gray-500 font-semibold;
 			}
 		}
+
+		&:hover,
+		&:focus-within {
+			.caret {
+				@apply fill-gray-600;
+			}
+		}
 	}
 
 	.dropdown-user-list {
@@ -66,7 +98,7 @@
 			@apply w-full;
 
 			button {
-				@apply flex flex-row items-center w-full gap-x-4 px-4 py-2 cursor-pointer hover:bg-gray-600 focus:bg-gray-600 hover:bg-opacity-10 focus:bg-opacity-10;
+				@apply flex flex-row items-center w-full gap-x-4 px-4 py-2 cursor-pointer;
 			}
 
 			button * {
@@ -78,11 +110,97 @@
 			}
 
 			.label {
-				@apply font-semibold flex-1 text-left;
+				@apply font-semibold flex-1 text-left text-sm;
 			}
 
-			.user-logout {
-				@apply hover:bg-red-500 focus:bg-red-500 hover:bg-opacity-10 focus:bg-opacity-10;
+			&:hover,
+			&:focus-within {
+				button {
+					@apply bg-gray-600 bg-opacity-10;
+				}
+
+				.user-logout {
+					@apply bg-red-500 bg-opacity-10;
+
+					.icon {
+						@apply fill-red-500;
+					}
+
+					.label {
+						@apply text-red-500;
+					}
+				}
+			}
+		}
+	}
+
+	.directory-container {
+		summary {
+			@apply list-none;
+		}
+
+		.directory-header {
+			.icon {
+				@apply aspect-square h-[20px] w-[20px] fill-gray-400;
+			}
+
+			.label {
+				@apply truncate;
+			}
+
+			&:hover,
+			&:focus-within {
+				@apply border-gray-400;
+
+				.icon {
+					@apply fill-gray-600;
+				}
+
+				.caret {
+					@apply fill-gray-600;
+				}
+			}
+		}
+
+		.directory-content {
+			@apply flex flex-col gap-y-2;
+
+			summary {
+				@apply uppercase text-xs font-semibold text-slate-400 px-6 py-[2px];
+			}
+
+			ul {
+				li {
+					.item,
+					button {
+						@apply px-6 py-2 w-full flex flex-row items-center gap-x-3;
+
+						.icon {
+							@apply aspect-square h-[20px] w-[20px] fill-gray-600;
+						}
+
+						.label {
+							@apply truncate text-sm text-gray-700;
+						}
+					}
+
+					&:hover {
+						& > .item,
+						& > button {
+							@apply bg-gray-500 bg-opacity-10;
+						}
+					}
+				}
+			}
+		}
+
+		&[open] {
+			.icon {
+				@apply fill-gray-600;
+			}
+
+			.caret {
+				@apply fill-gray-600;
 			}
 		}
 	}

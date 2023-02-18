@@ -16,7 +16,7 @@ const RightContent: React.FC<RightContentProps> = ({ user }) => {
 	return (
 		<>
 			<AuthModal />
-			<div className="flex flex-row items-center space-x-2">
+			<div className="flex flex-row items-center space-x-2 h-full">
 				{user ? <Icons user={user} /> : <AuthButtons />}
 			</div>
 		</>
