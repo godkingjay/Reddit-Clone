@@ -26,9 +26,11 @@ const NavBar: React.FC = () => {
 					className="hidden sm:block"
 				/>
 			</div>
-			{ user && <Directory /> }
-			<SearchInput />
-			<RightContent user={user} />
+			<div className="flex flex-row h-full flex-1 items-center justify-between gap-x-2">
+				{user && <Directory />}
+				<SearchInput user={user} />
+				<RightContent user={user} />
+			</div>
 		</div>
 	);
 };

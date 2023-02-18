@@ -1,4 +1,16 @@
 @layer components {
+	.modal-pop-up {
+		.modal-close {
+			@apply outline-offset-4;
+			&:hover,
+			&:focus {
+				.icon {
+					@apply fill-red-500 scale-125;
+				}
+			}
+		}
+	}
+
 	.auth-button {
 		@apply border-[2px] border-solid px-[4px] rounded-full py-1 w-[80px] font-bold bg-transparent text-sm sm:text-base sm:w-[96px] outline-1;
 	}
@@ -150,7 +162,7 @@
 
 			&:hover,
 			&:focus-within {
-				@apply border-gray-400;
+				@apply border-gray-200;
 
 				.icon {
 					@apply fill-gray-600;
@@ -172,7 +184,7 @@
 			ul {
 				li {
 					.item,
-					button {
+					& > button {
 						@apply px-6 py-2 w-full flex flex-row items-center gap-x-3;
 
 						.icon {
@@ -195,12 +207,16 @@
 		}
 
 		&[open] {
-			.icon {
-				@apply fill-gray-600;
-			}
+			& > summary {
+				@apply border-gray-200;
 
-			.caret {
-				@apply fill-gray-600;
+				.icon {
+					@apply fill-gray-600;
+				}
+
+				.caret {
+					@apply fill-gray-600;
+				}
 			}
 		}
 	}
