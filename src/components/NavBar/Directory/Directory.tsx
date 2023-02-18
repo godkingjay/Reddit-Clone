@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaCaretDown } from "react-icons/fa";
 import { AiFillHome, AiOutlineHome } from "react-icons/ai";
-import { VscAdd } from "react-icons/vsc";
 import Link from "next/link";
 import {
 	BsArrowUpRightCircle,
@@ -10,12 +9,7 @@ import {
 	BsBarChartLineFill,
 } from "react-icons/bs";
 import { useRouter } from "next/router";
-import { useSetRecoilState } from "recoil";
-import {
-	CommunityModalState,
-	communityModalState,
-} from "@/atoms/communityModal";
-import CommunityModal from "@/components/Modal/CommunityModal/CommunityModal";
+import CreateCommunity from "./CreateCommunity";
 
 type DirectoryProps = {};
 
@@ -27,7 +21,6 @@ type FeedsItem = {
 };
 
 const Directory: React.FC<DirectoryProps> = () => {
-	const setCommunityModal = useSetRecoilState(communityModalState);
 	const router = useRouter();
 	const [directory, setDirectory] = useState({
 		inactive: null as null | FeedsItem["icon"],
@@ -71,16 +64,9 @@ const Directory: React.FC<DirectoryProps> = () => {
 		});
 	};
 
-	const handleCommunityModal = (viewModal: CommunityModalState["view"]) => {
-		setCommunityModal((prev) => ({
-			open: true,
-			view: viewModal,
-		}));
-	};
-
 	return (
 		<>
-			<section className="h-full flex z-0 items-center w-max">
+			<section className="h-full flex z-40 items-center w-max">
 				<details className="nav-bar-dropdown directory-container relative h-full max-w-[240px]">
 					<summary className="directory-header h-full w-max xs:w-[96px] md:w-[128px] lg:w-[129px] xl:w-[240px] flex items-center px-2 border-[1px] border-solid border-[#80808010] rounded-md gap-x-2">
 						{directory.active}
@@ -94,16 +80,7 @@ const Directory: React.FC<DirectoryProps> = () => {
 						>
 							<summary>My Communities</summary>
 							<ul>
-								<li>
-									<button
-										type="button"
-										title="some title"
-										onClick={() => handleCommunityModal("create")}
-									>
-										<VscAdd className="icon" />
-										<p className="label">Create Community</p>
-									</button>
-								</li>
+								<CreateCommunity />
 								{/* <Communities /> */}
 							</ul>
 						</details>
@@ -137,7 +114,6 @@ const Directory: React.FC<DirectoryProps> = () => {
 					</div>
 				</details>
 			</section>
-			<CommunityModal />
 		</>
 	);
 };

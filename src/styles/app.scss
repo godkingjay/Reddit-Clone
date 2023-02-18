@@ -184,7 +184,7 @@
 			ul {
 				li {
 					.item,
-					button {
+					& > button {
 						@apply px-6 py-2 w-full flex flex-row items-center gap-x-3;
 
 						.icon {

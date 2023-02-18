@@ -2,6 +2,7 @@ import { communityModalState } from "@/atoms/communityModal";
 import React from "react";
 import { BsXLg } from "react-icons/bs";
 import { useRecoilState } from "recoil";
+import CreateCommunity from "./CreateCommunity";
 
 type CommunityModalProps = {};
 
@@ -19,7 +20,7 @@ const CommunityModal: React.FC<CommunityModalProps> = () => {
 	return (
 		<>
 			{communityModal.open ? (
-				<section className="modal-pop-up z-10 fixed h-screen w-screen max-h-screen max-w-screen bg-[#00000080] top-0 left-0 px-8 py-12 flex flex-col items-center">
+				<section className="modal-pop-up z-50 fixed h-screen w-screen max-h-screen max-w-screen bg-[#00000080] top-0 left-0 px-8 py-12 flex flex-col items-center">
 					<div
 						className="absolute -z-10 h-full w-full top-0 left-0 bg-transparent"
 						onClick={() => handleClose()}
@@ -39,7 +40,9 @@ const CommunityModal: React.FC<CommunityModalProps> = () => {
 							</button>
 						</div>
 						<div className="relative flex flex-1 flex-col overflow-y-hidden items-center w-full">
-							<div className="relative flex flex-col flex-1 items-center px-16 w-full overflow-y-auto scroll-y-style"></div>
+							<div className="relative flex flex-col flex-1 items-center w-full overflow-y-auto scroll-y-style">
+								{communityModal.view === "create" && <CreateCommunity />}
+							</div>
 						</div>
 					</div>
 				</section>
