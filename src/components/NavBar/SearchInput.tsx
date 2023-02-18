@@ -5,7 +5,7 @@ type SearchInputProps = {};
 
 const SearchInput: React.FC<SearchInputProps> = () => {
 	return (
-		<div className="flex flex-row flex-1 group">
+		<div className="flex flex-row flex-1 group h-full">
 			<div className="flex flex-1 flex-row justify-start items-center border-gray-400 border-solid border-[1px] rounded-full py-1 px-[16px] space-x-2 group-hover:border-blue-500 group-active:border-blue-500 group-focus-within:border-blue-500">
 				<BsSearch className="w-[20px] h-full fill-gray-400" />
 				<input
