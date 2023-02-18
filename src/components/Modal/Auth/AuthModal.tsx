@@ -36,7 +36,7 @@ const AuthModal: React.FC<AuthModalProps> = () => {
 	return (
 		<>
 			{authModal.open ? (
-				<section className="auth-modal-pop-up fixed h-screen w-screen max-h-screen max-w-screen bg-[#00000080] top-0 left-0 px-8 py-12 flex flex-col items-center">
+				<section className="modal-pop-up fixed h-screen w-screen max-h-screen max-w-screen bg-[#00000080] top-0 left-0 px-8 py-12 flex flex-col items-center">
 					<div
 						className="absolute -z-10 h-full w-full top-0 left-0 bg-transparent"
 						onClick={() => handleClose()}
@@ -45,10 +45,10 @@ const AuthModal: React.FC<AuthModalProps> = () => {
 						<button
 							type="button"
 							title="Close"
-							className="absolute h-[16px] w-[16px] aspect-square top-4 right-4"
+							className="modal-close absolute h-[16px] w-[16px] aspect-square top-4 right-4"
 							onClick={() => handleClose()}
 						>
-							<BsXLg className="h-full w-full aspect-square" />
+							<BsXLg className="icon h-full w-full aspect-square" />
 						</button>
 						<div className="relative flex flex-1 flex-col overflow-y-hidden items-center w-full">
 							<header className="h-max px-16 w-full">
