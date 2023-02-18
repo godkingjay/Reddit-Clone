@@ -31,8 +31,8 @@ const DropdownUserMenu: React.FC<DropdownUserMenuProps> = ({ user }) => {
 	// ];
 
 	return (
-		<details className="relative h-full w-full [&[open]>summary>.caret]:fill-gray-600 [&[open]>summary>.caret]:rotate-180">
-			<summary className="dropdown-user list-none h-full w-full flex flex-row items-center justify-center gap-x-2 px-2 border-gray-300 border-solid border hover:border-gray-400 focus:border-gray-400 rounded-md cursor-pointer group">
+		<details className="nav-bar-dropdown relative h-full w-full">
+			<summary className="dropdown-user list-none h-full w-full flex flex-row items-center justify-center gap-x-2 px-2 border-gray-300 border-solid border rounded-md cursor-pointer group">
 				<div className="relative aspect-square h-[24px] w-[24px]">
 					<FaRegUserCircle className="icon w-full h-full fill-gray-600" />
 					<p className="absolute w-max px-1 py-[2px] min-w-[16px] break-word text-[8px] font-bold text-white bg-brand-100 text-center rounded-full top-[50%] left-[50%] sm:hidden">
@@ -47,7 +47,7 @@ const DropdownUserMenu: React.FC<DropdownUserMenuProps> = ({ user }) => {
 						<span>1 karma</span>
 					</p>
 				</div>
-				<FaCaretDown className="caret fill-gray-400 group-hover:fill-gray-600 focus:fill-gray-600 transition-transform" />
+				<FaCaretDown className="caret fill-gray-400 transition-transform" />
 			</summary>
 			<div className="absolute bg-white top-[130%] h-max right-0 rounded py-1 min-w-[192px] max-w-[192px] xs:min-w-[240px] xs:max-w-[240px] shadow-sm max-h-[60vh] overflow-y-auto scroll-y-style">
 				<ul className="dropdown-user-list h-full w-full flex flex-col">
