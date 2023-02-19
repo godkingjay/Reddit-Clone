@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import { FaUserAlt } from "react-icons/fa";
+import { HiLockClosed } from "react-icons/hi";
 import { IoAlertCircleOutline } from "react-icons/io5";
+import { RiEyeCloseFill } from "react-icons/ri";
 
 type CreateProps = {
 	handleClose: Function;
@@ -8,6 +11,7 @@ type CreateProps = {
 const Create: React.FC<CreateProps> = ({ handleClose }) => {
 	const [createCommunityForm, setCreateCommunityForm] = useState({
 		communityName: "",
+		communityType: "public",
 	});
 	const [communityNameLength, setCommunityNameLength] = useState(0);
 
@@ -27,9 +31,18 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 		}
 	};
 
+	const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setCreateCommunityForm((prev) => ({
+			...prev,
+			[e.target.name]: e.target.title
+				.split("-")
+				[e.target.title.split("-").length - 1].toLowerCase(),
+		}));
+	};
+
 	return (
 		<form
-			className="full flex flex-col gap-y-8"
+			className="full flex flex-col gap-y-4"
 			onSubmit={handleSubmit}
 		>
 			<div className="flex flex-col gap-y-2">
@@ -68,6 +81,62 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 						{createCommunityForm.communityName.length === 0 && (
 							<p className="text-red-500">A community name is required</p>
 						)}
+					</div>
+				</div>
+			</div>
+			<div>
+				<div className="flex flex-col w-full">
+					<h2 className="font-semibold text-lg">Community Type</h2>
+				</div>
+				<div className="create-community-radios">
+					<div>
+						<input
+							type="radio"
+							name="communityType"
+							title="Public"
+							id="community-type-public"
+							defaultChecked={true}
+							onChange={handleSelect}
+						/>
+						<label htmlFor="community-type-public">
+							<FaUserAlt className="icon" />
+							<p>Public</p>
+							<small>
+								Anyone can view, post, and comment to this community
+							</small>
+						</label>
+					</div>
+					<div>
+						<input
+							type="radio"
+							name="communityType"
+							title="Restricted"
+							id="community-type-restricted"
+							onChange={handleSelect}
+						/>
+						<label htmlFor="community-type-restricted">
+							<RiEyeCloseFill className="icon" />
+							<p>Restricted</p>
+							<small>
+								Anyone can view this community, but only approved users can post
+							</small>
+						</label>
+					</div>
+					<div>
+						<input
+							type="radio"
+							name="communityType"
+							title="Private"
+							id="community-type-private"
+							onChange={handleSelect}
+						/>
+						<label htmlFor="community-type-private">
+							<HiLockClosed className="icon" />
+							<p>Private</p>
+							<small>
+								Only approved users can view and submit to this community
+							</small>
+						</label>
 					</div>
 				</div>
 			</div>
