@@ -2,7 +2,7 @@ import {
 	CommunityModalState,
 	communityModalState,
 } from "@/atoms/communityModal";
-import CommunityModal from "@/components/Modal/CommunityModal/CommunityModal";
+// import CommunityModal from "@/components/Modal/CommunityModal/CommunityModal";
 import { VscAdd } from "react-icons/vsc";
 import { useSetRecoilState } from "recoil";
 
@@ -23,7 +23,7 @@ const CreateCommunity: React.FC<CreateCommunityProps> = () => {
 			<li>
 				<button
 					type="button"
-					title="some title"
+					title="Create Community"
 					onClick={() => handleCommunityModal("create")}
 					className="item"
 				>
@@ -31,7 +31,7 @@ const CreateCommunity: React.FC<CreateCommunityProps> = () => {
 					<p className="label">Create Community</p>
 				</button>
 			</li>
-			<CommunityModal />
+			{/* <CommunityModal /> */}
 		</>
 	);
 };

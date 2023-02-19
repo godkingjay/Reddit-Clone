@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaCaretDown } from "react-icons/fa";
+import { FaCaretDown, FaCaretRight } from "react-icons/fa";
 import { AiFillHome, AiOutlineHome } from "react-icons/ai";
 import Link from "next/link";
 import {
@@ -10,6 +10,7 @@ import {
 } from "react-icons/bs";
 import { useRouter } from "next/router";
 import CreateCommunity from "./CreateCommunity";
+import CommunityModal from "@/components/Modal/CommunityModal/CommunityModal";
 
 type DirectoryProps = {};
 
@@ -78,7 +79,10 @@ const Directory: React.FC<DirectoryProps> = () => {
 							className="directory-communities"
 							open
 						>
-							<summary>My Communities</summary>
+							<summary>
+								<FaCaretRight className="caret" />
+								<p className="label">My Communities</p>
+							</summary>
 							<ul>
 								<CreateCommunity />
 								{/* <Communities /> */}
@@ -88,7 +92,10 @@ const Directory: React.FC<DirectoryProps> = () => {
 							className="directory-feeds"
 							open
 						>
-							<summary>Feeds</summary>
+							<summary>
+								<FaCaretRight className="caret" />
+								<p className="label">Feeds</p>
+							</summary>
 							<ul>
 								{feedsItems.map((item) => {
 									return (
@@ -113,6 +120,7 @@ const Directory: React.FC<DirectoryProps> = () => {
 						</details>
 					</div>
 				</details>
+				<CommunityModal />
 			</section>
 		</>
 	);
