@@ -40,7 +40,7 @@ const CommunityModal: React.FC<CommunityModalProps> = () => {
 							</button>
 						</div>
 						<div className="relative flex flex-1 flex-col overflow-y-hidden items-center w-full">
-							<div className="relative flex flex-col flex-1 items-center w-full overflow-y-auto scroll-y-style px-4">
+							<div className="relative flex flex-col flex-1 items-center w-full overflow-y-auto overflow-x-hidden scroll-y-style px-4">
 								{communityModal.view === "create" && (
 									<CreateCommunity handleClose={handleClose} />
 								)}

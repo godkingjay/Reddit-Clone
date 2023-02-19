@@ -239,4 +239,22 @@
 			}
 		}
 	}
+
+	.create-community-alert {
+		&::after {
+			content: "Names cannot have spaces (e.g., \"r/bookclub\" not \"r/book club\"), must be between 3-21 characters, and underscores (\"_\") are the only special characters allowed. Avoid using solely trademarked names (e.g., \"r/FansOfAcme\" not \"r/Acme\").";
+			@apply absolute z-[100] hidden top-[125%] left-[50%] w-[240px] h-max translate-x-[-50%] bg-gray-800 text-center text-xs text-white p-2 rounded-md;
+		}
+
+		&:hover,
+		&:focus-within {
+			.icon {
+				@apply text-gray-900;
+			}
+
+			&::after {
+				@apply block;
+			}
+		}
+	}
 }
