@@ -72,7 +72,7 @@ const Directory: React.FC<DirectoryProps> = () => {
 					<summary className="directory-header h-full w-max xs:w-[96px] md:w-[128px] lg:w-[129px] xl:w-[240px] flex items-center px-2 border-[1px] border-solid border-[#80808010] rounded-md gap-x-2">
 						{directory.active}
 						<h2 className="label hidden xs:block flex-1">{directory.title}</h2>
-						<FaCaretDown className="caret fill-gray-400 transition-transform" />
+						<FaCaretDown className="caret max-[380px]:hidden fill-gray-400 transition-transform" />
 					</summary>
 					<div className="directory-content absolute z-20 w-[192px]  xs:w-[240px] bg-white top-[130%] h-max left-0 rounded py-1 shadow-sm max-h-[60vh] overflow-y-auto scroll-y-style">
 						<details

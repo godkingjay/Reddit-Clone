@@ -49,7 +49,7 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 				<div className="flex flex-col w-full">
 					<h2 className="font-semibold text-lg">Name</h2>
 					<div className="flex flex-row items-center gap-x-2">
-						<p className="text-xs text-gray-500 truncate">
+						<p className="text-xs text-gray-500">
 							Community names including capitalization cannot be changed.
 						</p>
 						<div className="create-community-alert relative h-max w-max">
