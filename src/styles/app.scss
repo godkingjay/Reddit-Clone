@@ -190,11 +190,10 @@
 			}
 
 			ul {
-				@apply pl-4;
 				li {
 					.item,
 					& > button {
-						@apply px-6 py-2 w-full flex flex-row items-center gap-x-3;
+						@apply px-6 pl-8 py-2 w-full flex flex-row items-center gap-x-3;
 
 						.icon {
 							@apply aspect-square h-[20px] w-[20px] fill-gray-600;
