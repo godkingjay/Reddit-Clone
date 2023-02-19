@@ -23,7 +23,7 @@ const CreateCommunity: React.FC<CreateCommunityProps> = () => {
 			<li>
 				<button
 					type="button"
-					title="some title"
+					title="Create Community"
 					onClick={() => handleCommunityModal("create")}
 					className="item"
 				>

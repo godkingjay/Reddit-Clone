@@ -178,10 +178,19 @@
 			@apply flex flex-col gap-y-2;
 
 			summary {
-				@apply uppercase text-xs font-semibold text-slate-400 px-6 py-[2px];
+				@apply px-6 py-[2px] text-slate-400 flex flex-row gap-x-1;
+
+				.caret {
+					@apply duration-100;
+				}
+
+				.label {
+					@apply uppercase text-xs font-semibold flex-1;
+				}
 			}
 
 			ul {
+				@apply pl-4;
 				li {
 					.item,
 					& > button {
@@ -200,6 +209,16 @@
 						& > .item,
 						& > button {
 							@apply bg-gray-500 bg-opacity-10;
+						}
+					}
+				}
+			}
+
+			details {
+				&[open] {
+					summary {
+						.caret {
+							@apply rotate-90;
 						}
 					}
 				}
