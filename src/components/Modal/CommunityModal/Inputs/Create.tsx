@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { IoAlertCircleOutline } from "react-icons/io5";
 
 type CreateProps = {
@@ -5,9 +6,20 @@ type CreateProps = {
 };
 
 const Create: React.FC<CreateProps> = ({ handleClose }) => {
+	const [createCommunityForm, setCreateCommunityForm] = useState({
+		communityName: "",
+	});
+
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		console.log("Create Community");
+	};
+
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setCreateCommunityForm((prev) => ({
+			...prev,
+			[e.target.name]: e.target.value,
+		}));
 	};
 
 	return (
@@ -15,23 +27,40 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 			className="full flex flex-col gap-y-8"
 			onSubmit={handleSubmit}
 		>
-			<div className="flex flex-col gap-y-1">
-				<h2 className="font-semibold text-lg">Name</h2>
-				<div className="flex flex-row items-center gap-x-2">
-					<p className="text-xs text-gray-500 truncate">
-						Community names including capitalization cannot be changed.
-					</p>
-					<div className="create-community-alert relative h-max w-max">
-						<IoAlertCircleOutline className="icon aspect-square w-[16px] h-[16px] scale-125 text-gray-500" />
+			<div className="flex flex-col gap-y-2">
+				<div className="flex flex-col w-full">
+					<h2 className="font-semibold text-lg">Name</h2>
+					<div className="flex flex-row items-center gap-x-2">
+						<p className="text-xs text-gray-500 truncate">
+							Community names including capitalization cannot be changed.
+						</p>
+						<div className="create-community-alert relative h-max w-max">
+							<IoAlertCircleOutline className="icon aspect-square w-[16px] h-[16px] scale-125 text-gray-500" />
+						</div>
 					</div>
 				</div>
-				<div className="flex flex-row items-center border-[1px] border-gray-300 border-solid px-2 py-2 rounded-md text-base mt-2 focus-within:border-blue-500">
-					<p className="text-gray-500">r/</p>
-					<input
-						type="text"
-						title="Community Name"
-						className="flex-1 min-w-0 outline-none bg-transparent"
-					/>
+				<div className="w-full flex flex-col gap-y-2">
+					<div className="flex flex-row items-center border-[1px] border-gray-300 border-solid px-2 py-2 rounded-md text-base mt-2 focus-within:border-blue-500">
+						<p className="text-gray-500">r/</p>
+						<input
+							required
+							type="text"
+							title="Community Name"
+							className="flex-1 min-w-0 outline-none bg-transparent"
+							name="communityName"
+							onChange={handleChange}
+							maxLength={21}
+						/>
+					</div>
+					<div className="text-xs">
+						<p className="text-gray-500">
+							{21 - createCommunityForm.communityName.length} Characters
+							remaining
+						</p>
+						{createCommunityForm.communityName.length === 0 && (
+							<p className="text-red-500">A community name is required</p>
+						)}
+					</div>
 				</div>
 			</div>
 			<div className="flex flex-row items-center justify-end gap-x-4">

@@ -25,7 +25,7 @@ const CommunityModal: React.FC<CommunityModalProps> = () => {
 						className="absolute -z-10 h-full w-full top-0 left-0 bg-transparent"
 						onClick={() => handleClose()}
 					></div>
-					<div className="relative z-10 flex flex-col gap-y-4 bg-white h-min max-h-[640px] max-w-[720px] rounded-[16px] w-full py-2 overflow-y-hidden items-center">
+					<div className="relative z-10 flex flex-col gap-y-4 bg-white h-min max-h-[60vh] max-w-[720px] rounded-[16px] w-full items-center">
 						<div className="w-full flex flex-row items-center justify-between border-b-[1px] py-2 px-4">
 							<h1 className="font-bold text-lg text-gray-700">
 								{communityModal.view === "create" && "Create Community"}
@@ -39,8 +39,8 @@ const CommunityModal: React.FC<CommunityModalProps> = () => {
 								<BsXLg className="icon h-full w-full aspect-square" />
 							</button>
 						</div>
-						<div className="relative flex flex-1 flex-col overflow-y-hidden items-center w-full">
-							<div className="relative flex flex-col flex-1 items-center w-full overflow-y-auto overflow-x-hidden scroll-y-style px-4">
+						<div className="relative flex flex-1 flex-col overflow-hidden items-center w-full">
+							<div className="relative flex flex-col flex-1 items-center w-full overflow-y-auto overflow-x-hidden scroll-y-style px-4 pb-2">
 								{communityModal.view === "create" && (
 									<CreateCommunity handleClose={handleClose} />
 								)}
