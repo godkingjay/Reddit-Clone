@@ -140,7 +140,7 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 					</div>
 				</div>
 			</div>
-			<div className="flex flex-row items-center justify-end gap-x-4">
+			<div className="flex flex-row items-center justify-end gap-x-4 max-[320px]:flex-col-reverse max-[320px]:gap-y-2 max-[320px]:[&>button]:w-full">
 				<button
 					type="button"
 					title="Cancel"
