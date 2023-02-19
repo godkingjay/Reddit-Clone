@@ -10,6 +10,7 @@ import {
 } from "react-icons/bs";
 import { useRouter } from "next/router";
 import CreateCommunity from "./CreateCommunity";
+import CommunityModal from "@/components/Modal/CommunityModal/CommunityModal";
 
 type DirectoryProps = {};
 
@@ -119,6 +120,7 @@ const Directory: React.FC<DirectoryProps> = () => {
 						</details>
 					</div>
 				</details>
+				<CommunityModal />
 			</section>
 		</>
 	);
