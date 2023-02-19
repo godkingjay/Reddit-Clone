@@ -9,6 +9,7 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 	const [createCommunityForm, setCreateCommunityForm] = useState({
 		communityName: "",
 	});
+	const [communityNameLength, setCommunityNameLength] = useState(0);
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
@@ -20,6 +21,10 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 			...prev,
 			[e.target.name]: e.target.value,
 		}));
+
+		if (e.target.name === "communityName") {
+			setCommunityNameLength(e.target.value.length);
+		}
 	};
 
 	return (
@@ -53,9 +58,12 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 						/>
 					</div>
 					<div className="text-xs">
-						<p className="text-gray-500">
-							{21 - createCommunityForm.communityName.length} Characters
-							remaining
+						<p
+							className={
+								communityNameLength === 21 ? "text-red-500" : "text-gray-500"
+							}
+						>
+							{21 - communityNameLength} Characters remaining
 						</p>
 						{createCommunityForm.communityName.length === 0 && (
 							<p className="text-red-500">A community name is required</p>
