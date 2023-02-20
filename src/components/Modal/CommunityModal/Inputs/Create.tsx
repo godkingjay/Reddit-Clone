@@ -1,3 +1,5 @@
+import { firestore } from "@/firebase/clientApp";
+import { doc, getDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { FaUserAlt } from "react-icons/fa";
 import { HiLockClosed } from "react-icons/hi";
@@ -14,11 +16,7 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 		communityType: "public",
 	});
 	const [communityNameLength, setCommunityNameLength] = useState(0);
-
-	const handleSubmit = (e: React.FormEvent) => {
-		e.preventDefault();
-		console.log("Create Community");
-	};
+	const [error, setError] = useState("");
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setCreateCommunityForm((prev) => ({
@@ -27,6 +25,17 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 		}));
 
 		if (e.target.name === "communityName") {
+			const regex = new RegExp(/[ `!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?~]/, "g");
+			if (
+				e.target.value.match(regex) ||
+				(e.target.value.length < 3 && e.target.value.length > 0)
+			) {
+				setError(
+					"Community names must be between 3–21 characters, and can only contain letters, numbers, or underscores."
+				);
+			} else {
+				setError("");
+			}
 			setCommunityNameLength(e.target.value.length);
 		}
 	};
@@ -40,10 +49,24 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 		}));
 	};
 
+	const handleCreateCommunity = async (e: React.FormEvent) => {
+		e.preventDefault();
+		// if (error.length == 0 && communityNameLength > 2) {
+		// 	const communityDocRef = doc(
+		// 		firestore,
+		// 		"communities",
+		// 		createCommunityForm.communityName
+		// 	);
+		// 	const communityDoc = await getDoc(communityDocRef);
+		// } else {
+		// 	return;
+		// }
+	};
+
 	return (
 		<form
 			className="full flex flex-col gap-y-4"
-			onSubmit={handleSubmit}
+			onSubmit={handleCreateCommunity}
 		>
 			<div className="flex flex-col gap-y-2">
 				<div className="flex flex-col w-full">
@@ -81,6 +104,7 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 						{createCommunityForm.communityName.length === 0 && (
 							<p className="text-red-500">A community name is required</p>
 						)}
+						{error.length > 1 && <p className="text-red-500">{error}</p>}
 					</div>
 				</div>
 			</div>
