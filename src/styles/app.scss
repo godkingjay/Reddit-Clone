@@ -178,7 +178,7 @@
 			@apply flex flex-col gap-y-2;
 
 			summary {
-				@apply px-6 py-[2px] text-slate-400 flex flex-row gap-x-1;
+				@apply px-4 py-1 text-slate-400 flex flex-row gap-x-1;
 
 				.caret {
 					@apply duration-100;
@@ -193,7 +193,7 @@
 				li {
 					.item,
 					& > button {
-						@apply px-6 pl-8 py-2 w-full flex flex-row items-center gap-x-3;
+						@apply px-6 py-2 w-full flex flex-row items-center gap-x-3;
 
 						.icon {
 							@apply aspect-square h-[20px] w-[20px] fill-gray-600;
