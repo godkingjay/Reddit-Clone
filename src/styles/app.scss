@@ -178,7 +178,7 @@
 			@apply flex flex-col gap-y-2;
 
 			summary {
-				@apply px-6 py-[2px] text-slate-400 flex flex-row gap-x-1;
+				@apply px-4 py-1 text-slate-400 flex flex-row gap-x-1;
 
 				.caret {
 					@apply duration-100;
@@ -190,7 +190,6 @@
 			}
 
 			ul {
-				@apply pl-4;
 				li {
 					.item,
 					& > button {
@@ -281,6 +280,30 @@
 				> small {
 					@apply text-xs text-gray-500 flex-1 pt-1;
 				}
+			}
+		}
+	}
+
+	.modal-loading-box {
+		@apply absolute h-full w-full top-0 left-0 grid place-items-center bg-[#fffa] rounded-b-2xl;
+
+		.loading-content {
+			@apply w-full flex flex-col items-center gap-y-2 px-2;
+
+			.loading-container {
+				@apply h-[48px] w-[48px];
+
+				.loading {
+					@apply h-full w-full animate-spin;
+
+					path {
+						@apply stroke-blue-500;
+					}
+				}
+			}
+
+			.label {
+				@apply font-bold text-blue-500 relative text-center text-sm animate-pulse;
 			}
 		}
 	}
