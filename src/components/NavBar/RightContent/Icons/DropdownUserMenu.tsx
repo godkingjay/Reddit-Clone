@@ -3,6 +3,11 @@ import { FaCaretDown, FaDoorOpen, FaRegUserCircle } from "react-icons/fa";
 import { auth } from "@/firebase/clientApp";
 import { User, signOut } from "firebase/auth";
 import { IconType } from "react-icons";
+import { useSetRecoilState } from "recoil";
+import {
+	defaultUserAuthenticatedState,
+	userAuthenticatedState,
+} from "@/atoms/userAtom";
 
 type DropdownUserMenuProps = {
 	user?: User | null;
@@ -16,6 +21,7 @@ type DropdownUserMenuProps = {
 
 const DropdownUserMenu: React.FC<DropdownUserMenuProps> = ({ user }) => {
 	const [dropdownActive, setDropdownActive] = useState(false);
+	const setUserAuthenticated = useSetRecoilState(userAuthenticatedState);
 
 	// const DropdownItems: DropdownItem[] = [
 	// 	{
@@ -29,6 +35,11 @@ const DropdownUserMenu: React.FC<DropdownUserMenuProps> = ({ user }) => {
 	// 		class: ["user-logout"],
 	// 	},
 	// ];
+
+	const handleLogOut = () => {
+		setUserAuthenticated(defaultUserAuthenticatedState);
+		signOut(auth);
+	};
 
 	return (
 		<details className="nav-bar-dropdown relative h-full w-full">
@@ -62,11 +73,12 @@ const DropdownUserMenu: React.FC<DropdownUserMenuProps> = ({ user }) => {
 							</label>
 						</button>
 					</li>
-					<li onClick={() => signOut(auth)}>
+					<li>
 						<button
 							type="button"
 							title="Log Out"
 							className="user-logout"
+							onClick={() => handleLogOut()}
 						>
 							<FaDoorOpen className="icon" />
 							<label className="label">Log Out</label>
