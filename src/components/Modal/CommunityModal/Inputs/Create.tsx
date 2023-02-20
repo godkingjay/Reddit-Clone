@@ -154,7 +154,7 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 					title="Create Community"
 					className="auth-button-modal text-sm px-6 hover:bg-blue-600 hover:border-blue-600 focus:bg-blue-600 focus:border-blue-600"
 				>
-					Create
+					Create<span className="hidden xs:inline"> Community</span>
 				</button>
 			</div>
 		</form>
