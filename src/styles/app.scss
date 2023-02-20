@@ -283,4 +283,28 @@
 			}
 		}
 	}
+
+	.modal-loading-box {
+		@apply absolute h-full w-full top-0 left-0 grid place-items-center bg-[#fffa] rounded-b-2xl;
+
+		.loading-content {
+			@apply w-full flex flex-col items-center gap-y-2 px-2;
+
+			.loading-container {
+				@apply h-[48px] w-[48px];
+
+				.loading {
+					@apply h-full w-full animate-spin;
+
+					path {
+						@apply stroke-blue-500;
+					}
+				}
+			}
+
+			.label {
+				@apply font-bold text-blue-500 relative text-center text-sm animate-pulse;
+			}
+		}
+	}
 }
