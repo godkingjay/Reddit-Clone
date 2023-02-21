@@ -1,5 +1,11 @@
 import { firestore } from "@/firebase/clientApp";
-import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
+import {
+	doc,
+	getDoc,
+	runTransaction,
+	serverTimestamp,
+	setDoc,
+} from "firebase/firestore";
 import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { FaUserAlt } from "react-icons/fa";
@@ -75,26 +81,46 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 				"communities",
 				createCommunityForm.communityName
 			);
-			const communityDoc = await getDoc(communityDocRef);
 
 			/**
-			 * @check		//? if community already exists
-			 * @true 		//! throw error
+			 * @transaction for firetore new community creation
 			 */
-			if (communityDoc.exists()) {
-				throw new Error(
-					`Sorry, r/${createCommunityForm.communityName} is taken. Try another.`
+			await runTransaction(firestore, async (transaction) => {
+				/**
+				 * @check		//? if community already exists
+				 * @true 		//! throw error
+				 */
+				const communityDoc = await getDoc(communityDocRef);
+				if (communityDoc.exists()) {
+					throw new Error(
+						`Sorry, r/${createCommunityForm.communityName} is taken. Try another.`
+					);
+				}
+
+				/**
+				 * @create	//* create new community from reference
+				 */
+				transaction.set(communityDocRef, {
+					creatorId: user?.uid,
+					createdAt: serverTimestamp(),
+					members: 1,
+					privacyType: createCommunityForm.privacyType,
+				});
+
+				/**
+				 * @create //* create new community for in user
+				 */
+				transaction.set(
+					doc(
+						firestore,
+						`users/${user?.uid}/communitySnippets`,
+						createCommunityForm.communityName
+					),
+					{
+						communityId: createCommunityForm.communityName,
+						isModerator: true,
+					}
 				);
-			}
-
-			/**
-			 * @create	//* create new community from reference
-			 */
-			await setDoc(communityDocRef, {
-				creatorId: user?.uid,
-				createdAt: serverTimestamp(),
-				members: 1,
-				privacyType: createCommunityForm.privacyType,
 			});
 		} catch (error: any) {
 			console.log("Error creating community: ", error);
