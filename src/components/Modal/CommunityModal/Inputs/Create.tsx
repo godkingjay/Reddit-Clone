@@ -113,7 +113,7 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 				transaction.set(
 					doc(
 						firestore,
-						`users/${user?.uid}/communitySnippets`,
+						`users/${user?.uid}/userCommunities`,
 						createCommunityForm.communityName
 					),
 					{
