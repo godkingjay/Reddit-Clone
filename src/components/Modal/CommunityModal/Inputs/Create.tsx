@@ -1,5 +1,11 @@
 import { firestore } from "@/firebase/clientApp";
-import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
+import {
+	doc,
+	getDoc,
+	runTransaction,
+	serverTimestamp,
+	setDoc,
+} from "firebase/firestore";
 import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { FaUserAlt } from "react-icons/fa";
@@ -23,34 +29,33 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(false);
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleChange = ({
+		target: { name, value },
+	}: React.ChangeEvent<HTMLInputElement>) => {
 		setCreateCommunityForm((prev) => ({
 			...prev,
-			[e.target.name]: e.target.value,
+			[name]: value,
 		}));
 
-		if (e.target.name === "communityName") {
+		if (name === "communityName") {
 			const regex = new RegExp(/[ `!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?~]/, "g");
-			if (
-				e.target.value.match(regex) ||
-				(e.target.value.length < 3 && e.target.value.length > 0)
-			) {
+			if (value.match(regex) || (value.length < 3 && value.length > 0)) {
 				setError(
 					"Community names must be between 3–21 characters, and can only contain letters, numbers, or underscores."
 				);
 			} else {
 				setError("");
 			}
-			setCommunityNameLength(e.target.value.length);
+			setCommunityNameLength(value.length);
 		}
 	};
 
-	const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleSelect = ({
+		target: { name, title },
+	}: React.ChangeEvent<HTMLInputElement>) => {
 		setCreateCommunityForm((prev) => ({
 			...prev,
-			[e.target.name]: e.target.title
-				.split("-")
-				[e.target.title.split("-").length - 1].toLowerCase(),
+			[name]: title.split("-")[title.split("-").length - 1].toLowerCase(),
 		}));
 	};
 
@@ -62,28 +67,60 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 		setError("");
 		setLoading(true);
 
-		// ! try and catch block for community creation.
+		/**
+		 * * Try, throw and catch block for community creation
+		 * @try			//* Try to create community else throw error
+		 * @catch 	//! Catch error and display it
+		 */
 		try {
+			/**
+			 * @create	 //*  a reference to community document
+			 */
 			const communityDocRef = doc(
 				firestore,
 				"communities",
 				createCommunityForm.communityName
 			);
-			const communityDoc = await getDoc(communityDocRef);
 
-			// ! Check if community exists
-			if (communityDoc.exists()) {
-				throw new Error(
-					`Sorry, r/${createCommunityForm.communityName} is taken. Try another.`
+			/**
+			 * @transaction for firetore new community creation
+			 */
+			await runTransaction(firestore, async (transaction) => {
+				/**
+				 * @check		//? if community already exists
+				 * @true 		//! throw error
+				 */
+				const communityDoc = await getDoc(communityDocRef);
+				if (communityDoc.exists()) {
+					throw new Error(
+						`Sorry, r/${createCommunityForm.communityName} is taken. Try another.`
+					);
+				}
+
+				/**
+				 * @create	//* create new community from reference
+				 */
+				transaction.set(communityDocRef, {
+					creatorId: user?.uid,
+					createdAt: serverTimestamp(),
+					members: 1,
+					privacyType: createCommunityForm.privacyType,
+				});
+
+				/**
+				 * @create //* create new community for in user
+				 */
+				transaction.set(
+					doc(
+						firestore,
+						`users/${user?.uid}/userCommunities`,
+						createCommunityForm.communityName
+					),
+					{
+						communityId: createCommunityForm.communityName,
+						isModerator: true,
+					}
 				);
-			}
-
-			// ! Create community
-			await setDoc(communityDocRef, {
-				creatorId: user?.uid,
-				createdAt: serverTimestamp(),
-				members: 1,
-				privacyType: createCommunityForm.privacyType,
 			});
 		} catch (error: any) {
 			console.log("Error creating community: ", error);
@@ -91,6 +128,13 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 		}
 
 		setLoading(false);
+		if (error.length == 0) {
+			setCreateCommunityForm((prev) => ({
+				...prev,
+				communityName: "",
+			}));
+			handleClose();
+		}
 	};
 
 	return (
@@ -121,6 +165,7 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 								className="flex-1 min-w-0 outline-none bg-transparent"
 								name="communityName"
 								onChange={handleChange}
+								value={createCommunityForm.communityName}
 								maxLength={21}
 							/>
 						</div>

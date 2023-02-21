@@ -34,10 +34,12 @@ const Login: React.FC<LoginProps> = () => {
 		await signInWithEmailAndPassword(loginForm.email, loginForm.password);
 	};
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleChange = ({
+		target: { name, value },
+	}: React.ChangeEvent<HTMLInputElement>) => {
 		setLoginForm((prev) => ({
 			...prev,
-			[e.target.name]: e.target.value,
+			[name]: value,
 		}));
 	};
 
