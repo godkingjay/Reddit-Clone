@@ -40,10 +40,12 @@ const SignUp: React.FC<SignUpProps> = () => {
 		await createUserWithEmailAndPassword(signUpForm.email, signUpForm.password);
 	};
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleChange = ({
+		target: { name, value },
+	}: React.ChangeEvent<HTMLInputElement>) => {
 		setSignUpForm((prev) => ({
 			...prev,
-			[e.target.name]: e.target.value,
+			[name]: value,
 		}));
 	};
 

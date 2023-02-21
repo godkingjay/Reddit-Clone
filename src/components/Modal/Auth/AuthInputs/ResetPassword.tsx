@@ -35,10 +35,12 @@ const ResetPassword: React.FC<ResetPasswordProps> = () => {
 		setEmailSent(true);
 	};
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleChange = ({
+		target: { name, value },
+	}: React.ChangeEvent<HTMLInputElement>) => {
 		setResetForm((prev) => ({
 			...prev,
-			[e.target.name]: e.target.value,
+			[name]: value,
 		}));
 	};
 

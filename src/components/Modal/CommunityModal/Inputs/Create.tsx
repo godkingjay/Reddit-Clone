@@ -23,34 +23,33 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(false);
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleChange = ({
+		target: { name, value },
+	}: React.ChangeEvent<HTMLInputElement>) => {
 		setCreateCommunityForm((prev) => ({
 			...prev,
-			[e.target.name]: e.target.value,
+			[name]: value,
 		}));
 
-		if (e.target.name === "communityName") {
+		if (name === "communityName") {
 			const regex = new RegExp(/[ `!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?~]/, "g");
-			if (
-				e.target.value.match(regex) ||
-				(e.target.value.length < 3 && e.target.value.length > 0)
-			) {
+			if (value.match(regex) || (value.length < 3 && value.length > 0)) {
 				setError(
 					"Community names must be between 3–21 characters, and can only contain letters, numbers, or underscores."
 				);
 			} else {
 				setError("");
 			}
-			setCommunityNameLength(e.target.value.length);
+			setCommunityNameLength(value.length);
 		}
 	};
 
-	const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleSelect = ({
+		target: { name, title },
+	}: React.ChangeEvent<HTMLInputElement>) => {
 		setCreateCommunityForm((prev) => ({
 			...prev,
-			[e.target.name]: e.target.title
-				.split("-")
-				[e.target.title.split("-").length - 1].toLowerCase(),
+			[name]: title.split("-")[title.split("-").length - 1].toLowerCase(),
 		}));
 	};
 
