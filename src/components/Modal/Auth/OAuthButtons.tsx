@@ -4,14 +4,29 @@ import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 
 import { FIREBASE_ERRORS } from "@/firebase/errors";
 
-import { auth } from "@/firebase/clientApp";
+import { auth, firestore } from "@/firebase/clientApp";
 
 import LoadingSpinner from "public/svg/loading-spinner.svg";
+import { User } from "firebase/auth";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { useEffect } from "react";
 
 type OAuthProps = {};
 
 const OAuthButtons: React.FC<OAuthProps> = () => {
-	const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+	const [signInWithGoogle, userCred, loading, error] =
+		useSignInWithGoogle(auth);
+
+	const createUserDoc = async (user: User) => {
+		const userDocRef = doc(firestore, "users", user.uid);
+		await setDoc(userDocRef, JSON.parse(JSON.stringify(user)));
+	};
+
+	useEffect(() => {
+		if (userCred) {
+			createUserDoc(userCred.user);
+		}
+	}, [userCred]);
 
 	return (
 		<section className="w-full flex flex-col py-1 mt-6">
