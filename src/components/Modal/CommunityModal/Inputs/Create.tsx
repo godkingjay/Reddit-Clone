@@ -61,8 +61,15 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 		setError("");
 		setLoading(true);
 
-		// ! try and catch block for community creation.
+		/**
+		 * * Try, throw and catch block for community creation
+		 * @try			//* Try to create community else throw error
+		 * @catch 	//! Catch error and display it
+		 */
 		try {
+			/**
+			 * @create	 //*  a reference to community document
+			 */
 			const communityDocRef = doc(
 				firestore,
 				"communities",
@@ -70,14 +77,19 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 			);
 			const communityDoc = await getDoc(communityDocRef);
 
-			// ! Check if community exists
+			/**
+			 * @check		//? if community already exists
+			 * @true 		//! throw error
+			 */
 			if (communityDoc.exists()) {
 				throw new Error(
 					`Sorry, r/${createCommunityForm.communityName} is taken. Try another.`
 				);
 			}
 
-			// ! Create community
+			/**
+			 * @create	//* create new community from reference
+			 */
 			await setDoc(communityDocRef, {
 				creatorId: user?.uid,
 				createdAt: serverTimestamp(),
