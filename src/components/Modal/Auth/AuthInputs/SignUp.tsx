@@ -6,10 +6,12 @@ import { useSetRecoilState } from "recoil";
 
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 
-import { auth } from "@/firebase/clientApp";
+import { auth, firestore } from "@/firebase/clientApp";
 
 import LoadingSpinner from "public/svg/loading-spinner.svg";
 import { FIREBASE_ERRORS } from "@/firebase/errors";
+import { User } from "firebase/auth";
+import { addDoc, collection } from "firebase/firestore";
 
 type SignUpProps = {};
 
@@ -22,7 +24,7 @@ const SignUp: React.FC<SignUpProps> = () => {
 
 	const setAuthModal = useSetRecoilState(authModalState);
 
-	const [createUserWithEmailAndPassword, user, loading, error] =
+	const [createUserWithEmailAndPassword, userCred, loading, error] =
 		useCreateUserWithEmailAndPassword(auth);
 
 	const [formError, setFormError] = useState(false);
@@ -52,9 +54,22 @@ const SignUp: React.FC<SignUpProps> = () => {
 		}));
 	};
 
+	const createUserDoc = async (user: User) => {
+		await addDoc(
+			collection(firestore, "users"),
+			JSON.parse(JSON.stringify(user))
+		);
+	};
+
 	useEffect(() => {
 		setUserError(error);
 	}, [error]);
+
+	useEffect(() => {
+		if (userCred) {
+			createUserDoc(userCred.user);
+		}
+	}, [userCred]);
 
 	return (
 		<form
