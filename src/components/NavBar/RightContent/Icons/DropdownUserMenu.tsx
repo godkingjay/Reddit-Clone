@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { FaCaretDown, FaDoorOpen, FaRegUserCircle } from "react-icons/fa";
 import { auth } from "@/firebase/clientApp";
 import { User, signOut } from "firebase/auth";
@@ -20,7 +19,6 @@ type DropdownUserMenuProps = {
 // };
 
 const DropdownUserMenu: React.FC<DropdownUserMenuProps> = ({ user }) => {
-	const [dropdownActive, setDropdownActive] = useState(false);
 	const setUserAuthenticated = useSetRecoilState(userAuthenticatedState);
 
 	// const DropdownItems: DropdownItem[] = [
