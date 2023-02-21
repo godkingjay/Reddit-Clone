@@ -128,6 +128,13 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 		}
 
 		setLoading(false);
+		if (error.length == 0) {
+			setCreateCommunityForm((prev) => ({
+				...prev,
+				communityName: "",
+			}));
+			handleClose();
+		}
 	};
 
 	return (
@@ -158,6 +165,7 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 								className="flex-1 min-w-0 outline-none bg-transparent"
 								name="communityName"
 								onChange={handleChange}
+								value={createCommunityForm.communityName}
 								maxLength={21}
 							/>
 						</div>
