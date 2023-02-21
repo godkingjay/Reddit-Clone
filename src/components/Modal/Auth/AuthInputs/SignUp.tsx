@@ -11,7 +11,7 @@ import { auth, firestore } from "@/firebase/clientApp";
 import LoadingSpinner from "public/svg/loading-spinner.svg";
 import { FIREBASE_ERRORS } from "@/firebase/errors";
 import { User } from "firebase/auth";
-import { addDoc, collection } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 type SignUpProps = {};
 
@@ -57,10 +57,8 @@ const SignUp: React.FC<SignUpProps> = () => {
 	};
 
 	const createUserDoc = async (user: User) => {
-		await addDoc(
-			collection(firestore, "users"),
-			JSON.parse(JSON.stringify(user))
-		);
+		const userDocRef = doc(firestore, "users", user.uid);
+		await setDoc(userDocRef, JSON.parse(JSON.stringify(user)));
 	};
 
 	useEffect(() => {
