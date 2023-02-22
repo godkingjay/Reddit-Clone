@@ -14,12 +14,14 @@ import { IoAlertCircleOutline } from "react-icons/io5";
 import { RiEyeCloseFill } from "react-icons/ri";
 import { auth } from "@/firebase/clientApp";
 import LoadingSpinner from "public/svg/loading-spinner.svg";
+import { useRouter } from "next/router";
 
 type CreateProps = {
 	handleClose: Function;
 };
 
 const Create: React.FC<CreateProps> = ({ handleClose }) => {
+	const router = useRouter();
 	const [user] = useAuthState(auth);
 	const [createCommunityForm, setCreateCommunityForm] = useState({
 		communityName: "",
@@ -130,6 +132,11 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 
 		setLoading(false);
 		if (error.length == 0) {
+			if (router.pathname === createCommunityForm.communityName) {
+				router.reload();
+			} else {
+				router.push(`/r/${createCommunityForm.communityName}`);
+			}
 			setCreateCommunityForm((prev) => ({
 				...prev,
 				communityName: "",

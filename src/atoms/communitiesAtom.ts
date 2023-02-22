@@ -4,7 +4,7 @@ export interface Community {
 	id: string;
 	creatorId: string;
 	createdAt?: Timestamp;
-	communityName: string;
+	name: string;
 	numberOfMembers: number;
 	privacyType: "public" | "restricted" | "private";
 	imageURL?: string;

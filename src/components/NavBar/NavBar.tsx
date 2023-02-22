@@ -5,13 +5,17 @@ import RightContent from "./RightContent/RightContent";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/clientApp";
 import Directory from "./Directory/Directory";
+import Link from "next/link";
 
 const NavBar: React.FC = () => {
 	const [user, loading, error] = useAuthState(auth);
 
 	return (
 		<div className="flex bg-hsl(0, 0%, 100%) px-[16px] py-[8px] gap-x-2 items-center">
-			<div className="flex">
+			<Link
+				href={"/"}
+				className="flex"
+			>
 				<Image
 					src={"/images/redditFace.svg"}
 					alt="Reddit Face"
@@ -25,7 +29,7 @@ const NavBar: React.FC = () => {
 					width={56}
 					className="hidden sm:block"
 				/>
-			</div>
+			</Link>
 			<div className="flex flex-row h-full flex-1 items-center justify-between gap-x-2">
 				{user && <Directory />}
 				<SearchInput user={user} />
