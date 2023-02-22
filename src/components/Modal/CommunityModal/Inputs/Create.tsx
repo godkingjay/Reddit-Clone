@@ -132,16 +132,16 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 
 		setLoading(false);
 		if (error.length == 0) {
-			setCreateCommunityForm((prev) => ({
-				...prev,
-				communityName: "",
-			}));
-			handleClose();
 			if (router.pathname === createCommunityForm.communityName) {
 				router.reload();
 			} else {
 				router.push(`/r/${createCommunityForm.communityName}`);
 			}
+			setCreateCommunityForm((prev) => ({
+				...prev,
+				communityName: "",
+			}));
+			handleClose();
 		}
 	};
 
