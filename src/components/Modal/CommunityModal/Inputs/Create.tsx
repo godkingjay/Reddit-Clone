@@ -103,12 +103,13 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 				transaction.set(communityDocRef, {
 					creatorId: user?.uid,
 					createdAt: serverTimestamp(),
+					name: createCommunityForm.communityName,
 					members: 1,
 					privacyType: createCommunityForm.privacyType,
 				});
 
 				/**
-				 * @create //* create new community for in user
+				 * @create //* create new community for user
 				 */
 				transaction.set(
 					doc(
