@@ -124,12 +124,6 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 						isModerator: true,
 					}
 				);
-
-				if (router.pathname === createCommunityForm.communityName) {
-					router.reload();
-				} else {
-					router.push(`/r/${createCommunityForm.communityName}`);
-				}
 			});
 		} catch (error: any) {
 			console.log("Error creating community: ", error);
@@ -143,6 +137,11 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 				communityName: "",
 			}));
 			handleClose();
+			if (router.pathname === createCommunityForm.communityName) {
+				router.reload();
+			} else {
+				router.push(`/r/${createCommunityForm.communityName}`);
+			}
 		}
 	};
 
