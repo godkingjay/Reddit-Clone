@@ -108,7 +108,7 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 				});
 
 				/**
-				 * @create //* create new community for in user
+				 * @create //* create new community for user
 				 */
 				transaction.set(
 					doc(
