@@ -19,13 +19,13 @@ const NavBar: React.FC = () => {
 				<Image
 					src={"/images/redditFace.svg"}
 					alt="Reddit Face"
-					height={36}
-					width={36}
+					height={38}
+					width={38}
 				/>
 				<Image
 					src={"/images/redditText.svg"}
 					alt="Reddit Text"
-					height={36}
+					height={38}
 					width={56}
 					className="hidden sm:block"
 				/>
