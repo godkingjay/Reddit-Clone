@@ -19,49 +19,55 @@ type FeedsItem = {
 	active: JSX.Element;
 	title: string;
 	path: string;
+	type: "feeds" | "community";
 };
+
+export const feedsItems: FeedsItem[] = [
+	{
+		icon: <AiOutlineHome className="icon" />,
+		active: <AiFillHome className="icon active" />,
+		title: "Home",
+		path: "/",
+		type: "feeds",
+	},
+	{
+		icon: <BsArrowUpRightCircle className="icon" />,
+		active: <BsArrowUpRightCircleFill className="icon active" />,
+		title: "Popular",
+		path: "/r/popular",
+		type: "feeds",
+	},
+	{
+		icon: <BsBarChartLine className="icon" />,
+		active: <BsBarChartLineFill className="icon active" />,
+		title: "All",
+		path: "/r/all",
+		type: "feeds",
+	},
+];
 
 const Directory: React.FC<DirectoryProps> = () => {
 	const router = useRouter();
 	const [directory, setDirectory] = useState({
-		inactive: null as null | FeedsItem["icon"],
-		active: null as null | FeedsItem["active"],
-		title: null as null | FeedsItem["title"],
-		path: null as null | FeedsItem["path"],
+		icon: feedsItems[0].icon,
+		active: feedsItems[0].active,
+		title: feedsItems[0].title,
+		path: feedsItems[0].path,
+		type: feedsItems[0].type,
 	});
 
-	const feedsItems: FeedsItem[] = [
-		{
-			icon: <AiOutlineHome className="icon" />,
-			active: <AiFillHome className="icon active" />,
-			title: "Home",
-			path: "/",
-		},
-		{
-			icon: <BsArrowUpRightCircle className="icon" />,
-			active: <BsArrowUpRightCircleFill className="icon active" />,
-			title: "Popular",
-			path: "/r/popular",
-		},
-		{
-			icon: <BsBarChartLine className="icon" />,
-			active: <BsBarChartLineFill className="icon active" />,
-			title: "All",
-			path: "/r/all",
-		},
-	];
-
-	useEffect(() => {
-		const current = feedsItems.find((feed) => feed.path === router.pathname);
-		handlePathChange(current as FeedsItem);
-	}, [router]);
+	// useEffect(() => {
+	// 	const current = feedsItems.find((feed) => feed.path === router.pathname);
+	// 	handlePathChange(current as FeedsItem);
+	// }, [router]);
 
 	const handlePathChange = (dir: FeedsItem) => {
 		setDirectory({
-			inactive: dir.icon,
+			icon: dir.icon,
 			active: dir.active,
 			title: dir.title,
 			path: dir.path,
+			type: dir.type,
 		});
 	};
 
