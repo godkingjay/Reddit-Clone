@@ -104,7 +104,6 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 					creatorId: user?.uid,
 					createdAt: serverTimestamp(),
 					name: createCommunityForm.communityName,
-					image: null,
 					members: 1,
 					privacyType: createCommunityForm.privacyType,
 				});
