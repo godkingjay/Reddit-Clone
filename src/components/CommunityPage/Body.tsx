@@ -3,11 +3,7 @@ type BodyProps = {
 };
 
 const Body: React.FC<BodyProps> = ({ communityData }) => {
-	return (
-		<div className="w-full max-w-6xl px-6">
-			<div>Body</div>
-		</div>
-	);
+	return <div className="flex-1">Body</div>;
 };
 
 export default Body;

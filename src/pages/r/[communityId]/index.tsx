@@ -1,7 +1,9 @@
 import { Community } from "@/atoms/communitiesAtom";
 import Body from "@/components/CommunityPage/Body";
 import Header from "@/components/CommunityPage/Header";
+import Sidebar from "@/components/CommunityPage/Sidebar";
 import CommunityNotFound from "@/components/ErrorPages/CommunityError/CommunityNotFound";
+import PageContentLayout from "@/components/Layout/PageContentLayout";
 import { firestore } from "@/firebase/clientApp";
 import { doc, getDoc } from "firebase/firestore";
 import { GetServerSidePropsContext } from "next";
@@ -29,7 +31,14 @@ const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
 					communityData={communityData}
 					isJoined={isJoined}
 				/>
-				<Body communityData={communityData} />
+				<PageContentLayout>
+					<>
+						<Body communityData={communityData} />
+					</>
+					<>
+						<Sidebar communityData={communityData} />
+					</>
+				</PageContentLayout>
 			</section>
 		</>
 	);
