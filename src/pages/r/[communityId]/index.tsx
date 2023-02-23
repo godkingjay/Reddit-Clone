@@ -13,6 +13,8 @@ type CommunityPageProps = {
 };
 
 const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
+	const isJoined = false;
+
 	if (!communityData) {
 		return <CommunityNotFound />;
 	}
@@ -23,7 +25,10 @@ const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
 				<title>{communityData.name}</title>
 			</Head>
 			<section className="flex flex-col items-center">
-				<Header communityData={communityData} />
+				<Header
+					communityData={communityData}
+					isJoined={isJoined}
+				/>
 				<Body communityData={communityData} />
 			</section>
 		</>
@@ -51,7 +56,6 @@ export const getServerSideProps = async (
 							})
 					  )
 					: "",
-				// communityData: "",
 			},
 		};
 	} catch (error) {

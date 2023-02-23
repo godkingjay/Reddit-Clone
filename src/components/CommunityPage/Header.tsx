@@ -6,9 +6,10 @@ import NoCommunityImage from "public/svg/community-no-image.svg";
 
 type HeaderProps = {
 	communityData: Community;
+	isJoined: boolean;
 };
 
-const Header: React.FC<HeaderProps> = ({ communityData }) => {
+const Header: React.FC<HeaderProps> = ({ communityData, isJoined }) => {
 	return (
 		<div className="bg-white w-full flex flex-col items-center">
 			{communityData.imageURL ? (
@@ -37,7 +38,7 @@ const Header: React.FC<HeaderProps> = ({ communityData }) => {
 								className="w-full h-full rounded-full bg-contain bg-center"
 							/>
 						) : (
-							<NoCommunityImage className="w-full h-full rounder-full fill-blue-600" />
+							<NoCommunityImage className="w-full h-full rounder-full fill-blue-500" />
 						)}
 					</div>
 					<div className="my-2 flex flex-col gap-y-1 flex-1">
@@ -51,10 +52,17 @@ const Header: React.FC<HeaderProps> = ({ communityData }) => {
 					<div className="my-2">
 						<button
 							type="button"
-							title="Join"
-							className="page-button"
+							title={isJoined ? "Leave" : "Join"}
+							className={`
+								page-button outline-offset-0  ${
+									isJoined
+										? "text-blue-500 bg-transparent hover:bg-blue-500 hover:bg-opacity-10 focus-within:bg-blue-500 focus-within:bg-opacity-10"
+										: "hover:bg-blue-600 hover:border-blue-600 focus-within:bg-blue-600 focus-within:border-blue-600"
+								}
+								w-[108px]
+							`}
 						>
-							Joined
+							{isJoined ? "Leave" : "Join"}
 						</button>
 					</div>
 				</div>
