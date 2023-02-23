@@ -1,4 +1,6 @@
 import { Community } from "@/atoms/communitiesAtom";
+import Body from "@/components/CommunityPage/Body";
+import Header from "@/components/CommunityPage/Header";
 import CommunityNotFound from "@/components/ErrorPages/CommunityError/CommunityNotFound";
 import { firestore } from "@/firebase/clientApp";
 import { doc, getDoc } from "firebase/firestore";
@@ -15,9 +17,10 @@ const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
 	}
 
 	return (
-		<>
-			<div>Community Page</div>
-		</>
+		<section className="flex flex-col items-center">
+			<Header communityData={communityData} />
+			<Body communityData={communityData} />
+		</section>
 	);
 };
 
