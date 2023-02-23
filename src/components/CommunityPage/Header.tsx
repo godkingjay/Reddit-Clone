@@ -22,12 +22,14 @@ const Header: React.FC<HeaderProps> = ({ communityData }) => {
 					<div className="w-full h-24 bg-blue-500"></div>
 				</div>
 			)}
-			<div className="max-w-6xl w-full flex flex-col px-8">
+			<div className="max-w-6xl w-full flex flex-col px-6">
 				<div className="relative w-full flex flex-row gap-x-4">
 					<div className="border-4 border-solid border-white aspect-square w-24 h-24 rounded-full bg-blue-500 translate-y-[-25%]"></div>
-					<div className="my-2 flex flex-col gap-y-1">
-						<h1 className="text-2xl font-bold">{communityData.name}</h1>
-						<p className="text-sm font-semibold text-gray-500">
+					<div className="my-2 flex flex-col gap-y-1 flex-1">
+						<h1 className="text-2xl font-bold break-words">
+							{communityData.name}
+						</h1>
+						<p className="text-sm font-semibold text-gray-500 truncate">
 							r/{communityData.id}
 						</p>
 					</div>

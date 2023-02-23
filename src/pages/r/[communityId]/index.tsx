@@ -5,6 +5,7 @@ import CommunityNotFound from "@/components/ErrorPages/CommunityError/CommunityN
 import { firestore } from "@/firebase/clientApp";
 import { doc, getDoc } from "firebase/firestore";
 import { GetServerSidePropsContext } from "next";
+import Head from "next/head";
 import safeJsonStringify from "safe-json-stringify";
 
 type CommunityPageProps = {
@@ -17,10 +18,15 @@ const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
 	}
 
 	return (
-		<section className="flex flex-col items-center">
-			<Header communityData={communityData} />
-			<Body communityData={communityData} />
-		</section>
+		<>
+			<Head>
+				<title>{communityData.name}</title>
+			</Head>
+			<section className="flex flex-col items-center">
+				<Header communityData={communityData} />
+				<Body communityData={communityData} />
+			</section>
+		</>
 	);
 };
 
