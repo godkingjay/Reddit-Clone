@@ -1,8 +1,11 @@
 import { Community } from "@/atoms/communitiesAtom";
+import Body from "@/components/CommunityPage/Body";
+import Header from "@/components/CommunityPage/Header";
 import CommunityNotFound from "@/components/ErrorPages/CommunityError/CommunityNotFound";
 import { firestore } from "@/firebase/clientApp";
 import { doc, getDoc } from "firebase/firestore";
 import { GetServerSidePropsContext } from "next";
+import Head from "next/head";
 import safeJsonStringify from "safe-json-stringify";
 
 type CommunityPageProps = {
@@ -10,13 +13,24 @@ type CommunityPageProps = {
 };
 
 const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
+	const isJoined = false;
+
 	if (!communityData) {
 		return <CommunityNotFound />;
 	}
 
 	return (
 		<>
-			<div>Community Page</div>
+			<Head>
+				<title>{communityData.name}</title>
+			</Head>
+			<section className="flex flex-col items-center">
+				<Header
+					communityData={communityData}
+					isJoined={isJoined}
+				/>
+				<Body communityData={communityData} />
+			</section>
 		</>
 	);
 };
@@ -45,7 +59,7 @@ export const getServerSideProps = async (
 			},
 		};
 	} catch (error) {
-		// console.log("getServerSideError: " + error);
+		console.log("getServerSideError: " + error);
 	}
 };
 
