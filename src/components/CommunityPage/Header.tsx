@@ -26,7 +26,7 @@ const Header: React.FC<HeaderProps> = ({ communityData }) => {
 			)}
 			<div className="max-w-6xl w-full flex flex-col px-6">
 				<div className="relative w-full flex flex-row gap-x-4">
-					<div className="border-4 border-solid border-white aspect-square w-24 h-24 rounded-full bg-white translate-y-[-25%]">
+					<div className="border-4 border-solid border-white aspect-square w-20 h-20 xs:w-24 xs:h-24 rounded-full bg-white translate-y-[-20%]">
 						{communityData.imageURL ? (
 							<Image
 								src={communityData.imageURL}
@@ -47,6 +47,15 @@ const Header: React.FC<HeaderProps> = ({ communityData }) => {
 						<p className="text-sm font-semibold text-gray-500 truncate">
 							r/{communityData.id}
 						</p>
+					</div>
+					<div className="my-2">
+						<button
+							type="button"
+							title="Join"
+							className="page-button"
+						>
+							Joined
+						</button>
 					</div>
 				</div>
 				{/* <nav>

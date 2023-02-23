@@ -51,6 +51,7 @@ export const getServerSideProps = async (
 							})
 					  )
 					: "",
+				// communityData: "",
 			},
 		};
 	} catch (error) {
