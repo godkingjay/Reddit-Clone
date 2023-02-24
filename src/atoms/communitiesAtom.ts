@@ -11,18 +11,18 @@ export interface Community {
 	imageURL?: string;
 }
 
-interface CommunitySnippet {
+export interface UserCommunity {
 	communityId: string;
 	isModerator?: boolean;
 	imageURL?: string;
 }
 
 export interface CommunityState {
-	communitySnippets: CommunitySnippet[];
+	userCommunities: UserCommunity[];
 }
 
 const defaultCommunityState: CommunityState = {
-	communitySnippets: [],
+	userCommunities: [],
 };
 
 export const communityState = atom<CommunityState>({
