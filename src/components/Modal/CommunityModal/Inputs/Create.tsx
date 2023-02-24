@@ -4,7 +4,6 @@ import {
 	getDoc,
 	runTransaction,
 	serverTimestamp,
-	setDoc,
 } from "firebase/firestore";
 import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
