@@ -4,10 +4,11 @@ import Header from "@/components/CommunityPage/Header";
 import Sidebar from "@/components/CommunityPage/Sidebar";
 import CommunityNotFound from "@/components/ErrorPages/CommunityError/CommunityNotFound";
 import PageContentLayout from "@/components/Layout/PageContentLayout";
-import { firestore } from "@/firebase/clientApp";
+import { auth, firestore } from "@/firebase/clientApp";
 import { doc, getDoc } from "firebase/firestore";
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { useRecoilState } from "recoil";
 import safeJsonStringify from "safe-json-stringify";
 
@@ -16,8 +17,10 @@ type CommunityPageProps = {
 };
 
 const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
+	const [user, loading] = useAuthState(auth);
 	const [communityStateValue, setCommunityStateValue] =
 		useRecoilState(communityState);
+
 	if (!communityData) {
 		return <CommunityNotFound />;
 	}
@@ -31,6 +34,7 @@ const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
 				<Header
 					communityData={communityData}
 					communityStateValue={communityStateValue}
+					user={user}
 				/>
 				<PageContentLayout>
 					<>
