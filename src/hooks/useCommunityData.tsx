@@ -1,3 +1,4 @@
+import { authModalState } from "@/atoms/authModalAtom";
 import {
 	Community,
 	UserCommunity,
@@ -13,7 +14,7 @@ import {
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 const useCommunityData = () => {
 	const [communityStateValue, setCommunityStateValue] =
@@ -21,6 +22,7 @@ const useCommunityData = () => {
 	const [user] = useAuthState(auth);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState("false");
+	const setAuthModal = useSetRecoilState(authModalState);
 
 	const getUserCommunities = async () => {
 		setLoading(true);
@@ -43,10 +45,36 @@ const useCommunityData = () => {
 		setLoading(false);
 	};
 
+	const onAddCommunity = (userCommunity: UserCommunity) => {
+		if (!user) {
+			setAuthModal((prev) => ({
+				...prev,
+				open: true,
+				view: "login",
+			}));
+			return;
+		}
+
+		setCommunityStateValue((prev) => ({
+			...prev,
+			userCommunities: [...prev.userCommunities, userCommunity],
+		}));
+	};
+
 	const onJoinOrLeaveCommunity = (
 		communityData: Community,
 		isJoined: boolean
 	) => {
+		if (!user) {
+			setAuthModal((prev) => ({
+				...prev,
+				open: true,
+				view: "login",
+			}));
+			return;
+		}
+
+		setLoading(true);
 		if (isJoined) {
 			leaveCommunity(communityData.id);
 			return;
@@ -56,8 +84,6 @@ const useCommunityData = () => {
 	};
 
 	const joinCommunity = async (communityData: Community) => {
-		console.log("Joining: ", communityData.id);
-		setLoading(true);
 		try {
 			const batch = writeBatch(firestore);
 			const newUserCommunity: UserCommunity = {
@@ -65,11 +91,7 @@ const useCommunityData = () => {
 				imageURL: communityData.imageURL || "",
 			};
 			batch.set(
-				doc(
-					firestore,
-					`users/${user?.uid}/userCommunities`,
-					communityData.id
-				),
+				doc(firestore, `users/${user?.uid}/userCommunities`, communityData.id),
 				newUserCommunity
 			);
 			batch.update(doc(firestore, "communities", communityData.id), {
@@ -88,16 +110,10 @@ const useCommunityData = () => {
 	};
 
 	const leaveCommunity = async (communityId: string) => {
-		console.log("Leaving: ", communityId);
-		setLoading(true);
 		try {
 			const batch = writeBatch(firestore);
 			batch.delete(
-				doc(
-					firestore,
-					`users/${user?.uid}/userCommunities`,
-					communityId
-				)
+				doc(firestore, `users/${user?.uid}/userCommunities`, communityId)
 			);
 			batch.update(doc(firestore, "communities", communityId), {
 				members: increment(-1),
@@ -122,8 +138,12 @@ const useCommunityData = () => {
 	}, [user]);
 
 	return {
+		communityStateValue,
+		onAddCommunity,
 		onJoinOrLeaveCommunity,
 		loading,
+		setLoading,
+		error,
 	};
 };
 
