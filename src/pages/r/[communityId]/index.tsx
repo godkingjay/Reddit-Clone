@@ -1,4 +1,4 @@
-import { Community } from "@/atoms/communitiesAtom";
+import { Community, communityState } from "@/atoms/communitiesAtom";
 import Body from "@/components/CommunityPage/Body";
 import Header from "@/components/CommunityPage/Header";
 import Sidebar from "@/components/CommunityPage/Sidebar";
@@ -8,6 +8,7 @@ import { firestore } from "@/firebase/clientApp";
 import { doc, getDoc } from "firebase/firestore";
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
+import { useRecoilState } from "recoil";
 import safeJsonStringify from "safe-json-stringify";
 
 type CommunityPageProps = {
@@ -15,8 +16,8 @@ type CommunityPageProps = {
 };
 
 const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
-	const isJoined = false;
-
+	const [communityStateValue, setCommunityStateValue] =
+		useRecoilState(communityState);
 	if (!communityData) {
 		return <CommunityNotFound />;
 	}
@@ -29,7 +30,7 @@ const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
 			<section className="flex flex-col items-center">
 				<Header
 					communityData={communityData}
-					isJoined={isJoined}
+					communityStateValue={communityStateValue}
 				/>
 				<PageContentLayout>
 					<>
