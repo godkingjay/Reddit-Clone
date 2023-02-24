@@ -1,15 +1,45 @@
-import { Community } from "@/atoms/communitiesAtom";
+import { Community, CommunityState } from "@/atoms/communitiesAtom";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import NoCommunityImage from "public/svg/community-no-image.svg";
+import { CommunityModalState } from "@/atoms/communityModal";
+import LoadingSpinner from "public/svg/loading-spinner.svg";
+import useCommunityData from "@/hooks/useCommunityData";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/firebase/clientApp";
+import { useSetRecoilState } from "recoil";
+import { authModalState } from "@/atoms/authModalAtom";
 
 type HeaderProps = {
 	communityData: Community;
-	isJoined: boolean;
+	communityStateValue: CommunityState;
 };
 
-const Header: React.FC<HeaderProps> = ({ communityData, isJoined }) => {
+const Header: React.FC<HeaderProps> = ({
+	communityData,
+	communityStateValue,
+}) => {
+	const [user] = useAuthState(auth);
+	const setAuthModal = useSetRecoilState(authModalState);
+	const { onJoinOrLeaveCommunity, loading: communityLoading } =
+		useCommunityData();
+	const isJoined = !!communityStateValue.userCommunities.find(
+		(item) => item.communityId === communityData.id
+	);
+
+	const handleJoinOrLeave = () => {
+		if (!user) {
+			setAuthModal((prev) => ({
+				...prev,
+				open: true,
+				view: "login",
+			}));
+		} else {
+			onJoinOrLeaveCommunity(communityData, isJoined);
+		}
+	};
+
 	return (
 		<div className="bg-white w-full flex flex-col items-center">
 			{communityData.imageURL ? (
@@ -59,20 +89,32 @@ const Header: React.FC<HeaderProps> = ({ communityData, isJoined }) => {
 										? "text-blue-500 bg-transparent hover:bg-blue-500 hover:bg-opacity-10 focus-within:bg-blue-500 focus-within:bg-opacity-10"
 										: "hover:bg-blue-600 hover:border-blue-600 focus-within:bg-blue-600 focus-within:border-blue-600"
 								}
-								w-[108px] py-1.5 group
+								w-[108px] py-1.5 group flex flex-row justify-center items-center gap-x-1.5
 							`}
+							onClick={() => handleJoinOrLeave()}
+							disabled={communityLoading}
 						>
-							{isJoined ? (
+							{!communityLoading ? (
 								<>
-									<span className="joined-1 group-hover:hidden group-focus:hidden">
-										Joined
-									</span>
-									<span className="joined-2 hidden group-hover:inline group-focus:inline">
-										Leave
-									</span>
+									{isJoined ? (
+										<>
+											<span className="joined-1 group-hover:hidden group-focus:hidden">
+												Joined
+											</span>
+											<span className="joined-2 hidden group-hover:inline group-focus:inline">
+												Leave
+											</span>
+										</>
+									) : (
+										<span>Join</span>
+									)}
 								</>
 							) : (
-								<span>Join</span>
+								<LoadingSpinner
+									className={`w-5 h-5 animate-spin 
+									${isJoined ? "[&>path]:stroke-blue-500" : "[&>path]:stroke-white"}
+								`}
+								/>
 							)}
 						</button>
 					</div>
