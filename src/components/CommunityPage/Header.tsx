@@ -1,44 +1,39 @@
 import { Community, CommunityState } from "@/atoms/communitiesAtom";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import NoCommunityImage from "public/svg/community-no-image.svg";
-import { CommunityModalState } from "@/atoms/communityModal";
 import LoadingSpinner from "public/svg/loading-spinner.svg";
 import useCommunityData from "@/hooks/useCommunityData";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "@/firebase/clientApp";
-import { useSetRecoilState } from "recoil";
-import { authModalState } from "@/atoms/authModalAtom";
+import { User } from "firebase/auth";
 
 type HeaderProps = {
 	communityData: Community;
 	communityStateValue: CommunityState;
+	user?: User | null;
 };
 
 const Header: React.FC<HeaderProps> = ({
 	communityData,
 	communityStateValue,
+	user,
 }) => {
-	const [user] = useAuthState(auth);
-	const setAuthModal = useSetRecoilState(authModalState);
-	const { onJoinOrLeaveCommunity, loading: communityLoading } =
-		useCommunityData();
+	const {
+		onJoinOrLeaveCommunity,
+		loading: communityLoading,
+		setLoading: setCommunityLoading,
+	} = useCommunityData();
 	const isJoined = !!communityStateValue.userCommunities.find(
 		(item) => item.communityId === communityData.id
 	);
 
 	const handleJoinOrLeave = () => {
-		if (!user) {
-			setAuthModal((prev) => ({
-				...prev,
-				open: true,
-				view: "login",
-			}));
-		} else {
-			onJoinOrLeaveCommunity(communityData, isJoined);
-		}
+		onJoinOrLeaveCommunity(communityData, isJoined);
 	};
+
+	useEffect(() => {
+		if (!user) setCommunityLoading(false);
+	}, [user]);
 
 	return (
 		<div className="bg-white w-full flex flex-col items-center">

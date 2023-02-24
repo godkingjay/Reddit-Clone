@@ -14,8 +14,7 @@ import { RiEyeCloseFill } from "react-icons/ri";
 import { auth } from "@/firebase/clientApp";
 import LoadingSpinner from "public/svg/loading-spinner.svg";
 import { useRouter } from "next/router";
-import { communityState } from "@/atoms/communitiesAtom";
-import { useSetRecoilState } from "recoil";
+import useCommunityData from "@/hooks/useCommunityData";
 
 type CreateProps = {
 	handleClose: Function;
@@ -31,7 +30,7 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 	const [communityNameLength, setCommunityNameLength] = useState(0);
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(false);
-	const setCommunityStateValue = useSetRecoilState(communityState);
+	const { onAddCommunity } = useCommunityData();
 
 	const handleChange = ({
 		target: { name, value },
@@ -42,10 +41,7 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 		}));
 
 		if (name === "communityName") {
-			const regex = new RegExp(
-				/[ `!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?~]/,
-				"g"
-			);
+			const regex = new RegExp(/[ `!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?~]/, "g");
 			if (value.match(regex) || (value.length < 3 && value.length > 0)) {
 				setError(
 					"Community names must be between 3–21 characters, and can only contain letters, numbers, or underscores."
@@ -121,6 +117,7 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 				const newCommunity = {
 					communityId: createCommunityForm.communityName,
 					isModerator: true,
+					imageURL: "",
 				};
 				transaction.set(
 					doc(
@@ -131,11 +128,7 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 					newCommunity
 				);
 
-				setCommunityStateValue((prev) => ({
-					...prev,
-					userCommunities: [...prev.userCommunities, newCommunity],
-				}));
-
+				onAddCommunity(newCommunity);
 				handleClose();
 			});
 		} catch (error: any) {
@@ -164,8 +157,7 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 						<h2 className="font-semibold text-lg">Name</h2>
 						<div className="flex flex-row items-center gap-x-2">
 							<p className="text-xs text-gray-500">
-								Community names including capitalization cannot
-								be changed.
+								Community names including capitalization cannot be changed.
 							</p>
 							<div className="create-community-alert relative h-max w-max">
 								<IoAlertCircleOutline className="icon aspect-square w-[16px] h-[16px] scale-125 text-gray-500" />
@@ -189,29 +181,21 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 						<div className="text-xs">
 							<p
 								className={
-									communityNameLength === 21
-										? "text-red-500"
-										: "text-gray-500"
+									communityNameLength === 21 ? "text-red-500" : "text-gray-500"
 								}
 							>
 								{21 - communityNameLength} Characters remaining
 							</p>
 							{createCommunityForm.communityName.length === 0 && (
-								<p className="text-red-500">
-									A community name is required
-								</p>
+								<p className="text-red-500">A community name is required</p>
 							)}
-							{error.length > 1 && (
-								<p className="text-red-500">{error}</p>
-							)}
+							{error.length > 1 && <p className="text-red-500">{error}</p>}
 						</div>
 					</div>
 				</div>
 				<div>
 					<div className="flex flex-col w-full">
-						<h2 className="font-semibold text-lg">
-							Community Type
-						</h2>
+						<h2 className="font-semibold text-lg">Community Type</h2>
 					</div>
 					<div className="create-community-radios">
 						<div>
@@ -227,8 +211,7 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 								<FaUserAlt className="icon" />
 								<p>Public</p>
 								<small>
-									Anyone can view, post, and comment to this
-									community
+									Anyone can view, post, and comment to this community
 								</small>
 							</label>
 						</div>
@@ -244,8 +227,8 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 								<RiEyeCloseFill className="icon" />
 								<p>Restricted</p>
 								<small>
-									Anyone can view this community, but only
-									approved users can post
+									Anyone can view this community, but only approved users can
+									post
 								</small>
 							</label>
 						</div>
@@ -261,8 +244,7 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 								<HiLockClosed className="icon" />
 								<p>Private</p>
 								<small>
-									Only approved users can view and submit to
-									this community
+									Only approved users can view and submit to this community
 								</small>
 							</label>
 						</div>
