@@ -65,7 +65,11 @@ const useCommunityData = () => {
 				imageURL: communityData.imageURL || "",
 			};
 			batch.set(
-				doc(firestore, `users/${user?.uid}/userCommunities`, communityData.id),
+				doc(
+					firestore,
+					`users/${user?.uid}/userCommunities`,
+					communityData.id
+				),
 				newUserCommunity
 			);
 			batch.update(doc(firestore, "communities", communityData.id), {
@@ -89,7 +93,11 @@ const useCommunityData = () => {
 		try {
 			const batch = writeBatch(firestore);
 			batch.delete(
-				doc(firestore, `users/${user?.uid}/userCommunities`, communityId)
+				doc(
+					firestore,
+					`users/${user?.uid}/userCommunities`,
+					communityId
+				)
 			);
 			batch.update(doc(firestore, "communities", communityId), {
 				members: increment(-1),
@@ -114,7 +122,6 @@ const useCommunityData = () => {
 	}, [user]);
 
 	return {
-		communityStateValue,
 		onJoinOrLeaveCommunity,
 		loading,
 	};
