@@ -17,7 +17,7 @@ interface CommunitySnippet {
 	imageURL?: string;
 }
 
-interface CommunityState {
+export interface CommunityState {
 	communitySnippets: CommunitySnippet[];
 }
 
