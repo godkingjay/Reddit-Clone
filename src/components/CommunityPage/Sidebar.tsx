@@ -6,7 +6,14 @@ type SidebarProps = {
 };
 
 const Sidebar: React.FC<SidebarProps> = ({ communityData }) => {
-	return <div>Sidebar</div>;
+	return (
+		<div className="w-full flex flex-col gap-y-4">
+			<div>Sidebar</div>
+			<div>Sidebar</div>
+			<div>Sidebar</div>
+			<div>Sidebar</div>
+		</div>
+	);
 };
 
 export default Sidebar;
