@@ -1,11 +1,14 @@
-import { Community } from "@/atoms/communitiesAtom";
+import { Community, communityState } from "@/atoms/communitiesAtom";
 import Body from "@/components/CommunityPage/Body";
 import Header from "@/components/CommunityPage/Header";
+import Sidebar from "@/components/CommunityPage/Sidebar";
 import CommunityNotFound from "@/components/ErrorPages/CommunityError/CommunityNotFound";
+import PageContentLayout from "@/components/Layout/PageContentLayout";
 import { firestore } from "@/firebase/clientApp";
 import { doc, getDoc } from "firebase/firestore";
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
+import { useRecoilState } from "recoil";
 import safeJsonStringify from "safe-json-stringify";
 
 type CommunityPageProps = {
@@ -13,8 +16,8 @@ type CommunityPageProps = {
 };
 
 const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
-	const isJoined = false;
-
+	const [communityStateValue, setCommunityStateValue] =
+		useRecoilState(communityState);
 	if (!communityData) {
 		return <CommunityNotFound />;
 	}
@@ -27,9 +30,16 @@ const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
 			<section className="flex flex-col items-center">
 				<Header
 					communityData={communityData}
-					isJoined={isJoined}
+					communityStateValue={communityStateValue}
 				/>
-				<Body communityData={communityData} />
+				<PageContentLayout>
+					<>
+						<Body communityData={communityData} />
+					</>
+					<>
+						<Sidebar communityData={communityData} />
+					</>
+				</PageContentLayout>
 			</section>
 		</>
 	);
@@ -44,18 +54,23 @@ export const getServerSideProps = async (
 			"communities",
 			context.query.communityId as string
 		);
-		const communityDoc = await getDoc(communityDocRef);
+		const communityDoc = await getDoc(communityDocRef).then((data) => {
+			if (data.exists()) {
+				const communityData = data.data();
+				return JSON.parse(
+					safeJsonStringify({
+						id: data.id,
+						...communityData,
+					})
+				);
+			} else {
+				return "";
+			}
+		});
 
 		return {
 			props: {
-				communityData: communityDoc.exists()
-					? JSON.parse(
-							safeJsonStringify({
-								id: communityDoc.id,
-								...communityDoc.data(),
-							})
-					  )
-					: "",
+				communityData: communityDoc,
 			},
 		};
 	} catch (error) {
