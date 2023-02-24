@@ -1,7 +1,4 @@
-import {
-	defaultUserAuthenticatedState,
-	userAuthenticatedState,
-} from "@/atoms/userAtom";
+import { userAuthenticatedState } from "@/atoms/userAtom";
 import NavBar from "@/components/NavBar/NavBar";
 import { auth } from "@/firebase/clientApp";
 
