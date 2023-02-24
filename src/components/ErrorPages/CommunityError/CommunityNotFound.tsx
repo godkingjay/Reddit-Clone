@@ -5,18 +5,31 @@ import {
 import Head from "next/head";
 import { useSetRecoilState } from "recoil";
 import NoCommunityImage from "public/svg/community-no-image.svg";
+import { authModalState } from "@/atoms/authModalAtom";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/firebase/clientApp";
 
 type CommunityNotFoundProps = {};
 
 const CommunityNotFound: React.FC<CommunityNotFoundProps> = () => {
 	const setCommunityModal = useSetRecoilState(communityModalState);
+	const setAuthModal = useSetRecoilState(authModalState);
+	const [user] = useAuthState(auth);
 
 	const handleCommunityModal = (viewModal: CommunityModalState["view"]) => {
-		setCommunityModal((prev) => ({
-			...prev,
-			open: true,
-			view: "create",
-		}));
+		if (!user) {
+			setAuthModal((prev) => ({
+				...prev,
+				open: true,
+				view: "login",
+			}));
+		} else {
+			setCommunityModal((prev) => ({
+				...prev,
+				open: true,
+				view: "create",
+			}));
+		}
 	};
 
 	return (
