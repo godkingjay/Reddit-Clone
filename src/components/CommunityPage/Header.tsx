@@ -27,7 +27,7 @@ const Header: React.FC<HeaderProps> = ({ communityData, isJoined }) => {
 			)}
 			<div className="max-w-6xl w-full flex flex-col px-6">
 				<div className="relative w-full flex flex-row gap-x-4">
-					<div className="border-4 border-solid border-white aspect-square w-20 h-20 xs:w-24 xs:h-24 rounded-full bg-white translate-y-[-20%]">
+					<div className="border-4 border-solid border-white aspect-square w-20 h-20 rounded-full bg-white translate-y-[-20%]">
 						{communityData.imageURL ? (
 							<Image
 								src={communityData.imageURL}
@@ -59,10 +59,21 @@ const Header: React.FC<HeaderProps> = ({ communityData, isJoined }) => {
 										? "text-blue-500 bg-transparent hover:bg-blue-500 hover:bg-opacity-10 focus-within:bg-blue-500 focus-within:bg-opacity-10"
 										: "hover:bg-blue-600 hover:border-blue-600 focus-within:bg-blue-600 focus-within:border-blue-600"
 								}
-								w-[108px]
+								w-[108px] py-1.5 group
 							`}
 						>
-							{isJoined ? "Leave" : "Join"}
+							{isJoined ? (
+								<>
+									<span className="joined-1 group-hover:hidden group-focus:hidden">
+										Joined
+									</span>
+									<span className="joined-2 hidden group-hover:inline group-focus:inline">
+										Leave
+									</span>
+								</>
+							) : (
+								<span>Join</span>
+							)}
 						</button>
 					</div>
 				</div>
