@@ -41,7 +41,7 @@ const Header: React.FC<HeaderProps> = ({ communityData, isJoined }) => {
 							<NoCommunityImage className="w-full h-full rounder-full fill-blue-500" />
 						)}
 					</div>
-					<div className="my-2 flex flex-col gap-y-1 flex-1">
+					<div className="my-2 flex flex-col gap-y-1">
 						<h1 className="text-2xl font-bold break-words">
 							{communityData.name}
 						</h1>
@@ -49,7 +49,7 @@ const Header: React.FC<HeaderProps> = ({ communityData, isJoined }) => {
 							r/{communityData.id}
 						</p>
 					</div>
-					<div className="my-2">
+					<div className="my-2 ml-4">
 						<button
 							type="button"
 							title={isJoined ? "Leave" : "Join"}
