@@ -12,7 +12,7 @@ const SubmitPostPage: React.FC<SubmitPostPageProps> = () => {
 			<Head>
 				<title>Create a Post</title>
 			</Head>
-			<section className="flex flex-col items-center">
+			<section className="flex flex-col items-center pb-8">
 				<PageContentLayout>
 					<>
 						<div className="w-full flex flex-col gap-y-4">
