@@ -3,6 +3,8 @@ import { IoDocumentText, IoImageOutline } from "react-icons/io5";
 import { BiPoll } from "react-icons/bi";
 import TabItem from "./TabItem";
 import React, { useState } from "react";
+import Post from "./FormItems/PostForm";
+import LoadingSpinner from "public/svg/loading-spinner.svg";
 
 type NewPostFormProps = {};
 
@@ -36,6 +38,7 @@ const formTabs: FormTabItem[] = [
 
 const NewPostForm: React.FC<NewPostFormProps> = () => {
 	const [currentTab, setCurrentTab] = useState(formTabs[0].title);
+	const [loading, setLoading] = useState(false);
 	const [postInput, setPostInput] = useState({
 		title: "",
 		body: "",
@@ -43,11 +46,14 @@ const NewPostForm: React.FC<NewPostFormProps> = () => {
 	const [selectedFile, setSelectedFile] = useState<string>();
 	const [postInputLength, setPostInputLength] = useState({
 		title: 0,
+		body: 0,
 	});
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		setLoading(true);
 		console.log("Create New Post");
+		setLoading(false);
 	};
 
 	const handleCreatePost = () => {};
@@ -82,7 +88,7 @@ const NewPostForm: React.FC<NewPostFormProps> = () => {
 					/>
 				))}
 			</div>
-			<div className="p-4 flex flex-col">
+			<div className="p-4 flex flex-col gap-y-4">
 				<div className="relative flex flex-row border-[1px] border-solid border-gray-300 py-2 px-4 rounded-md hover:border-blue-500 focus-within:border-blue-500 gap-x-2">
 					<textarea
 						required
@@ -99,6 +105,8 @@ const NewPostForm: React.FC<NewPostFormProps> = () => {
 								e.currentTarget.scrollHeight + "px";
 						}}
 						rows={1}
+						value={postInput.title}
+						disabled={loading}
 					/>
 					<p
 						className={`mt-auto text-2xs font-semibold
@@ -108,6 +116,27 @@ const NewPostForm: React.FC<NewPostFormProps> = () => {
 					>
 						{300 - postInputLength.title}/300
 					</p>
+				</div>
+				{currentTab === "Post" && (
+					<Post
+						handleTextChange={handleTextChange}
+						bodyValue={postInput.body}
+						loading={loading}
+					/>
+				)}
+				<div className="flex flex-row items-center justify-end pt-4 border-t-[1px] border-solid border-gray-200">
+					<button
+						type="submit"
+						title="Post"
+						className="page-button text-xs px-6 hover:bg-blue-600 hover:border-blue-600 focus:bg-blue-600 focus:border-blue-600 disabled:bg-gray-500 disabled:border-gray-500 w-[80px] h-[36px]"
+						disabled={postInputLength.title === 0}
+					>
+						{loading ? (
+							<LoadingSpinner className="aspect-square h-full w-full [&>path]:stroke-white animate-spin" />
+						) : (
+							<span>Post</span>
+						)}
+					</button>
 				</div>
 			</div>
 		</form>
