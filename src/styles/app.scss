@@ -241,7 +241,7 @@
 
 	.create-community-alert {
 		&::after {
-			content: "Names cannot have spaces (e.g., \"r/bookclub\" not \"r/book club\"), must be between 3-21 characters, and underscores (\"_\") are the only special characters allowed. Avoid using solely trademarked names (e.g., \"r/FansOfAcme\" not \"r/Acme\").";
+			content: 'Names cannot have spaces (e.g., "r/bookclub" not "r/book club"), must be between 3-21 characters, and underscores ("_") are the only special characters allowed. Avoid using solely trademarked names (e.g., "r/FansOfAcme" not "r/Acme").';
 			@apply absolute hidden top-[125%] right-0 w-[180px] sm:right-[50%] sm:translate-x-[50%] h-max bg-gray-800 text-center text-xs text-white p-2 rounded-md;
 		}
 
@@ -314,5 +314,36 @@
 
 	.bordered-box-1 {
 		@apply border-[1px] border-solid border-gray-300;
+	}
+
+	.tab-items-container {
+		.tab-item {
+			@apply flex flex-row p-4 items-center justify-center gap-x-2 flex-auto text-gray-400 border-b-[1px] border-l-[1px] border-solid border-gray-300;
+
+			.tab-item-icon-container {
+				@apply aspect-square h-[20px] w-[20px];
+
+				svg {
+					@apply h-full w-full;
+				}
+			}
+
+			.tab-item-label {
+				@apply font-bold text-sm;
+			}
+
+			&:first-child {
+				@apply border-l-0;
+			}
+
+			&:disabled {
+				@apply border-b-blue-500 text-blue-500 shadow-tab-item-active shadow-blue-500 bg-blue-500 bg-opacity-5;
+			}
+
+			&:hover,
+			&:focus {
+				@apply bg-blue-500 bg-opacity-5;
+			}
+		}
 	}
 }
