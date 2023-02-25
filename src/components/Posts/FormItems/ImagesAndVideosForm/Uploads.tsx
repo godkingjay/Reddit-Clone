@@ -16,11 +16,11 @@ const Uploads: React.FC<UploadsProps> = ({
 	maxUploads,
 }) => {
 	return (
-		<div className="relative w-full grid grid-cols-2 xs:grid-cols-3 md:grid-cols-4 border-[1px] border-solid border-gray-300 rounded-md hover:border-blue-500 focus-within:border-blue-500 gap-4 p-4">
+		<div className="relative w-full grid grid-cols-2 xs:grid-cols-3 md:grid-cols-4 border-[1px] border-solid border-gray-300 rounded-md gap-4 p-4 hover:border-blue-500 focus-within:border-blue-500">
 			{imagesAndVideos.map((imageAndVideo) => (
 				<div
 					key={imageAndVideo.index}
-					className="aspect-square h-full w-full flex flex-col items-center justify-center border-solid border-[1px] border-gray-500 rounded-md p-2"
+					className="aspect-square h-full w-full flex flex-col items-center justify-center border-solid border-[1px] border-gray-300 rounded-md p-2 hover:border-blue-500 hover:bg-blue-500 hover:bg-opacity-5 focus-within:border-blue-500 focus-within:bg-blue-500 focus-within:bg-opacity-5"
 				>
 					<div
 						tabIndex={0}
@@ -38,7 +38,7 @@ const Uploads: React.FC<UploadsProps> = ({
 						<button
 							type="button"
 							title="Remove Image/Video"
-							className="absolute z-10 bg-white hidden h-[32px] w-[32px] place-items-center rounded-full p-1 group right-1 top-1 group-hover:grid group-focus-within:grid hover:bg-red-400 focus:bg-red-400 hover:text-white focus:text-white"
+							className="absolute z-10 bg-white hidden h-[32px] w-[32px] place-items-center rounded-full p-1 group right-1 top-1 group-hover:grid group-focus-within:grid hover:bg-red-500 focus:bg-red-500 hover:text-white focus:text-white shadow-lg"
 							onClick={() => handleRemoveImageAndVideo(imageAndVideo.index)}
 						>
 							<IoClose className="h-full w-full" />
@@ -48,7 +48,7 @@ const Uploads: React.FC<UploadsProps> = ({
 			))}
 			<button
 				type="button"
-				title="Upload"
+				title="Upload Image/Video"
 				className="aspect-square h-full w-full grid place-items-center p-2 border-2 rounded-md border-dashed border-gray-300 bg-transparent text-gray-300 hover:bg-blue-500 hover:bg-opacity-10 hover:text-blue-500 hover:border-blue-500 focus:bg-blue-500 focus:bg-opacity-10 mr-auto focus:text-blue-500 focus:border-blue-500 disabled:hidden"
 				onClick={() => uploadImagesAndVideos.current?.click()}
 				disabled={imagesAndVideos.length >= maxUploads}
