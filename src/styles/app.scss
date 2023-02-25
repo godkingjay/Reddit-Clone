@@ -336,14 +336,14 @@
 				@apply border-l-0;
 			}
 
-			&:disabled {
-				@apply border-b-blue-500 text-blue-500 shadow-tab-item-active shadow-blue-500 bg-blue-500 bg-opacity-5;
-			}
-
 			&:hover,
 			&:focus {
 				@apply bg-blue-500 bg-opacity-5;
 			}
+		}
+
+		.active {
+			@apply border-b-blue-500 text-blue-500 shadow-tab-item-active shadow-blue-500 bg-blue-500 bg-opacity-5;
 		}
 	}
 }

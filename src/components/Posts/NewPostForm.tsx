@@ -7,7 +7,7 @@ import { useState } from "react";
 type NewPostFormProps = {};
 
 export type FormTabItem = {
-	title: string;
+	title: "Post" | "Images & Videos" | "Link" | "Poll" | "Talk";
 	icon: JSX.Element;
 };
 
