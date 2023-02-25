@@ -66,8 +66,6 @@ const NewPostForm: React.FC<NewPostFormProps> = () => {
 
 	const handleCreatePost = (e: React.ChangeEvent<HTMLInputElement>) => {};
 
-	console.log(imagesAndVideos);
-
 	const handleUploadImagesAndVideos = (
 		e: React.ChangeEvent<HTMLInputElement>
 	) => {
@@ -83,13 +81,17 @@ const NewPostForm: React.FC<NewPostFormProps> = () => {
 								url: readerEvent.target?.result as string,
 								type: file.type.split("/")[0],
 								name: file.name,
-								index: prev.length > 0 ? prev[prev.length].index + 1 : 0,
+								index: prev.length > 0 ? prev[prev.length - 1].index + 1 : 0,
 							},
 						]);
 					}
 				};
 			});
 		}
+	};
+
+	const handleRemoveImageAndVideo = (index: number) => {
+		setImagesAndVideos((prev) => prev.filter((img) => img.index !== index));
 	};
 
 	const handleTextChange = (
@@ -160,6 +162,7 @@ const NewPostForm: React.FC<NewPostFormProps> = () => {
 					<ImagesAndVideosForm
 						imagesAndVideos={imagesAndVideos}
 						handleUploadImagesAndVideos={handleUploadImagesAndVideos}
+						handleRemoveImageAndVideo={handleRemoveImageAndVideo}
 					/>
 				)}
 				<div className="flex flex-row items-center justify-end pt-4 border-t-[1px] border-solid border-gray-200">

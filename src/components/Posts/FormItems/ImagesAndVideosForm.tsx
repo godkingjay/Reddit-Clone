@@ -7,11 +7,13 @@ import Uploads from "./ImagesAndVideosForm/Uploads";
 type ImagesAndVideosFormProps = {
 	imagesAndVideos: ImageAndVideo[];
 	handleUploadImagesAndVideos: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	handleRemoveImageAndVideo: (index: number) => void;
 };
 
 const ImagesAndVideosForm: React.FC<ImagesAndVideosFormProps> = ({
 	imagesAndVideos,
 	handleUploadImagesAndVideos,
+	handleRemoveImageAndVideo,
 }) => {
 	const uploadImagesAndVideos = useRef<HTMLInputElement>(null);
 
@@ -23,6 +25,7 @@ const ImagesAndVideosForm: React.FC<ImagesAndVideosFormProps> = ({
 				<Uploads
 					imagesAndVideos={imagesAndVideos}
 					uploadImagesAndVideos={uploadImagesAndVideos}
+					handleRemoveImageAndVideo={handleRemoveImageAndVideo}
 				/>
 			)}
 			<input
