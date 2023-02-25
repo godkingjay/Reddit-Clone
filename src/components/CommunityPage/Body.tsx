@@ -1,3 +1,5 @@
+import CreatePostLink from "./CreatePostLink";
+
 type BodyProps = {
 	communityData: any;
 };
@@ -5,7 +7,7 @@ type BodyProps = {
 const Body: React.FC<BodyProps> = ({ communityData }) => {
 	return (
 		<div className="flex-1 flex flex-col gap-y-4">
-			<div>Submit</div>
+			<CreatePostLink communityData={communityData} />
 			<div>Welcome</div>
 			<div>Instruction</div>
 			<div>Lounge</div>
