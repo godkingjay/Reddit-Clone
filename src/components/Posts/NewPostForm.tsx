@@ -45,6 +45,11 @@ const NewPostForm: React.FC<NewPostFormProps> = () => {
 		title: 0,
 	});
 
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		console.log("Create New Post");
+	};
+
 	const handleCreatePost = () => {};
 
 	const handleSelectImage = () => {};
@@ -63,7 +68,10 @@ const NewPostForm: React.FC<NewPostFormProps> = () => {
 	};
 
 	return (
-		<div className="bordered-box-1 flex flex-col bg-white rounded-md overflow-hidden">
+		<form
+			onSubmit={handleSubmit}
+			className="bordered-box-1 flex flex-col bg-white rounded-md overflow-hidden"
+		>
 			<div className="tab-items-container flex flex-row w-full">
 				{formTabs.map((tab) => (
 					<TabItem
@@ -75,12 +83,14 @@ const NewPostForm: React.FC<NewPostFormProps> = () => {
 				))}
 			</div>
 			<div className="p-4 flex flex-col">
-				<div className="flex flex-row border-[1px] border-solid border-gray-300 py-2 px-4 rounded-md hover:border-blue-500 focus-within:border-blue-500 gap-x-2">
+				<div className="relative flex flex-row border-[1px] border-solid border-gray-300 py-2 px-4 rounded-md hover:border-blue-500 focus-within:border-blue-500 gap-x-2">
 					<textarea
+						required
 						name="title"
 						title="Post Title"
 						placeholder="Title"
 						className="flex-1 min-w-0 outline-none text-sm bg-transparent font-semibold break-words resize-none"
+						minLength={1}
 						maxLength={300}
 						onChange={(e) => {
 							handleTextChange(e);
@@ -100,7 +110,7 @@ const NewPostForm: React.FC<NewPostFormProps> = () => {
 					</p>
 				</div>
 			</div>
-		</div>
+		</form>
 	);
 };
 
