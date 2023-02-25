@@ -14,6 +14,13 @@ export type FormTabItem = {
 	icon: JSX.Element;
 };
 
+export type ImageAndVideo = {
+	url: string;
+	type: string;
+	name: string;
+	index: number;
+};
+
 const formTabs: FormTabItem[] = [
 	{
 		title: "Post",
@@ -44,7 +51,7 @@ const NewPostForm: React.FC<NewPostFormProps> = () => {
 		title: "",
 		body: "",
 	});
-	const [selectedFile, setSelectedFile] = useState<string>();
+	const [imagesAndVideos, setImagesAndVideos] = useState<ImageAndVideo[]>([]);
 	const [postInputLength, setPostInputLength] = useState({
 		title: 0,
 		body: 0,
@@ -57,9 +64,33 @@ const NewPostForm: React.FC<NewPostFormProps> = () => {
 		setLoading(false);
 	};
 
-	const handleCreatePost = () => {};
+	const handleCreatePost = (e: React.ChangeEvent<HTMLInputElement>) => {};
 
-	const handleSelectImage = () => {};
+	console.log(imagesAndVideos);
+
+	const handleUploadImagesAndVideos = (
+		e: React.ChangeEvent<HTMLInputElement>
+	) => {
+		if (e.target.files?.[0]) {
+			Array.from(e.target.files).forEach((file) => {
+				const reader = new FileReader();
+				reader.readAsDataURL(file);
+				reader.onload = (readerEvent) => {
+					if (readerEvent.target?.result) {
+						setImagesAndVideos((prev) => [
+							...prev,
+							{
+								url: readerEvent.target?.result as string,
+								type: file.type.split("/")[0],
+								name: file.name,
+								index: prev.length > 0 ? prev[prev.length].index + 1 : 0,
+							},
+						]);
+					}
+				};
+			});
+		}
+	};
 
 	const handleTextChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -125,7 +156,12 @@ const NewPostForm: React.FC<NewPostFormProps> = () => {
 						loading={loading}
 					/>
 				)}
-				{currentTab === "Images & Videos" && <ImagesAndVideosForm />}
+				{currentTab === "Images & Videos" && (
+					<ImagesAndVideosForm
+						imagesAndVideos={imagesAndVideos}
+						handleUploadImagesAndVideos={handleUploadImagesAndVideos}
+					/>
+				)}
 				<div className="flex flex-row items-center justify-end pt-4 border-t-[1px] border-solid border-gray-200">
 					<button
 						type="submit"
