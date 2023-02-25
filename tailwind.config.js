@@ -5,6 +5,9 @@ module.exports = {
 	content: ["./src/**/*.{js,jsx,ts,tsx}"],
 	theme: {
 		extend: {
+			boxShadow: {
+				"tab-item-active": "inset 0 -2px 0 0",
+			},
 			colors: {
 				"brand-100": "rgb(255, 60, 0)",
 				"brand-200": "rgb(200, 50, 0)",
