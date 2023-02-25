@@ -8,12 +8,14 @@ type ImagesAndVideosFormProps = {
 	imagesAndVideos: ImageAndVideo[];
 	handleUploadImagesAndVideos: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	handleRemoveImageAndVideo: (index: number) => void;
+	maxUploads: number;
 };
 
 const ImagesAndVideosForm: React.FC<ImagesAndVideosFormProps> = ({
 	imagesAndVideos,
 	handleUploadImagesAndVideos,
 	handleRemoveImageAndVideo,
+	maxUploads,
 }) => {
 	const uploadImagesAndVideos = useRef<HTMLInputElement>(null);
 
@@ -26,6 +28,7 @@ const ImagesAndVideosForm: React.FC<ImagesAndVideosFormProps> = ({
 					imagesAndVideos={imagesAndVideos}
 					uploadImagesAndVideos={uploadImagesAndVideos}
 					handleRemoveImageAndVideo={handleRemoveImageAndVideo}
+					maxUploads={maxUploads}
 				/>
 			)}
 			<input
@@ -36,6 +39,7 @@ const ImagesAndVideosForm: React.FC<ImagesAndVideosFormProps> = ({
 				onChange={handleUploadImagesAndVideos}
 				hidden
 				multiple
+				disabled={imagesAndVideos.length >= maxUploads}
 			/>
 		</>
 	);

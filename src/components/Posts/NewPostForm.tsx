@@ -56,6 +56,7 @@ const NewPostForm: React.FC<NewPostFormProps> = () => {
 		title: 0,
 		body: 0,
 	});
+	const [maxUploads, setMaxUploads] = useState(20);
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -69,23 +70,29 @@ const NewPostForm: React.FC<NewPostFormProps> = () => {
 	const handleUploadImagesAndVideos = (
 		e: React.ChangeEvent<HTMLInputElement>
 	) => {
-		if (e.target.files?.[0]) {
-			Array.from(e.target.files).forEach((file) => {
-				const reader = new FileReader();
-				reader.readAsDataURL(file);
-				reader.onload = (readerEvent) => {
-					if (readerEvent.target?.result) {
-						setImagesAndVideos((prev) => [
-							...prev,
-							{
-								url: readerEvent.target?.result as string,
-								type: file.type.split("/")[0],
-								name: file.name,
-								index: prev.length > 0 ? prev[prev.length - 1].index + 1 : 0,
-							},
-						]);
-					}
-				};
+		if (e.target.files?.[0] && imagesAndVideos.length < 20) {
+			const files = Array.from(e.target.files).slice(
+				0,
+				maxUploads - imagesAndVideos.length
+			);
+			files.forEach((file) => {
+				if (imagesAndVideos.length < maxUploads) {
+					const reader = new FileReader();
+					reader.readAsDataURL(file);
+					reader.onload = (readerEvent) => {
+						if (readerEvent.target?.result) {
+							setImagesAndVideos((prev) => [
+								...prev,
+								{
+									url: readerEvent.target?.result as string,
+									type: file.type.split("/")[0],
+									name: file.name,
+									index: prev.length > 0 ? prev[prev.length - 1].index + 1 : 0,
+								},
+							]);
+						}
+					};
+				}
 			});
 		}
 	};
@@ -163,6 +170,7 @@ const NewPostForm: React.FC<NewPostFormProps> = () => {
 						imagesAndVideos={imagesAndVideos}
 						handleUploadImagesAndVideos={handleUploadImagesAndVideos}
 						handleRemoveImageAndVideo={handleRemoveImageAndVideo}
+						maxUploads={maxUploads}
 					/>
 				)}
 				<div className="flex flex-row items-center justify-end pt-4 border-t-[1px] border-solid border-gray-200">

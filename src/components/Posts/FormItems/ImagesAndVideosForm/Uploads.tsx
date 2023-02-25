@@ -6,12 +6,14 @@ type UploadsProps = {
 	imagesAndVideos: ImageAndVideo[];
 	uploadImagesAndVideos: React.RefObject<HTMLInputElement>;
 	handleRemoveImageAndVideo: (index: number) => void;
+	maxUploads: number;
 };
 
 const Uploads: React.FC<UploadsProps> = ({
 	imagesAndVideos,
 	uploadImagesAndVideos,
 	handleRemoveImageAndVideo,
+	maxUploads,
 }) => {
 	return (
 		<div className="relative w-full grid grid-cols-2 xs:grid-cols-3 md:grid-cols-4 border-[1px] border-solid border-gray-300 rounded-md hover:border-blue-500 focus-within:border-blue-500 gap-4 p-4">
@@ -47,8 +49,9 @@ const Uploads: React.FC<UploadsProps> = ({
 			<button
 				type="button"
 				title="Upload"
-				className="aspect-square h-full w-full grid place-items-center p-2 border-2 rounded-md border-dashed border-gray-300 bg-transparent text-gray-300 hover:bg-blue-500 hover:bg-opacity-10 hover:text-blue-500 hover:border-blue-500 focus:bg-blue-500 focus:bg-opacity-10 mr-auto focus:text-blue-500 focus:border-blue-500"
+				className="aspect-square h-full w-full grid place-items-center p-2 border-2 rounded-md border-dashed border-gray-300 bg-transparent text-gray-300 hover:bg-blue-500 hover:bg-opacity-10 hover:text-blue-500 hover:border-blue-500 focus:bg-blue-500 focus:bg-opacity-10 mr-auto focus:text-blue-500 focus:border-blue-500 disabled:hidden"
 				onClick={() => uploadImagesAndVideos.current?.click()}
+				disabled={imagesAndVideos.length >= maxUploads}
 			>
 				<IoAdd className="h-full w-full aspect-square max-h-[48px]" />
 			</button>
