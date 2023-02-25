@@ -19,6 +19,8 @@ export type ImageAndVideo = {
 	type: string;
 	name: string;
 	index: number;
+	caption: string;
+	link: string;
 };
 
 const formTabs: FormTabItem[] = [
@@ -44,6 +46,8 @@ const formTabs: FormTabItem[] = [
 	},
 ];
 
+const maxUploads = 20;
+
 const NewPostForm: React.FC<NewPostFormProps> = () => {
 	const [currentTab, setCurrentTab] = useState(formTabs[0].title);
 	const [loading, setLoading] = useState(false);
@@ -56,7 +60,6 @@ const NewPostForm: React.FC<NewPostFormProps> = () => {
 		title: 0,
 		body: 0,
 	});
-	const [maxUploads, setMaxUploads] = useState(20);
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -87,6 +90,8 @@ const NewPostForm: React.FC<NewPostFormProps> = () => {
 									url: readerEvent.target?.result as string,
 									type: file.type.split("/")[0],
 									name: file.name,
+									caption: "",
+									link: "",
 									index: prev.length > 0 ? prev[prev.length - 1].index + 1 : 0,
 								},
 							]);
