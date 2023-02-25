@@ -311,4 +311,8 @@
 	.page-button {
 		@apply border-2 text-sm border-solid border-blue-500 px-8 py-2 rounded-full font-bold bg-blue-500 text-white w-full max-w-[210px] xs:w-max outline-offset-[4px];
 	}
+
+	.bordered-box-1 {
+		@apply border-[1px] border-solid border-gray-300;
+	}
 }
