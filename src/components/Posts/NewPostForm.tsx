@@ -5,6 +5,7 @@ import TabItem from "./TabItem";
 import React, { useState } from "react";
 import Post from "./FormItems/PostForm";
 import LoadingSpinner from "public/svg/loading-spinner.svg";
+import ImagesAndVideosForm from "./FormItems/ImagesAndVideosForm";
 
 type NewPostFormProps = {};
 
@@ -124,6 +125,7 @@ const NewPostForm: React.FC<NewPostFormProps> = () => {
 						loading={loading}
 					/>
 				)}
+				{currentTab === "Images & Videos" && <ImagesAndVideosForm />}
 				<div className="flex flex-row items-center justify-end pt-4 border-t-[1px] border-solid border-gray-200">
 					<button
 						type="submit"
