@@ -2,6 +2,7 @@ import { errorModalState } from "@/atoms/errorModalAtom";
 import React from "react";
 import { BsXLg } from "react-icons/bs";
 import { useRecoilState } from "recoil";
+import FileUploadError from "./Errors/FileUploadError";
 
 type ErrorModalProps = {};
 
@@ -23,8 +24,8 @@ const ErrorModal: React.FC<ErrorModalProps> = () => {
 						className="absolute -z-10 h-full w-full top-0 left-0 bg-transparent"
 						onClick={() => handleClose()}
 					></div>
-					<div className="relative z-10 flex flex-col bg-white h-min w-min max-h-[640px] max-w-[720px] rounded-2xl items-center shadow-lg shadow-[#0002] my-auto border-2 border-solid border-red-500">
-						<div className="w-full flex flex-row items-center justify-between border-b-[1px] py-[8px] pl-4 pr-2 gap-x-8 bg-red-500 rounded-t-xl h-full">
+					<div className="relative z-10 flex flex-col bg-white h-min w-full max-h-[640px] max-w-[720px] rounded-2xl items-center shadow-lg shadow-[#0002] my-auto border-2 border-solid border-red-500">
+						<div className="w-full flex flex-row items-center justify-between border-b-[1px] py-[8px] pl-4 pr-2 gap-x-8 bg-red-500 rounded-t-xl">
 							<h1 className="font-bold text-xl text-white w-max">
 								{errorModal.view === "file-upload" && "File Upload Error"}
 							</h1>
@@ -37,9 +38,9 @@ const ErrorModal: React.FC<ErrorModalProps> = () => {
 								<BsXLg className="icon h-full w-full aspect-square" />
 							</button>
 						</div>
-						<div className="relative flex flex-1 flex-col overflow-hidden items-center w-full pt-4 pb-2">
+						<div className="relative flex flex-1 flex-col overflow-hidden items-center w-full py-2">
 							<div className="flex flex-col flex-1 items-center w-full overflow-y-auto overflow-x-hidden scroll-y-style px-4">
-								{errorModal.view === "file-upload" && <></>}
+								{errorModal.view === "file-upload" && <FileUploadError />}
 							</div>
 						</div>
 					</div>
