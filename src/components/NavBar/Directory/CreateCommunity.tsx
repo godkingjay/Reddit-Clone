@@ -1,7 +1,7 @@
 import {
 	CommunityModalState,
 	communityModalState,
-} from "@/atoms/communityModal";
+} from "@/atoms/communityModalAtom";
 // import CommunityModal from "@/components/Modal/CommunityModal/CommunityModal";
 import { VscAdd } from "react-icons/vsc";
 import { useSetRecoilState } from "recoil";

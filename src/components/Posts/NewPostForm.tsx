@@ -6,6 +6,8 @@ import React, { useState } from "react";
 import Post from "./FormItems/PostForm";
 import LoadingSpinner from "public/svg/loading-spinner.svg";
 import ImagesAndVideosForm from "./FormItems/ImagesAndVideosForm";
+import { useSetRecoilState } from "recoil";
+import { errorModalState } from "@/atoms/errorModalAtom";
 
 type NewPostFormProps = {};
 
@@ -47,6 +49,7 @@ const formTabs: FormTabItem[] = [
 ];
 
 const maxUploads = 20;
+const maxFileSize = 20000000;
 
 const NewPostForm: React.FC<NewPostFormProps> = () => {
 	const [currentTab, setCurrentTab] = useState(formTabs[0].title);
@@ -60,6 +63,19 @@ const NewPostForm: React.FC<NewPostFormProps> = () => {
 		title: 0,
 		body: 0,
 	});
+	const setErrorModal = useSetRecoilState(errorModalState);
+
+	const validateFile = (fileName: string, fileSize: number) => {
+		const allowedExtensions = /(\.jpg|\.jpeg|\.jfif|\.pjpeg|\.pjp|\.png)$/i;
+		if (!allowedExtensions.exec(fileName) || fileSize > maxFileSize) {
+			setErrorModal((prev) => ({
+				...prev,
+				open: true,
+				view: "file-upload",
+			}));
+			return false;
+		} else return true;
+	};
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -74,10 +90,9 @@ const NewPostForm: React.FC<NewPostFormProps> = () => {
 		e: React.ChangeEvent<HTMLInputElement>
 	) => {
 		if (e.target.files?.[0] && imagesAndVideos.length < 20) {
-			const files = Array.from(e.target.files).slice(
-				0,
-				maxUploads - imagesAndVideos.length
-			);
+			const files = Array.from(e.target.files)
+				.filter((file) => validateFile(file.name, file.size))
+				.slice(0, maxUploads - imagesAndVideos.length);
 			files.forEach((file) => {
 				if (imagesAndVideos.length < maxUploads) {
 					const reader = new FileReader();

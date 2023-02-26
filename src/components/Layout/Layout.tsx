@@ -5,6 +5,7 @@ import { auth } from "@/firebase/clientApp";
 import React, { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useSetRecoilState } from "recoil";
+import ErrorModal from "@/components/Modal/Error/ErrorModal";
 
 type LayoutProps = {
 	children: React.ReactNode;
@@ -29,6 +30,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 			<div className="bg-gray-200 flex-1 overflow-y-auto scroll-y-style">
 				{children}
 			</div>
+			<ErrorModal />
 		</main>
 	);
 };
