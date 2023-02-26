@@ -61,6 +61,14 @@ const NewPostForm: React.FC<NewPostFormProps> = () => {
 		body: 0,
 	});
 
+	const validateFile = (fileName: string) => {
+		const allowedExtensions = /(\.jpg|\.jpeg|\.jfif|\.pjpeg|\.pjp|\.png)$/i;
+		if (!allowedExtensions.exec(fileName)) {
+			alert("Invalid file type");
+			return false;
+		} else return true;
+	};
+
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setLoading(true);
@@ -74,10 +82,9 @@ const NewPostForm: React.FC<NewPostFormProps> = () => {
 		e: React.ChangeEvent<HTMLInputElement>
 	) => {
 		if (e.target.files?.[0] && imagesAndVideos.length < 20) {
-			const files = Array.from(e.target.files).slice(
-				0,
-				maxUploads - imagesAndVideos.length
-			);
+			const files = Array.from(e.target.files)
+				.filter((file) => validateFile(file.name))
+				.slice(0, maxUploads - imagesAndVideos.length);
 			files.forEach((file) => {
 				if (imagesAndVideos.length < maxUploads) {
 					const reader = new FileReader();
