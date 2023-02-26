@@ -4,7 +4,6 @@ import AuthButtons from "./AuthButtons";
 
 import AuthModal from "@/components/Modal/Auth/AuthModal";
 
-import DropdownUserMenu from "./Icons/DropdownUserMenu";
 import { User } from "firebase/auth";
 import Icons from "./Icons";
 
