@@ -1,7 +1,7 @@
 import {
 	CommunityModalState,
 	communityModalState,
-} from "@/atoms/communityModal";
+} from "@/atoms/communityModalAtom";
 import Head from "next/head";
 import { useSetRecoilState } from "recoil";
 import NoCommunityImage from "public/svg/community-no-image.svg";

@@ -1,4 +1,4 @@
-import { communityModalState } from "@/atoms/communityModal";
+import { communityModalState } from "@/atoms/communityModalAtom";
 import React from "react";
 import { BsXLg } from "react-icons/bs";
 import { useRecoilState } from "recoil";
