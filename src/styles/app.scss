@@ -4,9 +4,7 @@
 			@apply outline-offset-4;
 			&:hover,
 			&:focus {
-				.icon {
-					@apply fill-red-500 scale-125;
-				}
+				@apply text-red-500;
 			}
 		}
 	}
