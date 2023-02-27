@@ -2,11 +2,8 @@ import { FaCaretDown, FaDoorOpen, FaRegUserCircle } from "react-icons/fa";
 import { auth } from "@/firebase/clientApp";
 import { User, signOut } from "firebase/auth";
 import { IconType } from "react-icons";
-import { useResetRecoilState, useSetRecoilState } from "recoil";
-import {
-	defaultUserAuthenticatedState,
-	userAuthenticatedState,
-} from "@/atoms/userAtom";
+import { useResetRecoilState } from "recoil";
+import { userAuthenticatedState } from "@/atoms/userAtom";
 import { communityState } from "@/atoms/communitiesAtom";
 
 type DropdownUserMenuProps = {
@@ -20,7 +17,7 @@ type DropdownUserMenuProps = {
 // };
 
 const DropdownUserMenu: React.FC<DropdownUserMenuProps> = ({ user }) => {
-	const setUserAuthenticated = useSetRecoilState(userAuthenticatedState);
+	const resetUserAuthenticated = useResetRecoilState(userAuthenticatedState);
 	const resetCommunityState = useResetRecoilState(communityState);
 
 	// const DropdownItems: DropdownItem[] = [
@@ -37,7 +34,7 @@ const DropdownUserMenu: React.FC<DropdownUserMenuProps> = ({ user }) => {
 	// ];
 
 	const handleLogOut = async () => {
-		setUserAuthenticated(defaultUserAuthenticatedState);
+		resetUserAuthenticated();
 		await signOut(auth);
 		resetCommunityState();
 	};
