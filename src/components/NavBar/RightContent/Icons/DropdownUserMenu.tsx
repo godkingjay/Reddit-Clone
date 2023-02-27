@@ -2,11 +2,8 @@ import { FaCaretDown, FaDoorOpen, FaRegUserCircle } from "react-icons/fa";
 import { auth } from "@/firebase/clientApp";
 import { User, signOut } from "firebase/auth";
 import { IconType } from "react-icons";
-import { useResetRecoilState, useSetRecoilState } from "recoil";
-import {
-	defaultUserAuthenticatedState,
-	userAuthenticatedState,
-} from "@/atoms/userAtom";
+import { useResetRecoilState } from "recoil";
+import { userAuthenticatedState } from "@/atoms/userAtom";
 import { communityState } from "@/atoms/communitiesAtom";
 
 type DropdownUserMenuProps = {
@@ -20,7 +17,7 @@ type DropdownUserMenuProps = {
 // };
 
 const DropdownUserMenu: React.FC<DropdownUserMenuProps> = ({ user }) => {
-	const setUserAuthenticated = useSetRecoilState(userAuthenticatedState);
+	const resetUserAuthenticated = useResetRecoilState(userAuthenticatedState);
 	const resetCommunityState = useResetRecoilState(communityState);
 
 	// const DropdownItems: DropdownItem[] = [
@@ -37,23 +34,23 @@ const DropdownUserMenu: React.FC<DropdownUserMenuProps> = ({ user }) => {
 	// ];
 
 	const handleLogOut = async () => {
-		setUserAuthenticated(defaultUserAuthenticatedState);
+		resetUserAuthenticated();
 		await signOut(auth);
 		resetCommunityState();
 	};
 
 	return (
 		<details className="nav-bar-dropdown relative h-full w-full">
-			<summary className="dropdown-user list-none h-full w-full flex flex-row items-center justify-center gap-x-2 px-2 border-gray-300 border-solid border rounded-md cursor-pointer group">
+			<summary className="dropdown-user list-none h-full w-full max-w-[160px] flex flex-row items-center justify-center gap-x-2 px-2 border-gray-300 border-solid border rounded-md cursor-pointer group">
 				<div className="relative aspect-square h-[24px] w-[24px]">
 					<FaRegUserCircle className="icon w-full h-full fill-gray-600" />
 					<p className="absolute w-max px-1 py-[2px] min-w-[16px] break-word text-[8px] font-bold text-white bg-brand-100 text-center rounded-full top-[50%] left-[50%] sm:hidden">
 						1
 					</p>
 				</div>
-				<div className="label hidden sm:flex flex-col mr-2 items-start">
-					<h2>
-						{user?.displayName ? user.displayName?.split(" ")[0] : "Profile"}
+				<div className="label hidden sm:flex flex-col mr-2 items-start truncate">
+					<h2 className="truncate w-full">
+						{user?.displayName ? user.displayName : user?.email?.split("@")[0]}
 					</h2>
 					<p>
 						<span>1 karma</span>
@@ -70,7 +67,9 @@ const DropdownUserMenu: React.FC<DropdownUserMenuProps> = ({ user }) => {
 						>
 							<FaRegUserCircle className="icon" />
 							<label className="label truncate">
-								{user?.displayName ? user.displayName : "Profile"}
+								{user?.displayName
+									? user.displayName
+									: user?.email?.split("@")[0]}
 							</label>
 						</button>
 					</li>

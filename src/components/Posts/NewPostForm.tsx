@@ -3,13 +3,26 @@ import { IoDocumentText, IoImageOutline } from "react-icons/io5";
 import { BiPoll } from "react-icons/bi";
 import TabItem from "./TabItem";
 import React, { useState } from "react";
-import Post from "./FormItems/PostForm";
+import PostForm from "./FormItems/PostForm";
 import LoadingSpinner from "public/svg/loading-spinner.svg";
 import ImagesAndVideosForm from "./FormItems/ImagesAndVideosForm";
 import { useSetRecoilState } from "recoil";
 import { errorModalState } from "@/atoms/errorModalAtom";
+import { Post } from "@/atoms/postAtom";
+import { User } from "firebase/auth";
+import { useRouter } from "next/router";
+import {
+	Firestore,
+	Timestamp,
+	addDoc,
+	collection,
+	serverTimestamp,
+} from "firebase/firestore";
+import { firestore } from "@/firebase/clientApp";
 
-type NewPostFormProps = {};
+type NewPostFormProps = {
+	user: User;
+};
 
 export type FormTabItem = {
 	title: "Post" | "Images & Videos" | "Link" | "Poll" | "Talk";
@@ -51,7 +64,8 @@ const formTabs: FormTabItem[] = [
 const maxUploads = 20;
 const maxFileSize = 20000000;
 
-const NewPostForm: React.FC<NewPostFormProps> = () => {
+const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
+	const router = useRouter();
 	const [currentTab, setCurrentTab] = useState(formTabs[0].title);
 	const [loading, setLoading] = useState(false);
 	const [postInput, setPostInput] = useState({
@@ -59,6 +73,7 @@ const NewPostForm: React.FC<NewPostFormProps> = () => {
 		body: "",
 	});
 	const [imagesAndVideos, setImagesAndVideos] = useState<ImageAndVideo[]>([]);
+	const [isFileExists, setIsFileExists] = useState(false);
 	const [postInputLength, setPostInputLength] = useState({
 		title: 0,
 		body: 0,
@@ -80,11 +95,37 @@ const NewPostForm: React.FC<NewPostFormProps> = () => {
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setLoading(true);
-		console.log("Create New Post");
+		handleCreatePost();
 		setLoading(false);
 	};
 
-	const handleCreatePost = (e: React.ChangeEvent<HTMLInputElement>) => {};
+	const handleCreatePost = async () => {
+		const { communityId } = router.query;
+		// const {title, body} = postInput;
+		// const newPost = {
+		// 	communityId: communityId as string,
+		// 	creatorId: user.uid,
+		// 	creatorDisplayName: user?.displayName
+		// 		? user.displayName
+		// 		: user.email!.split("@")[0],
+		// 	title: postInput.title,
+		// 	body: postInput.body,
+		// 	numberOfComments: 0,
+		// 	voteStatus: 0,
+		// 	createdAt: serverTimestamp() as Timestamp,
+		// };
+
+		// try {
+		// 	const postDocRef = await addDoc(collection(firestore, "posts"), newPost);
+		// 	if(isFileExists) {
+		// 		imagesAndVideos.forEach((imageAndVideo) => {
+		// 			const imageAndVideoDocRef = await
+		// 		});
+		// 	}
+		// } catch (error: any) {
+		// 	console.log("Post Creation ERROR:", error.message);
+		// }
+	};
 
 	const handleUploadImagesAndVideos = (
 		e: React.ChangeEvent<HTMLInputElement>
@@ -114,6 +155,9 @@ const NewPostForm: React.FC<NewPostFormProps> = () => {
 					};
 				}
 			});
+		}
+		if (imagesAndVideos.length > 0) {
+			setIsFileExists(true);
 		}
 	};
 
@@ -179,7 +223,7 @@ const NewPostForm: React.FC<NewPostFormProps> = () => {
 					</p>
 				</div>
 				{currentTab === "Post" && (
-					<Post
+					<PostForm
 						handleTextChange={handleTextChange}
 						bodyValue={postInput.body}
 						loading={loading}
