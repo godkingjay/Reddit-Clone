@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 
 import LoadingSpinner from "public/svg/loading-spinner.svg";
-import {
-	useAuthState,
-	useSendPasswordResetEmail,
-} from "react-firebase-hooks/auth";
+import { useSendPasswordResetEmail } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/clientApp";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { AuthModalState, authModalState } from "@/atoms/authModalAtom";
 import { FIREBASE_ERRORS } from "@/firebase/errors";
 import Image from "next/image";
@@ -23,7 +20,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = () => {
 	const [sendPasswordResetEmail, sending, error] =
 		useSendPasswordResetEmail(auth);
 
-	const [authModal, setAuthModal] = useRecoilState(authModalState);
+	const setAuthModal = useSetRecoilState(authModalState);
 
 	const [userError, setUserError] = useState<typeof error | null>(null);
 
