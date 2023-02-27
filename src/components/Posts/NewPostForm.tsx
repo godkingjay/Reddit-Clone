@@ -11,6 +11,14 @@ import { errorModalState } from "@/atoms/errorModalAtom";
 import { Post } from "@/atoms/postAtom";
 import { User } from "firebase/auth";
 import { useRouter } from "next/router";
+import {
+	Firestore,
+	Timestamp,
+	addDoc,
+	collection,
+	serverTimestamp,
+} from "firebase/firestore";
+import { firestore } from "@/firebase/clientApp";
 
 type NewPostFormProps = {
 	user: User;
@@ -65,6 +73,7 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 		body: "",
 	});
 	const [imagesAndVideos, setImagesAndVideos] = useState<ImageAndVideo[]>([]);
+	const [isFileExists, setIsFileExists] = useState(false);
 	const [postInputLength, setPostInputLength] = useState({
 		title: 0,
 		body: 0,
@@ -92,11 +101,30 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 
 	const handleCreatePost = async () => {
 		const { communityId } = router.query;
-		// const newPost: Post = {
-		// 	communityId,
-		// 	creatorId: user?.uid,
-		// 	creatorDisplayName: user?.displayName ? user.displayName : user?.email?.split("@")[0],
+		// const {title, body} = postInput;
+		// const newPost = {
+		// 	communityId: communityId as string,
+		// 	creatorId: user.uid,
+		// 	creatorDisplayName: user?.displayName
+		// 		? user.displayName
+		// 		: user.email!.split("@")[0],
+		// 	title: postInput.title,
+		// 	body: postInput.body,
+		// 	numberOfComments: 0,
+		// 	voteStatus: 0,
+		// 	createdAt: serverTimestamp() as Timestamp,
 		// };
+
+		// try {
+		// 	const postDocRef = await addDoc(collection(firestore, "posts"), newPost);
+		// 	if(isFileExists) {
+		// 		imagesAndVideos.forEach((imageAndVideo) => {
+		// 			const imageAndVideoDocRef = await
+		// 		});
+		// 	}
+		// } catch (error: any) {
+		// 	console.log("Post Creation ERROR:", error.message);
+		// }
 	};
 
 	const handleUploadImagesAndVideos = (
@@ -127,6 +155,9 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 					};
 				}
 			});
+		}
+		if (imagesAndVideos.length > 0) {
+			setIsFileExists(true);
 		}
 	};
 
