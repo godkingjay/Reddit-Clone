@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaCaretDown, FaCaretRight } from "react-icons/fa";
 import { AiFillHome, AiOutlineHome } from "react-icons/ai";
 import Link from "next/link";
