@@ -97,7 +97,6 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 		e.preventDefault();
 		setLoading(true);
 		handleCreatePost();
-		setLoading(false);
 	};
 
 	const handleCreatePost = async () => {
@@ -151,6 +150,7 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 		} catch (error: any) {
 			console.log("Post Creation ERROR:", error.message);
 		}
+		setLoading(false);
 	};
 
 	const handleUploadImagesAndVideos = (
@@ -268,7 +268,7 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 						type="submit"
 						title="Post"
 						className="page-button text-xs px-6 hover:bg-blue-600 hover:border-blue-600 focus:bg-blue-600 focus:border-blue-600 disabled:bg-gray-500 disabled:border-gray-500 w-[80px] h-[36px]"
-						disabled={postInputLength.title === 0}
+						disabled={postInputLength.title === 0 || loading}
 					>
 						{loading ? (
 							<LoadingSpinner className="aspect-square h-full w-full [&>path]:stroke-white animate-spin" />
