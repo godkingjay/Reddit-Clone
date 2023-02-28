@@ -8,17 +8,18 @@ import LoadingSpinner from "public/svg/loading-spinner.svg";
 import ImagesAndVideosForm from "./FormItems/ImagesAndVideosForm";
 import { useSetRecoilState } from "recoil";
 import { errorModalState } from "@/atoms/errorModalAtom";
-import { Post } from "@/atoms/postAtom";
 import { User } from "firebase/auth";
 import { useRouter } from "next/router";
 import {
-	Firestore,
 	Timestamp,
 	addDoc,
 	collection,
+	doc,
+	runTransaction,
 	serverTimestamp,
 } from "firebase/firestore";
-import { firestore } from "@/firebase/clientApp";
+import { firestore, storage } from "@/firebase/clientApp";
+import { getDownloadURL, ref, uploadString } from "firebase/storage";
 
 type NewPostFormProps = {
 	user: User;
@@ -101,30 +102,56 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 
 	const handleCreatePost = async () => {
 		const { communityId } = router.query;
-		// const {title, body} = postInput;
-		// const newPost = {
-		// 	communityId: communityId as string,
-		// 	creatorId: user.uid,
-		// 	creatorDisplayName: user?.displayName
-		// 		? user.displayName
-		// 		: user.email!.split("@")[0],
-		// 	title: postInput.title,
-		// 	body: postInput.body,
-		// 	numberOfComments: 0,
-		// 	voteStatus: 0,
-		// 	createdAt: serverTimestamp() as Timestamp,
-		// };
+		const { title, body } = postInput;
 
-		// try {
-		// 	const postDocRef = await addDoc(collection(firestore, "posts"), newPost);
-		// 	if(isFileExists) {
-		// 		imagesAndVideos.forEach((imageAndVideo) => {
-		// 			const imageAndVideoDocRef = await
-		// 		});
-		// 	}
-		// } catch (error: any) {
-		// 	console.log("Post Creation ERROR:", error.message);
-		// }
+		const newPost = {
+			communityId: communityId as string,
+			creatorId: user.uid,
+			creatorDisplayName: user?.displayName
+				? user.displayName
+				: user.email!.split("@")[0],
+			title,
+			body,
+			numberOfComments: 0,
+			voteStatus: 0,
+			createdAt: serverTimestamp() as Timestamp,
+		};
+
+		try {
+			const postDocRef = await addDoc(collection(firestore, "posts"), newPost);
+			if (imagesAndVideos.length > 0) {
+				imagesAndVideos.forEach(async (imageAndVideo) => {
+					await runTransaction(firestore, async (transaction) => {
+						const imageAndVideoStorageRef = await ref(
+							storage,
+							`posts/${postDocRef.id}/${imageAndVideo.index}-${imageAndVideo.name}-${imagesAndVideos.length}`
+						);
+						await uploadString(
+							imageAndVideoStorageRef,
+							imageAndVideo.url,
+							"data_url"
+						);
+						const downloadURL = await getDownloadURL(imageAndVideoStorageRef);
+						const postImageAndVideoDocRef = doc(
+							firestore,
+							`posts/${postDocRef.id}/imageAndVideos`,
+							downloadURL.split("=").pop() as string
+						);
+						console.log(imageAndVideoStorageRef.fullPath);
+						const newImageAndVideo = {
+							postId: postDocRef.id,
+							type: imageAndVideo.type,
+							name: imageAndVideo.name,
+							url: downloadURL,
+							id: downloadURL.split("=").pop() as string,
+						};
+						transaction.set(postImageAndVideoDocRef, newImageAndVideo);
+					});
+				});
+			}
+		} catch (error: any) {
+			console.log("Post Creation ERROR:", error.message);
+		}
 	};
 
 	const handleUploadImagesAndVideos = (
