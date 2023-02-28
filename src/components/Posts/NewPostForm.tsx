@@ -261,6 +261,7 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 						handleUploadImagesAndVideos={handleUploadImagesAndVideos}
 						handleRemoveImageAndVideo={handleRemoveImageAndVideo}
 						maxUploads={maxUploads}
+						loading={loading}
 					/>
 				)}
 				<div className="flex flex-row items-center justify-end pt-4 border-t-[1px] border-solid border-gray-200">
