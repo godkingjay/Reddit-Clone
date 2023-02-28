@@ -3,7 +3,7 @@ import { MdOutlineError } from "react-icons/md";
 
 type ErrorBannerProps = {
 	title: string;
-	message: string;
+	message?: string;
 	setError: (message: string) => void;
 };
 
@@ -14,15 +14,15 @@ const ErrorBanner: React.FC<ErrorBannerProps> = ({
 }) => {
 	return (
 		<div className="w-full">
-			<div className="flex flex-row bg-red-300 gap-x-2 p-2">
-				<div className="flex-1 flex flex-row py-2 gap-x-2">
-					<div className="h-8 w-8 aspect-square my-1">
+			<div
+				className="flex flex-row bg-red-300 gap-x-2 p-2"
+				title={message}
+			>
+				<div className="flex-1 flex flex-row py-2 gap-x-4 items-center">
+					<div className="h-8 w-8 aspect-square">
 						<MdOutlineError className="h-full w-full text-red-500" />
 					</div>
-					<h2 className="w-28 font-bold text-sm">{title}</h2>
-					<div className="flex-1 overflow-x-hidden">
-						<p className="break-words w-full text-sm">{message}</p>
-					</div>
+					<h2 className="w-full font-bold text-sm">{title}</h2>
 				</div>
 				<button
 					type="button"
