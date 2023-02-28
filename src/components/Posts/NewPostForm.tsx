@@ -20,6 +20,7 @@ import {
 } from "firebase/firestore";
 import { firestore, storage } from "@/firebase/clientApp";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import ErrorBanner from "../Banner/ErrorBanner";
 
 type NewPostFormProps = {
 	user: User;
@@ -67,20 +68,20 @@ const maxFileSize = 20000000;
 
 const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 	const router = useRouter();
+	const setErrorModal = useSetRecoilState(errorModalState);
 	const [currentTab, setCurrentTab] = useState(formTabs[0].title);
 	const [loading, setLoading] = useState(false);
+	const [imagesAndVideos, setImagesAndVideos] = useState<ImageAndVideo[]>([]);
+	const [isFileExists, setIsFileExists] = useState(false);
+	const [postError, setPostError] = useState("");
 	const [postInput, setPostInput] = useState({
 		title: "",
 		body: "",
 	});
-	const [imagesAndVideos, setImagesAndVideos] = useState<ImageAndVideo[]>([]);
-	const [isFileExists, setIsFileExists] = useState(false);
 	const [postInputLength, setPostInputLength] = useState({
 		title: 0,
 		body: 0,
 	});
-	const [postError, setPostError] = useState("");
-	const setErrorModal = useSetRecoilState(errorModalState);
 
 	const validateFile = (fileName: string, fileSize: number) => {
 		const allowedExtensions = /(\.jpg|\.jpeg|\.jfif|\.pjpeg|\.pjp|\.png)$/i;
@@ -288,6 +289,13 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 					</button>
 				</div>
 			</div>
+			{postError && (
+				<ErrorBanner
+					title="Post Creation Error"
+					message={postError}
+					setError={setPostError}
+				/>
+			)}
 		</form>
 	);
 };
