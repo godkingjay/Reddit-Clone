@@ -1,3 +1,4 @@
+import { ImagesAndVideos, postState } from "@/atoms/postAtom";
 import { firestore } from "@/firebase/clientApp";
 import {
 	DocumentData,
@@ -5,8 +6,17 @@ import {
 	collection,
 	getDocs,
 } from "firebase/firestore";
+import { useRecoilState } from "recoil";
 
 const usePosts = () => {
+	const [postStateValue, setPostsStateValue] = useRecoilState(postState);
+
+	const onVote = async () => {};
+
+	const onSelectPost = () => {};
+
+	const onDelete = async () => {};
+
 	const getPostImagesAndVideos = async (
 		doc: QueryDocumentSnapshot<DocumentData>
 	) => {
@@ -14,10 +24,12 @@ const usePosts = () => {
 			const postImagesAndVideosDocs = await getDocs(
 				collection(firestore, `posts/${doc.id}/imagesAndVideos`)
 			);
-			const postImagesAndVideos = postImagesAndVideosDocs.docs.map((doc) => ({
-				...doc.data(),
-			}));
-			return postImagesAndVideos as [];
+			const postImagesAndVideos = await postImagesAndVideosDocs.docs.map(
+				(doc) => ({
+					...doc.data(),
+				})
+			);
+			return postImagesAndVideos as ImagesAndVideos[];
 		} catch (error: any) {
 			console.log("Getting Images and Videos Error:", error.message);
 			return [];
@@ -26,6 +38,8 @@ const usePosts = () => {
 
 	return {
 		getPostImagesAndVideos,
+		postStateValue,
+		setPostsStateValue,
 	};
 };
 

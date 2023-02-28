@@ -13,6 +13,7 @@ import {
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import LoadingSpinner from "public/svg/loading-spinner.svg";
+import { ImagesAndVideos, Post } from "@/atoms/postAtom";
 
 type PostProps = {
 	communityData: Community;
@@ -22,7 +23,8 @@ const Posts: React.FC<PostProps> = ({ communityData }) => {
 	const [user] = useAuthState(auth);
 	const [loadingPosts, setLoadingPosts] = useState(true);
 	const [postsLoadError, setPostsLoadError] = useState("");
-	const { getPostImagesAndVideos } = usePosts();
+	const { getPostImagesAndVideos, postStateValue, setPostsStateValue } =
+		usePosts();
 
 	const getPosts = async () => {
 		setLoadingPosts(true);
@@ -35,10 +37,27 @@ const Posts: React.FC<PostProps> = ({ communityData }) => {
 
 			const postDocs = await getDocs(postQuery);
 
-			const posts = postDocs.docs.map((doc) => ({
-				id: doc.id,
-				...doc.data(),
-				imagesAndVideos: getPostImagesAndVideos(doc),
+			const posts = await Promise.all(
+				postDocs.docs.map(async (doc) => {
+					const imagesAndVideos = await getPostImagesAndVideos(doc);
+					if (imagesAndVideos.length > 0) {
+						return {
+							...doc.data(),
+							id: doc.id,
+							imagesAndVideos,
+						};
+					} else {
+						return {
+							...doc.data(),
+							id: doc.id,
+						};
+					}
+				})
+			);
+
+			setPostsStateValue((prev) => ({
+				...prev,
+				posts: posts as Post[],
 			}));
 		} catch (error: any) {
 			console.log(error.message);
