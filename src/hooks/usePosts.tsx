@@ -6,7 +6,7 @@ import {
 	getDocs,
 } from "firebase/firestore";
 
-const usePostsData = () => {
+const usePosts = () => {
 	const getPostImagesAndVideos = async (
 		doc: QueryDocumentSnapshot<DocumentData>
 	) => {
@@ -29,4 +29,4 @@ const usePostsData = () => {
 	};
 };
 
-export default usePostsData;
+export default usePosts;

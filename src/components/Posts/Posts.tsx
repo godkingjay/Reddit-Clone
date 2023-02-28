@@ -1,6 +1,6 @@
 import { Community } from "@/atoms/communitiesAtom";
 import { auth, firestore } from "@/firebase/clientApp";
-import usePostsData from "@/hooks/usePostsData";
+import usePosts from "@/hooks/usePosts";
 import {
 	DocumentData,
 	QueryDocumentSnapshot,
@@ -21,9 +21,10 @@ const Posts: React.FC<PostProps> = ({ communityData }) => {
 	const [user] = useAuthState(auth);
 	const [loading, setLoading] = useState(false);
 	const [postsLoadError, setPostsLoadError] = useState("");
-	const { getPostImagesAndVideos } = usePostsData();
+	const { getPostImagesAndVideos } = usePosts();
 
 	const getPosts = async () => {
+		setLoading(true);
 		try {
 			const postQuery = query(
 				collection(firestore, "posts"),
@@ -41,6 +42,7 @@ const Posts: React.FC<PostProps> = ({ communityData }) => {
 		} catch (error: any) {
 			console.log(error.message);
 		}
+		setLoading(false);
 	};
 
 	useEffect(() => {
