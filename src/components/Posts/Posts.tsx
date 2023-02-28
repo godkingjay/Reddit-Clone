@@ -12,6 +12,7 @@ import {
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import LoadingSpinner from "public/svg/loading-spinner.svg";
 
 type PostProps = {
 	communityData: Community;
@@ -19,12 +20,12 @@ type PostProps = {
 
 const Posts: React.FC<PostProps> = ({ communityData }) => {
 	const [user] = useAuthState(auth);
-	const [loading, setLoading] = useState(false);
+	const [loadingPosts, setLoadingPosts] = useState(true);
 	const [postsLoadError, setPostsLoadError] = useState("");
 	const { getPostImagesAndVideos } = usePosts();
 
 	const getPosts = async () => {
-		setLoading(true);
+		setLoadingPosts(true);
 		try {
 			const postQuery = query(
 				collection(firestore, "posts"),
@@ -42,14 +43,29 @@ const Posts: React.FC<PostProps> = ({ communityData }) => {
 		} catch (error: any) {
 			console.log(error.message);
 		}
-		setLoading(false);
+		setLoadingPosts(false);
 	};
 
 	useEffect(() => {
 		getPosts();
 	}, []);
 
-	return <div>Posts</div>;
+	return (
+		<div className="w-full flex flex-col">
+			{loadingPosts ? (
+				<div className="w-full py-4">
+					<div className="w-full flex flex-col items-center gap-y-4">
+						<div className="aspect-square w-12 h-12">
+							<LoadingSpinner className="loading-spinner-posts animate-spin" />
+						</div>
+						<h2 className="font-bold text-gray-700">Loading Posts</h2>
+					</div>
+				</div>
+			) : (
+				<></>
+			)}
+		</div>
+	);
 };
 
 export default Posts;
