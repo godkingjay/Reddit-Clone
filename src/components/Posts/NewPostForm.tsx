@@ -8,17 +8,18 @@ import LoadingSpinner from "public/svg/loading-spinner.svg";
 import ImagesAndVideosForm from "./FormItems/ImagesAndVideosForm";
 import { useSetRecoilState } from "recoil";
 import { errorModalState } from "@/atoms/errorModalAtom";
-import { Post } from "@/atoms/postAtom";
 import { User } from "firebase/auth";
 import { useRouter } from "next/router";
 import {
-	Firestore,
 	Timestamp,
 	addDoc,
 	collection,
+	doc,
+	runTransaction,
 	serverTimestamp,
 } from "firebase/firestore";
-import { firestore } from "@/firebase/clientApp";
+import { firestore, storage } from "@/firebase/clientApp";
+import { getDownloadURL, ref, uploadString } from "firebase/storage";
 
 type NewPostFormProps = {
 	user: User;
@@ -78,6 +79,7 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 		title: 0,
 		body: 0,
 	});
+	const [postError, setPostError] = useState("");
 	const setErrorModal = useSetRecoilState(errorModalState);
 
 	const validateFile = (fileName: string, fileSize: number) => {
@@ -96,35 +98,68 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 		e.preventDefault();
 		setLoading(true);
 		handleCreatePost();
-		setLoading(false);
 	};
 
 	const handleCreatePost = async () => {
 		const { communityId } = router.query;
-		// const {title, body} = postInput;
-		// const newPost = {
-		// 	communityId: communityId as string,
-		// 	creatorId: user.uid,
-		// 	creatorDisplayName: user?.displayName
-		// 		? user.displayName
-		// 		: user.email!.split("@")[0],
-		// 	title: postInput.title,
-		// 	body: postInput.body,
-		// 	numberOfComments: 0,
-		// 	voteStatus: 0,
-		// 	createdAt: serverTimestamp() as Timestamp,
-		// };
+		const { title, body } = postInput;
 
-		// try {
-		// 	const postDocRef = await addDoc(collection(firestore, "posts"), newPost);
-		// 	if(isFileExists) {
-		// 		imagesAndVideos.forEach((imageAndVideo) => {
-		// 			const imageAndVideoDocRef = await
-		// 		});
-		// 	}
-		// } catch (error: any) {
-		// 	console.log("Post Creation ERROR:", error.message);
-		// }
+		const newPost = {
+			communityId: communityId as string,
+			creatorId: user.uid,
+			creatorDisplayName: user?.displayName
+				? user.displayName
+				: user.email!.split("@")[0],
+			title,
+			body,
+			numberOfComments: 0,
+			voteStatus: 0,
+			createdAt: serverTimestamp() as Timestamp,
+		};
+
+		try {
+			const postDocRef = await addDoc(collection(firestore, "posts"), newPost);
+			if (imagesAndVideos.length > 0) {
+				imagesAndVideos.forEach(async (imageAndVideo) => {
+					await runTransaction(firestore, async (transaction) => {
+						const imageAndVideoStorageRef = await ref(
+							storage,
+							`posts/${postDocRef.id}/${imageAndVideo.index}-${imageAndVideo.name}-${imagesAndVideos.length}`
+						);
+						await uploadString(
+							imageAndVideoStorageRef,
+							imageAndVideo.url,
+							"data_url"
+						);
+						const downloadURL = await getDownloadURL(imageAndVideoStorageRef);
+						const postImageAndVideoDocRef = doc(
+							firestore,
+							`posts/${postDocRef.id}/imageAndVideos`,
+							downloadURL.split("=").pop() as string
+						);
+						const newImageAndVideo = {
+							postId: postDocRef.id,
+							type: imageAndVideo.type,
+							name: imageAndVideo.name,
+							url: downloadURL,
+							id: downloadURL.split("=").pop() as string,
+						};
+						transaction.set(postImageAndVideoDocRef, newImageAndVideo);
+					});
+				});
+			}
+		} catch (error: any) {
+			console.log("Post Creation ERROR:", error.message);
+			setPostError(error.message as string);
+		}
+		setLoading(false);
+		if (postError.length === 0) {
+			setImagesAndVideos([]);
+			setIsFileExists(false);
+			setPostInput({ title: "", body: "" });
+			setPostInputLength({ title: 0, body: 0 });
+			router.push(`/r/${communityId}`);
+		}
 	};
 
 	const handleUploadImagesAndVideos = (
@@ -235,6 +270,7 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 						handleUploadImagesAndVideos={handleUploadImagesAndVideos}
 						handleRemoveImageAndVideo={handleRemoveImageAndVideo}
 						maxUploads={maxUploads}
+						loading={loading}
 					/>
 				)}
 				<div className="flex flex-row items-center justify-end pt-4 border-t-[1px] border-solid border-gray-200">
@@ -242,7 +278,7 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 						type="submit"
 						title="Post"
 						className="page-button text-xs px-6 hover:bg-blue-600 hover:border-blue-600 focus:bg-blue-600 focus:border-blue-600 disabled:bg-gray-500 disabled:border-gray-500 w-[80px] h-[36px]"
-						disabled={postInputLength.title === 0}
+						disabled={postInputLength.title === 0 || loading}
 					>
 						{loading ? (
 							<LoadingSpinner className="aspect-square h-full w-full [&>path]:stroke-white animate-spin" />

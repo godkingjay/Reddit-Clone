@@ -7,6 +7,7 @@ type UploadsProps = {
 	uploadImagesAndVideos: React.RefObject<HTMLInputElement>;
 	handleRemoveImageAndVideo: (index: number) => void;
 	maxUploads: number;
+	loading: boolean;
 };
 
 const Uploads: React.FC<UploadsProps> = ({
@@ -14,6 +15,7 @@ const Uploads: React.FC<UploadsProps> = ({
 	uploadImagesAndVideos,
 	handleRemoveImageAndVideo,
 	maxUploads,
+	loading,
 }) => {
 	return (
 		<div className="relative w-full grid grid-cols-2 xs:grid-cols-3 md:grid-cols-4 border-[1px] border-solid border-gray-300 rounded-md gap-4 p-4 hover:border-blue-500 focus-within:border-blue-500">
@@ -23,7 +25,7 @@ const Uploads: React.FC<UploadsProps> = ({
 					className="aspect-square h-full w-full flex flex-col items-center justify-center border-solid border-[1px] border-gray-300 rounded-md p-2 hover:border-blue-500 hover:bg-blue-500 hover:bg-opacity-5 focus-within:border-blue-500 focus-within:bg-blue-500 focus-within:bg-opacity-5"
 				>
 					<div
-						tabIndex={0}
+						tabIndex={loading ? -1 : 0}
 						title={imageAndVideo.name}
 						className={`relative z-0 block h-full w-full bg-gray-300 rounded-md overflow-hidden group`}
 					>
@@ -40,6 +42,7 @@ const Uploads: React.FC<UploadsProps> = ({
 							title="Remove Image/Video"
 							className="absolute z-10 bg-white hidden h-[32px] w-[32px] place-items-center rounded-full p-1 group right-1 top-1 group-hover:grid group-focus-within:grid hover:bg-red-500 focus:bg-red-500 hover:text-white focus:text-white shadow-lg"
 							onClick={() => handleRemoveImageAndVideo(imageAndVideo.index)}
+							disabled={loading}
 						>
 							<IoClose className="h-full w-full" />
 						</button>
@@ -51,7 +54,7 @@ const Uploads: React.FC<UploadsProps> = ({
 				title="Upload Image/Video"
 				className="aspect-square h-full w-full grid place-items-center p-2 border-2 rounded-md border-dashed border-gray-300 bg-transparent text-gray-300 hover:bg-blue-500 hover:bg-opacity-10 hover:text-blue-500 hover:border-blue-500 focus:bg-blue-500 focus:bg-opacity-10 mr-auto focus:text-blue-500 focus:border-blue-500 disabled:hidden"
 				onClick={() => uploadImagesAndVideos.current?.click()}
-				disabled={imagesAndVideos.length >= maxUploads}
+				disabled={imagesAndVideos.length >= maxUploads || loading}
 			>
 				<IoAdd className="h-full w-full aspect-square max-h-[48px]" />
 			</button>
