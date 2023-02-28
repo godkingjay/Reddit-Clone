@@ -20,6 +20,7 @@ import {
 } from "firebase/firestore";
 import { firestore, storage } from "@/firebase/clientApp";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import ErrorBanner from "../Banner/ErrorBanner";
 
 type NewPostFormProps = {
 	user: User;
@@ -67,20 +68,20 @@ const maxFileSize = 20000000;
 
 const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 	const router = useRouter();
+	const setErrorModal = useSetRecoilState(errorModalState);
 	const [currentTab, setCurrentTab] = useState(formTabs[0].title);
 	const [loading, setLoading] = useState(false);
+	const [imagesAndVideos, setImagesAndVideos] = useState<ImageAndVideo[]>([]);
+	const [isFileExists, setIsFileExists] = useState(false);
+	const [postError, setPostError] = useState("");
 	const [postInput, setPostInput] = useState({
 		title: "",
 		body: "",
 	});
-	const [imagesAndVideos, setImagesAndVideos] = useState<ImageAndVideo[]>([]);
-	const [isFileExists, setIsFileExists] = useState(false);
 	const [postInputLength, setPostInputLength] = useState({
 		title: 0,
 		body: 0,
 	});
-	const [postError, setPostError] = useState("");
-	const setErrorModal = useSetRecoilState(errorModalState);
 
 	const validateFile = (fileName: string, fileSize: number) => {
 		const allowedExtensions = /(\.jpg|\.jpeg|\.jfif|\.pjpeg|\.pjp|\.png)$/i;
@@ -96,6 +97,7 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		setPostError("");
 		setLoading(true);
 		handleCreatePost();
 	};
@@ -216,9 +218,9 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 	return (
 		<form
 			onSubmit={handleSubmit}
-			className="bordered-box-1 flex flex-col bg-white rounded-md overflow-hidden"
+			className="bordered-box-1 flex flex-col bg-white rounded-md overflow-hidden overflow-x-hidden"
 		>
-			<div className="tab-items-container flex flex-row w-full">
+			<div className="tab-items-container flex flex-row w-full overflow-x-auto scroll-x-style">
 				{formTabs.map((tab) => (
 					<TabItem
 						key={tab.title}
@@ -288,6 +290,13 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 					</button>
 				</div>
 			</div>
+			{postError && (
+				<ErrorBanner
+					title="Post Creation Error"
+					message={postError}
+					setError={setPostError}
+				/>
+			)}
 		</form>
 	);
 };
