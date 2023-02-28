@@ -158,6 +158,7 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 			setIsFileExists(false);
 			setPostInput({ title: "", body: "" });
 			setPostInputLength({ title: 0, body: 0 });
+			router.push(`/r/${communityId}`);
 		}
 	};
 
