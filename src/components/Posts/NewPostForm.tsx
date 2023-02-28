@@ -137,7 +137,6 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 							`posts/${postDocRef.id}/imageAndVideos`,
 							downloadURL.split("=").pop() as string
 						);
-						console.log(imageAndVideoStorageRef.fullPath);
 						const newImageAndVideo = {
 							postId: postDocRef.id,
 							type: imageAndVideo.type,
