@@ -10,7 +10,7 @@ const PageContentLayout: React.FC<PageContentLayoutProps> = ({ children }) => {
 			{children && (
 				<>
 					<div className="w-full">{children[0]}</div>
-					<div className="hidden w-[320px] max-w-xs lg:block">
+					<div className="hidden min-w-[320px] max-w-xs lg:block">
 						{children[1]}
 					</div>
 				</>
