@@ -216,9 +216,9 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 	return (
 		<form
 			onSubmit={handleSubmit}
-			className="bordered-box-1 flex flex-col bg-white rounded-md overflow-hidden"
+			className="bordered-box-1 flex flex-col bg-white rounded-md overflow-hidden overflow-x-hidden"
 		>
-			<div className="tab-items-container flex flex-row w-full">
+			<div className="tab-items-container flex flex-row w-full overflow-x-auto scroll-x-style">
 				{formTabs.map((tab) => (
 					<TabItem
 						key={tab.title}
