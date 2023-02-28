@@ -7,7 +7,7 @@ import {
 } from "firebase/firestore";
 
 const usePostsData = () => {
-	const getImagesAndVideos = async (
+	const getPostImagesAndVideos = async (
 		doc: QueryDocumentSnapshot<DocumentData>
 	) => {
 		try {
@@ -25,7 +25,7 @@ const usePostsData = () => {
 	};
 
 	return {
-		getImagesAndVideos,
+		getPostImagesAndVideos,
 	};
 };
 
