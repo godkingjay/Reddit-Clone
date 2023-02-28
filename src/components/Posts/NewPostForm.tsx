@@ -79,6 +79,7 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 		title: 0,
 		body: 0,
 	});
+	const [postError, setPostError] = useState("");
 	const setErrorModal = useSetRecoilState(errorModalState);
 
 	const validateFile = (fileName: string, fileSize: number) => {
@@ -149,8 +150,15 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 			}
 		} catch (error: any) {
 			console.log("Post Creation ERROR:", error.message);
+			setPostError(error.message as string);
 		}
 		setLoading(false);
+		if (postError.length === 0) {
+			setImagesAndVideos([]);
+			setIsFileExists(false);
+			setPostInput({ title: "", body: "" });
+			setPostInputLength({ title: 0, body: 0 });
+		}
 	};
 
 	const handleUploadImagesAndVideos = (
