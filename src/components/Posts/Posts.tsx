@@ -21,7 +21,7 @@ const Posts: React.FC<PostProps> = ({ communityData }) => {
 	const [user] = useAuthState(auth);
 	const [loading, setLoading] = useState(false);
 	const [postsLoadError, setPostsLoadError] = useState("");
-	const { getImagesAndVideos } = usePostsData();
+	const { getPostImagesAndVideos } = usePostsData();
 
 	const getPosts = async () => {
 		try {
@@ -36,7 +36,7 @@ const Posts: React.FC<PostProps> = ({ communityData }) => {
 			const posts = postDocs.docs.map((doc) => ({
 				id: doc.id,
 				...doc.data(),
-				imagesAndVideos: getImagesAndVideos(doc),
+				imagesAndVideos: getPostImagesAndVideos(doc),
 			}));
 		} catch (error: any) {
 			console.log(error.message);
