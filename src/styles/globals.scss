@@ -22,4 +22,16 @@
 		background: #0004;
 		@apply rounded-full;
 	}
+
+	.scroll-x-style::-webkit-scrollbar {
+		height: 4px;
+		width: 100%;
+		background: #0001;
+		@apply rounded-full;
+	}
+
+	.scroll-x-style::-webkit-scrollbar-thumb {
+		background: #0004;
+		@apply rounded-full;
+	}
 }
