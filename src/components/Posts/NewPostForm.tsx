@@ -136,7 +136,7 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 						const downloadURL = await getDownloadURL(imageAndVideoStorageRef);
 						const postImageAndVideoDocRef = doc(
 							firestore,
-							`posts/${postDocRef.id}/imageAndVideos`,
+							`posts/${postDocRef.id}/imagesAndVideos`,
 							downloadURL.split("=").pop() as string
 						);
 						const newImageAndVideo = {

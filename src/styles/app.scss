@@ -1,4 +1,12 @@
 @layer components {
+	.loading-spinner-posts {
+		@apply h-full w-full;
+
+		path {
+			@apply stroke-blue-500;
+		}
+	}
+
 	.modal-pop-up {
 		.modal-close {
 			@apply outline-offset-4;
