@@ -39,8 +39,8 @@ const PostItem: React.FC<PostItemProps> = ({
 			tabIndex={0}
 			onClick={onSelectPost}
 		>
-			<div className="w-full flex flex-row">
-				<div className="flex flex-col bg-gray-100 p-2 items-center rounded-l-md gap-y-1">
+			<div className="post-card-wrapper w-full flex flex-row">
+				<div className="post-card-container flex flex-col bg-gray-100 p-2 items-center rounded-l-md gap-y-1">
 					<button
 						type="button"
 						title="Upvote"
@@ -79,8 +79,13 @@ const PostItem: React.FC<PostItemProps> = ({
 					<h2 className="text-sm font-bold">{post.title}</h2>
 					<div className="w-full">
 						<p
-							className="text-xs break-normal"
-							style={{ hyphens: "auto" }}
+							className="text-xs break-all text-left"
+							style={{
+								hyphens: "auto",
+								msHyphens: "auto",
+								MozHyphens: "auto",
+								WebkitHyphens: "auto",
+							}}
 						>
 							{post.body}
 						</p>
@@ -124,7 +129,7 @@ const PostItem: React.FC<PostItemProps> = ({
 							</div>
 						</div>
 					)}
-					<div className="post-footer-buttons bg-white flex flex-row items-center gap-x-2">
+					<div className="post-footer-buttons bg-white flex flex-row items-center gap-	x-2">
 						<button
 							type="button"
 							title="Comments"
