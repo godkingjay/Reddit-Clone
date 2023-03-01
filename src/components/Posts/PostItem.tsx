@@ -43,7 +43,7 @@ const PostItem: React.FC<PostItemProps> = ({
 					<button
 						type="button"
 						title="Upvote"
-						className="h-7 w-7 aspect-square hover:text-brand-100 focus:text-brand-100"
+						className="h-7 w-7 aspect-square text-gray-400 hover:text-brand-100 focus:text-brand-100"
 						onClick={onVote}
 					>
 						{userVoteValue === 1 ? (
@@ -52,11 +52,21 @@ const PostItem: React.FC<PostItemProps> = ({
 							<IoArrowUpCircleOutline className="h-full w-full" />
 						)}
 					</button>
-					<p className="font-bold">{post.voteStatus}</p>
+					<p
+						className={`font-bold ${
+							userVoteValue === 1
+								? "text-brand-100"
+								: userVoteValue === -1
+								? "text-blue-500"
+								: "text-gray-800"
+						}`}
+					>
+						{post.voteStatus}
+					</p>
 					<button
 						type="button"
 						title="Downvote"
-						className="h-7 w-7 aspect-square hover:text-blue-500 focus:text-blue-500"
+						className="h-7 w-7 aspect-square text-gray-400 hover:text-blue-500 focus:text-blue-500"
 						onClick={onVote}
 					>
 						{userVoteValue === -1 ? (
