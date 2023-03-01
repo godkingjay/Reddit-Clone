@@ -150,18 +150,18 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 					});
 				});
 			}
+			if (postError.length === 0) {
+				setImagesAndVideos([]);
+				setIsFileExists(false);
+				setPostInput({ title: "", body: "" });
+				setPostInputLength({ title: 0, body: 0 });
+				router.push(`/r/${communityId}`);
+			}
 		} catch (error: any) {
 			console.log("Post Creation ERROR:", error.message);
 			setPostError(error.message as string);
 		}
 		setLoading(false);
-		if (postError.length === 0) {
-			setImagesAndVideos([]);
-			setIsFileExists(false);
-			setPostInput({ title: "", body: "" });
-			setPostInputLength({ title: 0, body: 0 });
-			router.push(`/r/${communityId}`);
-		}
 	};
 
 	const handleUploadImagesAndVideos = (
