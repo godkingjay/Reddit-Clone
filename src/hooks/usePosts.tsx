@@ -15,7 +15,7 @@ const usePosts = () => {
 
 	const onSelectPost = () => {};
 
-	const onDelete = async () => {};
+	const onDeletePost = async () => {};
 
 	const getPostImagesAndVideos = async (
 		doc: QueryDocumentSnapshot<DocumentData>
@@ -40,7 +40,7 @@ const usePosts = () => {
 		getPostImagesAndVideos,
 		postStateValue,
 		setPostsStateValue,
-		onDelete,
+		onDeletePost,
 		onSelectPost,
 		onVote,
 	};
