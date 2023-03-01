@@ -79,6 +79,11 @@ export const getServerSideProps = async (
 		};
 	} catch (error) {
 		console.log("getServerSideError: " + error);
+		return {
+			props: {
+				communityData: "",
+			},
+		};
 	}
 };
 
