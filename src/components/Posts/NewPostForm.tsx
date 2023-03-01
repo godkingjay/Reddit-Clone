@@ -38,6 +38,7 @@ export type ImageAndVideo = {
 	index: number;
 	caption: string;
 	link: string;
+	path?: string;
 };
 
 const formTabs: FormTabItem[] = [
@@ -124,9 +125,13 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 			if (imagesAndVideos.length > 0) {
 				imagesAndVideos.forEach(async (imageAndVideo) => {
 					await runTransaction(firestore, async (transaction) => {
+						imageAndVideo = {
+							...imageAndVideo,
+							path: `posts/${postDocRef.id}/${imageAndVideo.index}-${imageAndVideo.name}-${imagesAndVideos.length}`,
+						};
 						const imageAndVideoStorageRef = await ref(
 							storage,
-							`posts/${postDocRef.id}/${imageAndVideo.index}-${imageAndVideo.name}-${imagesAndVideos.length}`
+							imageAndVideo.path
 						);
 						await uploadString(
 							imageAndVideoStorageRef,
@@ -145,6 +150,7 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 							name: imageAndVideo.name,
 							url: downloadURL,
 							id: downloadURL.split("=").pop() as string,
+							path: imageAndVideo.path,
 						};
 						transaction.set(postImageAndVideoDocRef, newImageAndVideo);
 					});

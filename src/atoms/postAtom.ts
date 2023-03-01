@@ -7,6 +7,7 @@ export type ImagesAndVideos = {
 	postId: string;
 	type: string;
 	url: string;
+	path: string;
 };
 
 export type Post = {
