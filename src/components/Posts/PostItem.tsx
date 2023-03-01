@@ -2,17 +2,15 @@ import { Post } from "@/atoms/postAtom";
 import moment from "moment";
 import Image from "next/image";
 import React, { useState } from "react";
-import { BiMessageSquare, BiMessageSquareDetail } from "react-icons/bi";
-import { FaRegShareSquare, FaRegSquare } from "react-icons/fa";
-import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { BiMessageSquareDetail } from "react-icons/bi";
+import { BsThreeDots } from "react-icons/bs";
+import { FaRegBookmark, FaRegShareSquare, FaRegTrashAlt } from "react-icons/fa";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import {
 	IoArrowDownCircle,
 	IoArrowDownCircleOutline,
-	IoArrowUp,
 	IoArrowUpCircle,
 	IoArrowUpCircleOutline,
-	IoArrowUpOutline,
 } from "react-icons/io5";
 
 type PostItemProps = {
@@ -130,39 +128,62 @@ const PostItem: React.FC<PostItemProps> = ({
 							</div>
 						</div>
 					)}
-					<div className="post-footer-buttons bg-white flex flex-row items-center gap-x-2">
+					<div className="post-footer-buttons bg-white flex flex-row items-center gap-x-2 relative">
 						<button
 							type="button"
 							title="Comments"
-							className="p-2 flex flex-row items-center text-gray-500 gap-x-1 rounded-md hover:bg-gray-200 focus:bg-gray-200"
+							className="p-2 flex flex-row items-center text-gray-500 gap-x-2 rounded-md hover:bg-gray-200 focus:bg-gray-200"
 						>
 							<div className="aspect-square h-6 w-6">
 								<BiMessageSquareDetail className="h-full w-full" />
 							</div>
 							<p className="font-semibold text-sm">
-								{post.numberOfComments} Comments
+								{post.numberOfComments}
+								<span className="hidden xs:inline"> Comments</span>
 							</p>
 						</button>
 						<button
 							type="button"
 							title="Comments"
-							className="p-2 flex flex-row items-center text-gray-500 gap-x-1 rounded-md hover:bg-gray-200 focus:bg-gray-200"
+							className="p-2 flex flex-row items-center text-gray-500 gap-x-2 rounded-md hover:bg-gray-200 focus:bg-gray-200"
 						>
 							<div className="aspect-square h-6 w-6">
 								<FaRegShareSquare className="h-full w-full" />
 							</div>
-							<p className="font-semibold text-sm">Share</p>
+							<p className="font-semibold text-sm hidden xs:inline">Share</p>
 						</button>
 						<button
 							type="button"
 							title="Comments"
-							className="p-2 flex flex-row items-center text-gray-500 gap-x-1 rounded-md hover:bg-gray-200 focus:bg-gray-200"
+							className="p-2 flex flex-row items-center text-gray-500 gap-x-2 rounded-md hover:bg-gray-200 focus:bg-gray-200"
 						>
 							<div className="aspect-square h-6 w-6">
-								<BiMessageSquareDetail className="h-full w-full" />
+								<FaRegBookmark className="h-full w-full" />
 							</div>
-							<p className="font-semibold text-sm">Comments</p>
+							<p className="font-semibold text-sm hidden xs:inline">Comments</p>
 						</button>
+						<details className="ml-auto flex flex-row items-center [&[open]>summary]:bg-gray-200">
+							<summary className="list-none aspect-square h-8 w-8 p-1 text-gray-500 rounded-md hover:bg-gray-200 focus:bg-gray-200">
+								<BsThreeDots className="h-full w-full" />
+							</summary>
+							<div className="absolute h-max w-max min-w-[160px] bg-white right-0 bottom-[110%] shadow-[_0_0_8px_#0002] overflow-hidden rounded-md">
+								<ul className="post-others-menu">
+									{userIsCreator && (
+										<li className="item">
+											<button
+												type="button"
+												title="Delete Post"
+												className="button delete"
+												onClick={onDeletePost}
+											>
+												<FaRegTrashAlt className="icon" />
+												<p className="label">Delete</p>
+											</button>
+										</li>
+									)}
+								</ul>
+							</div>
+						</details>
 					</div>
 				</div>
 			</div>
