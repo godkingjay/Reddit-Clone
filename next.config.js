@@ -2,7 +2,7 @@
 const nextConfig = {
 	reactStrictMode: true,
 	images: {
-		domains: [],
+		domains: ["firebasestorage.googleapis.com"],
 	},
 	webpack(config) {
 		config.module.rules.push({
