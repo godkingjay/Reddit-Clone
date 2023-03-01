@@ -19,7 +19,7 @@ type PostItemProps = {
 	userIsCreator: boolean;
 	userVoteValue: number | undefined;
 	onVote: () => {};
-	onDeletePost: () => {};
+	onDeletePost: (post: Post) => Promise<boolean>;
 	onSelectPost: () => void;
 };
 
@@ -33,6 +33,19 @@ const PostItem: React.FC<PostItemProps> = ({
 }) => {
 	const [currentImageAndVideoIndex, setCurrentImageAndVideoIndex] = useState(0);
 	const [loadingImageAndVideo, setLoadingImageAndVideo] = useState(true);
+	const [deletionError, setDeletionError] = useState("");
+
+	const handleDeletePost = async () => {
+		try {
+			const success = await onDeletePost(post);
+			if (!success) {
+				throw new Error("Post Deletion Failed");
+			}
+		} catch (error: any) {
+			console.log("Post Deletion Error:", error.message);
+			setDeletionError(error.message);
+		}
+	};
 
 	return (
 		<div
@@ -190,7 +203,7 @@ const PostItem: React.FC<PostItemProps> = ({
 												type="button"
 												title="Delete Post"
 												className="button delete"
-												onClick={onDeletePost}
+												onClick={() => handleDeletePost()}
 											>
 												<FaRegTrashAlt className="icon" />
 												<p className="label">Delete</p>
