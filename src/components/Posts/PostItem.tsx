@@ -12,6 +12,7 @@ import {
 	IoArrowUpCircle,
 	IoArrowUpCircleOutline,
 } from "react-icons/io5";
+import ImageAndVideoLoading from "../Skeletons/ImageAndVideoLoading";
 
 type PostItemProps = {
 	post: Post;
@@ -31,6 +32,7 @@ const PostItem: React.FC<PostItemProps> = ({
 	userVoteValue,
 }) => {
 	const [currentImageAndVideoIndex, setCurrentImageAndVideoIndex] = useState(0);
+	const [loadingImageAndVideo, setLoadingImageAndVideo] = useState(true);
 
 	return (
 		<div
@@ -107,13 +109,15 @@ const PostItem: React.FC<PostItemProps> = ({
 										type="button"
 										title="Previous Image"
 										className="bg-white h-10 w-10 rounded-full border-2 border-solid absolute top-[50%] left-0 translate-x-[-4px] translate-y-[-50%] shadow-md border-transparent text-gray-500 flex items-center justify-center hover:border-brand-100 hover:text-brand-100 focus:border-brand-100 focus:text-brand-100"
-										onClick={() =>
-											setCurrentImageAndVideoIndex((prev) => prev - 1)
-										}
+										onClick={() => {
+											setCurrentImageAndVideoIndex((prev) => prev - 1);
+											setLoadingImageAndVideo(true);
+										}}
 									>
 										<HiChevronLeft className="h-full w-full" />
 									</button>
 								)}
+								{loadingImageAndVideo && <ImageAndVideoLoading />}
 								<Image
 									src={post.imagesAndVideos[currentImageAndVideoIndex].url}
 									alt={post.imagesAndVideos[currentImageAndVideoIndex].name}
@@ -121,6 +125,7 @@ const PostItem: React.FC<PostItemProps> = ({
 									height={460}
 									className="h-full w-full object-contain"
 									loading="lazy"
+									onLoad={() => setLoadingImageAndVideo(false)}
 								/>
 								{currentImageAndVideoIndex <
 									post.imagesAndVideos.length - 1 && (
@@ -128,9 +133,10 @@ const PostItem: React.FC<PostItemProps> = ({
 										type="button"
 										title="Previous Image"
 										className="bg-white h-10 w-10 rounded-full border-2 border-solid absolute top-[50%] right-0 translate-x-[4px] translate-y-[-50%] shadow-md border-transparent text-gray-500 flex items-center justify-center hover:border-brand-100 hover:text-brand-100 focus:border-brand-100 focus:text-brand-100"
-										onClick={() =>
-											setCurrentImageAndVideoIndex((prev) => prev + 1)
-										}
+										onClick={() => {
+											setCurrentImageAndVideoIndex((prev) => prev + 1);
+											setLoadingImageAndVideo(true);
+										}}
 									>
 										<HiChevronRight className="h-full w-full" />
 									</button>
