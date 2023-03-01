@@ -6,10 +6,10 @@ type PageContentLayoutProps = {
 
 const PageContentLayout: React.FC<PageContentLayoutProps> = ({ children }) => {
 	return (
-		<div className="w-full max-w-6xl px-6 flex flex-row justify-center gap-8 my-4">
+		<div className="w-full max-w-6xl px-6 justify-center gap-8 my-4 grid grid-cols-2 grid-flow-col">
 			{children && (
 				<>
-					<div className="w-full">{children[0]}</div>
+					<div className="w-full col-span-2">{children[0]}</div>
 					<div className="hidden min-w-[320px] max-w-xs lg:block">
 						{children[1]}
 					</div>

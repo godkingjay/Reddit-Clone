@@ -10,7 +10,7 @@ type CreatePostLinkProps = {
 const CreatePostLink: React.FC<CreatePostLinkProps> = ({ communityData }) => {
 	const router = useRouter();
 	return (
-		<section className="bordered-box-1 flex flex-row bg-white h-[56px] max-h-[56px] px-1 rounded-md gap-x-2 items-center">
+		<section className="bordered-box-1 flex flex-row bg-white h-[56px] max-h-[56px] px-1 rounded-md gap-x-2 items-center w-full">
 			<div className="relative z-10 aspect-square py-2 h-full">
 				<Image
 					src={`/images/redditFace.svg`}
@@ -21,7 +21,7 @@ const CreatePostLink: React.FC<CreatePostLinkProps> = ({ communityData }) => {
 					className="z-20 h-full w-full aspect-square rounded-full object-contain grayscale opacity-40"
 				/>
 			</div>
-			<div className="h-full py-2 flex-1">
+			<div className="h-full py-2 flex-1 w-full">
 				<input
 					type="text"
 					title="Create Post"

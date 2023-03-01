@@ -36,12 +36,12 @@ const PostItem: React.FC<PostItemProps> = ({
 
 	return (
 		<div
-			className="bordered-box-1 bg-white rounded-md cursor-pointer w-full hover:border-gray-500 focus:border-gray-500"
+			className="bordered-box-1 bg-white rounded-md cursor-pointer hover:border-gray-500 focus:border-gray-500 flex flex-col"
 			tabIndex={0}
 			onClick={onSelectPost}
 		>
-			<div className="post-card-wrapper w-full flex flex-row">
-				<div className="post-card-container flex flex-col bg-gray-100 p-2 items-center rounded-l-md gap-y-1">
+			<div className="post-card-wrapper flex flex-row">
+				<div className="post-card-container flex flex-col bg-gray-100 p-2 items-center rounded-l-md gap-y-1 w-10">
 					<button
 						type="button"
 						title="Upvote"
@@ -68,7 +68,7 @@ const PostItem: React.FC<PostItemProps> = ({
 						)}
 					</button>
 				</div>
-				<div className="flex flex-col p-2 gap-y-2 w-full">
+				<div className="flex flex-col p-2 gap-y-2 flex-1">
 					<div className="flex flex-row gap-x-1 items-center text-xs text-gray-500">
 						<p>
 							<span>Posted by </span>u/<span>{post.creatorDisplayName} </span>
@@ -78,7 +78,7 @@ const PostItem: React.FC<PostItemProps> = ({
 						</p>
 					</div>
 					<h2 className="text-sm font-bold">{post.title}</h2>
-					<div className="w-full">
+					<div>
 						<p
 							className="text-xs break-all text-left"
 							style={{
@@ -92,7 +92,7 @@ const PostItem: React.FC<PostItemProps> = ({
 						</p>
 					</div>
 					{post.imagesAndVideos && (
-						<div className="post-iv-wrapper w-full aspect-[3/2] mt-4">
+						<div className="post-iv-wrapper w-full max-h-[480px] mt-4">
 							<div className="relative post-iv-container w-full h-full p-4 flex items-center justify-center bg-gray-100 rounded-lg hover:bg-gray-300 focus-within:bg-gray-300">
 								{currentImageAndVideoIndex > 0 && (
 									<button
