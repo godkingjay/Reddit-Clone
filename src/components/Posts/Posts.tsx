@@ -15,6 +15,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import LoadingSpinner from "public/svg/loading-spinner.svg";
 import { ImagesAndVideos, Post } from "@/atoms/postAtom";
 import PostItem from "./PostItem";
+import PostLoader from "./PostLoader";
 
 type PostProps = {
 	communityData: Community;
@@ -79,14 +80,7 @@ const Posts: React.FC<PostProps> = ({ communityData }) => {
 	return (
 		<div className="w-full flex flex-col">
 			{loadingPosts ? (
-				<div className="w-full py-4">
-					<div className="w-full flex flex-col items-center gap-y-4">
-						<div className="aspect-square w-12 h-12">
-							<LoadingSpinner className="loading-spinner-posts animate-spin" />
-						</div>
-						<h2 className="font-bold text-gray-700">Loading Posts</h2>
-					</div>
-				</div>
+				<PostLoader />
 			) : (
 				<div className="flex flex-col w-full gap-y-4">
 					{postStateValue.posts.map((item) => (
