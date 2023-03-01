@@ -11,7 +11,7 @@ import { auth, firestore } from "@/firebase/clientApp";
 import LoadingSpinner from "public/svg/loading-spinner.svg";
 import { FIREBASE_ERRORS } from "@/firebase/errors";
 import { User } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
 
 type SignUpProps = {};
 

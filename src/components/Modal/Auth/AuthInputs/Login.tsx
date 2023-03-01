@@ -6,11 +6,12 @@ import { useSetRecoilState } from "recoil";
 
 import { FIREBASE_ERRORS } from "@/firebase/errors";
 
-import { auth } from "@/firebase/clientApp";
+import { auth, firestore } from "@/firebase/clientApp";
 
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 
 import LoadingSpinner from "public/svg/loading-spinner.svg";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 type LoginProps = {};
 
@@ -31,7 +32,25 @@ const Login: React.FC<LoginProps> = () => {
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		await signInWithEmailAndPassword(loginForm.email, loginForm.password);
+		await signInWithEmailAndPassword(loginForm.email, loginForm.password)
+			.then(async (user) => {
+				if (user) {
+					try {
+						const userDocRef = doc(firestore, "users", user.user.uid);
+						const userDoc = await getDoc(userDocRef);
+						if (userDoc.exists()) {
+							await updateDoc(userDocRef, JSON.parse(JSON.stringify(user)));
+						} else {
+							throw new Error("User Doc Does Not Exist!");
+						}
+					} catch (error: any) {
+						console.log("Updating Docs Error:", error.message);
+					}
+				} else {
+					console.log("Login Failed!");
+				}
+			})
+			.catch((error: any) => console.log("Login Failed!"));
 	};
 
 	const handleChange = ({

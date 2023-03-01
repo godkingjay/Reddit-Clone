@@ -30,7 +30,7 @@ const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
 			<Head>
 				<title>{communityData.name}</title>
 			</Head>
-			<section className="flex flex-col items-center">
+			<section className="flex flex-col items-center w-full">
 				<Header
 					communityData={communityData}
 					communityStateValue={communityStateValue}
@@ -79,6 +79,11 @@ export const getServerSideProps = async (
 		};
 	} catch (error) {
 		console.log("getServerSideError: " + error);
+		return {
+			props: {
+				communityData: "",
+			},
+		};
 	}
 };
 

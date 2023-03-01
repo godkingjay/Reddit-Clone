@@ -2,24 +2,24 @@ import { Post } from "@/atoms/postAtom";
 import moment from "moment";
 import Image from "next/image";
 import React, { useState } from "react";
-import { BiMessageSquare, BiMessageSquareDetail } from "react-icons/bi";
-import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { BiMessageSquareDetail } from "react-icons/bi";
+import { BsThreeDots } from "react-icons/bs";
+import { FaRegBookmark, FaRegShareSquare, FaRegTrashAlt } from "react-icons/fa";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import {
 	IoArrowDownCircle,
 	IoArrowDownCircleOutline,
-	IoArrowUp,
 	IoArrowUpCircle,
 	IoArrowUpCircleOutline,
-	IoArrowUpOutline,
 } from "react-icons/io5";
+import ImageAndVideoLoading from "../Skeletons/ImageAndVideoLoading";
 
 type PostItemProps = {
 	post: Post;
 	userIsCreator: boolean;
 	userVoteValue: number | undefined;
 	onVote: () => {};
-	onDeletePost: () => {};
+	onDeletePost: (post: Post) => Promise<boolean>;
 	onSelectPost: () => void;
 };
 
@@ -32,19 +32,33 @@ const PostItem: React.FC<PostItemProps> = ({
 	userVoteValue,
 }) => {
 	const [currentImageAndVideoIndex, setCurrentImageAndVideoIndex] = useState(0);
+	const [loadingImageAndVideo, setLoadingImageAndVideo] = useState(true);
+	const [deletionError, setDeletionError] = useState("");
+
+	const handleDeletePost = async () => {
+		try {
+			const success = await onDeletePost(post);
+			if (!success) {
+				throw new Error("Post Deletion Failed");
+			}
+		} catch (error: any) {
+			console.log("Post Deletion Error:", error.message);
+			setDeletionError(error.message);
+		}
+	};
 
 	return (
 		<div
-			className="bordered-box-1 bg-white rounded-md cursor-pointer w-full hover:border-gray-500 focus:border-gray-500"
+			className="bordered-box-1 bg-white rounded-md cursor-pointer hover:border-gray-500 focus:border-gray-500 flex flex-col"
 			tabIndex={0}
 			onClick={onSelectPost}
 		>
-			<div className="w-full flex flex-row">
-				<div className="flex flex-col bg-gray-100 p-2 items-center rounded-l-md gap-y-1">
+			<div className="post-card-wrapper flex flex-row">
+				<div className="post-card-container flex flex-col bg-gray-100 p-2 items-center rounded-l-md gap-y-1 w-10">
 					<button
 						type="button"
 						title="Upvote"
-						className="h-7 w-7 aspect-square hover:text-brand-100 focus:text-brand-100"
+						className="h-7 w-7 aspect-square text-gray-400 hover:text-brand-100 focus:text-brand-100"
 						onClick={onVote}
 					>
 						{userVoteValue === 1 ? (
@@ -53,11 +67,21 @@ const PostItem: React.FC<PostItemProps> = ({
 							<IoArrowUpCircleOutline className="h-full w-full" />
 						)}
 					</button>
-					<p className="font-bold">{post.voteStatus}</p>
+					<p
+						className={`font-bold ${
+							userVoteValue === 1
+								? "text-brand-100"
+								: userVoteValue === -1
+								? "text-blue-500"
+								: "text-gray-800"
+						}`}
+					>
+						{post.voteStatus}
+					</p>
 					<button
 						type="button"
 						title="Downvote"
-						className="h-7 w-7 aspect-square hover:text-blue-500 focus:text-blue-500"
+						className="h-7 w-7 aspect-square text-gray-400 hover:text-blue-500 focus:text-blue-500"
 						onClick={onVote}
 					>
 						{userVoteValue === -1 ? (
@@ -67,7 +91,7 @@ const PostItem: React.FC<PostItemProps> = ({
 						)}
 					</button>
 				</div>
-				<div className="flex flex-col p-2 gap-y-2 w-full">
+				<div className="flex flex-col p-2 gap-y-2 flex-1">
 					<div className="flex flex-row gap-x-1 items-center text-xs text-gray-500">
 						<p>
 							<span>Posted by </span>u/<span>{post.creatorDisplayName} </span>
@@ -77,29 +101,36 @@ const PostItem: React.FC<PostItemProps> = ({
 						</p>
 					</div>
 					<h2 className="text-sm font-bold">{post.title}</h2>
-					<div className="w-full">
+					<div>
 						<p
-							className="text-xs break-normal"
-							style={{ hyphens: "auto" }}
+							className="text-xs break-all text-left"
+							style={{
+								hyphens: "auto",
+								msHyphens: "auto",
+								MozHyphens: "auto",
+								WebkitHyphens: "auto",
+							}}
 						>
 							{post.body}
 						</p>
 					</div>
 					{post.imagesAndVideos && (
-						<div className="post-iv-wrapper w-full aspect-square mt-4">
+						<div className="post-iv-wrapper w-full h-[480px] mt-4">
 							<div className="relative post-iv-container w-full h-full p-4 flex items-center justify-center bg-gray-100 rounded-lg hover:bg-gray-300 focus-within:bg-gray-300">
 								{currentImageAndVideoIndex > 0 && (
 									<button
 										type="button"
 										title="Previous Image"
 										className="bg-white h-10 w-10 rounded-full border-2 border-solid absolute top-[50%] left-0 translate-x-[-4px] translate-y-[-50%] shadow-md border-transparent text-gray-500 flex items-center justify-center hover:border-brand-100 hover:text-brand-100 focus:border-brand-100 focus:text-brand-100"
-										onClick={() =>
-											setCurrentImageAndVideoIndex((prev) => prev - 1)
-										}
+										onClick={() => {
+											setCurrentImageAndVideoIndex((prev) => prev - 1);
+											setLoadingImageAndVideo(true);
+										}}
 									>
 										<HiChevronLeft className="h-full w-full" />
 									</button>
 								)}
+								{loadingImageAndVideo && <ImageAndVideoLoading />}
 								<Image
 									src={post.imagesAndVideos[currentImageAndVideoIndex].url}
 									alt={post.imagesAndVideos[currentImageAndVideoIndex].name}
@@ -107,6 +138,7 @@ const PostItem: React.FC<PostItemProps> = ({
 									height={460}
 									className="h-full w-full object-contain"
 									loading="lazy"
+									onLoad={() => setLoadingImageAndVideo(false)}
 								/>
 								{currentImageAndVideoIndex <
 									post.imagesAndVideos.length - 1 && (
@@ -114,9 +146,10 @@ const PostItem: React.FC<PostItemProps> = ({
 										type="button"
 										title="Previous Image"
 										className="bg-white h-10 w-10 rounded-full border-2 border-solid absolute top-[50%] right-0 translate-x-[4px] translate-y-[-50%] shadow-md border-transparent text-gray-500 flex items-center justify-center hover:border-brand-100 hover:text-brand-100 focus:border-brand-100 focus:text-brand-100"
-										onClick={() =>
-											setCurrentImageAndVideoIndex((prev) => prev + 1)
-										}
+										onClick={() => {
+											setCurrentImageAndVideoIndex((prev) => prev + 1);
+											setLoadingImageAndVideo(true);
+										}}
 									>
 										<HiChevronRight className="h-full w-full" />
 									</button>
@@ -124,43 +157,62 @@ const PostItem: React.FC<PostItemProps> = ({
 							</div>
 						</div>
 					)}
-					<div className="post-footer-buttons bg-white flex flex-row items-center gap-x-2">
+					<div className="post-footer-buttons bg-white flex flex-row items-center gap-x-2 relative">
 						<button
 							type="button"
 							title="Comments"
-							className="p-2 flex flex-row items-center text-gray-500 gap-x-1 rounded-md hover:bg-gray-200 focus:bg-gray-200"
+							className="p-2 flex flex-row items-center text-gray-500 gap-x-2 rounded-md hover:bg-gray-200 focus:bg-gray-200"
 						>
 							<div className="aspect-square h-6 w-6">
 								<BiMessageSquareDetail className="h-full w-full" />
 							</div>
 							<p className="font-semibold text-sm">
-								{post.numberOfComments} Comments
-							</p>
-						</button>
-						{/* <button
-							type="button"
-							title="Comments"
-							className="p-2 flex flex-row items-center text-gray-500 gap-x-1 rounded-md hover:bg-gray-200 focus:bg-gray-200"
-						>
-							<div className="aspect-square h-6 w-6">
-								<BiMessageSquareDetail className="h-full w-full" />
-							</div>
-							<p className="font-semibold text-sm">
-								{post.numberOfComments} Share
+								{post.numberOfComments}
+								<span className="hidden xs:inline"> Comments</span>
 							</p>
 						</button>
 						<button
 							type="button"
 							title="Comments"
-							className="p-2 flex flex-row items-center text-gray-500 gap-x-1 rounded-md hover:bg-gray-200 focus:bg-gray-200"
+							className="p-2 flex flex-row items-center text-gray-500 gap-x-2 rounded-md hover:bg-gray-200 focus:bg-gray-200"
 						>
 							<div className="aspect-square h-6 w-6">
-								<BiMessageSquareDetail className="h-full w-full" />
+								<FaRegShareSquare className="h-full w-full" />
 							</div>
-							<p className="font-semibold text-sm">
-								{post.numberOfComments} Comments
-							</p>
-						</button> */}
+							<p className="font-semibold text-sm hidden xs:inline">Share</p>
+						</button>
+						<button
+							type="button"
+							title="Comments"
+							className="p-2 flex flex-row items-center text-gray-500 gap-x-2 rounded-md hover:bg-gray-200 focus:bg-gray-200"
+						>
+							<div className="aspect-square h-6 w-6">
+								<FaRegBookmark className="h-full w-full" />
+							</div>
+							<p className="font-semibold text-sm hidden xs:inline">Comments</p>
+						</button>
+						<details className="ml-auto flex flex-row items-center [&[open]>summary]:bg-gray-200">
+							<summary className="list-none aspect-square h-8 w-8 p-1 text-gray-500 rounded-md hover:bg-gray-200 focus:bg-gray-200">
+								<BsThreeDots className="h-full w-full" />
+							</summary>
+							<div className="absolute h-max w-max min-w-[160px] bg-white right-0 bottom-[110%] shadow-[_0_0_8px_#0002] overflow-hidden rounded-md">
+								<ul className="post-others-menu">
+									{userIsCreator && (
+										<li className="item">
+											<button
+												type="button"
+												title="Delete Post"
+												className="button delete"
+												onClick={() => handleDeletePost()}
+											>
+												<FaRegTrashAlt className="icon" />
+												<p className="label">Delete</p>
+											</button>
+										</li>
+									)}
+								</ul>
+							</div>
+						</details>
 					</div>
 				</div>
 			</div>
