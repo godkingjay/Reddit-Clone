@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import LoadingSpinner from "public/svg/loading-spinner.svg";
 import { ImagesAndVideos, Post } from "@/atoms/postAtom";
+import PostItem from "./PostItem";
 
 type PostProps = {
 	communityData: Community;
@@ -23,8 +24,14 @@ const Posts: React.FC<PostProps> = ({ communityData }) => {
 	const [user] = useAuthState(auth);
 	const [loadingPosts, setLoadingPosts] = useState(true);
 	const [postsLoadError, setPostsLoadError] = useState("");
-	const { getPostImagesAndVideos, postStateValue, setPostsStateValue } =
-		usePosts();
+	const {
+		getPostImagesAndVideos,
+		postStateValue,
+		setPostsStateValue,
+		onDeletePost,
+		onSelectPost,
+		onVote,
+	} = usePosts();
 
 	const getPosts = async () => {
 		setLoadingPosts(true);
@@ -81,7 +88,19 @@ const Posts: React.FC<PostProps> = ({ communityData }) => {
 					</div>
 				</div>
 			) : (
-				<></>
+				<div className="flex flex-col w-full gap-y-4">
+					{postStateValue.posts.map((item) => (
+						<PostItem
+							post={item}
+							onDeletePost={onDeletePost}
+							onSelectPost={onSelectPost}
+							onVote={onVote}
+							userIsCreator={user?.uid === item.creatorId}
+							userVoteValue={undefined}
+							key={item.id}
+						/>
+					))}
+				</div>
 			)}
 		</div>
 	);
