@@ -2,13 +2,11 @@ import Image from "next/image";
 
 import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 
-import { FIREBASE_ERRORS } from "@/firebase/errors";
-
 import { auth, firestore } from "@/firebase/clientApp";
 
 import LoadingSpinner from "public/svg/loading-spinner.svg";
 import { User } from "firebase/auth";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { useEffect } from "react";
 
 type OAuthProps = {};
@@ -19,7 +17,12 @@ const OAuthButtons: React.FC<OAuthProps> = () => {
 
 	const createUserDoc = async (user: User) => {
 		const userDocRef = doc(firestore, "users", user.uid);
-		await setDoc(userDocRef, JSON.parse(JSON.stringify(user)));
+		const userDoc = await getDoc(userDocRef);
+		if (userDoc.exists()) {
+			await updateDoc(userDocRef, JSON.parse(JSON.stringify(user)));
+		} else {
+			await setDoc(userDocRef, JSON.parse(JSON.stringify(user)));
+		}
 	};
 
 	useEffect(() => {
