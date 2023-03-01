@@ -3,6 +3,7 @@ import moment from "moment";
 import Image from "next/image";
 import React, { useState } from "react";
 import { BiMessageSquare, BiMessageSquareDetail } from "react-icons/bi";
+import { FaRegShareSquare, FaRegSquare } from "react-icons/fa";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import {
@@ -91,7 +92,7 @@ const PostItem: React.FC<PostItemProps> = ({
 						</p>
 					</div>
 					{post.imagesAndVideos && (
-						<div className="post-iv-wrapper w-full aspect-square mt-4">
+						<div className="post-iv-wrapper w-full aspect-[3/2] mt-4">
 							<div className="relative post-iv-container w-full h-full p-4 flex items-center justify-center bg-gray-100 rounded-lg hover:bg-gray-300 focus-within:bg-gray-300">
 								{currentImageAndVideoIndex > 0 && (
 									<button
@@ -129,7 +130,7 @@ const PostItem: React.FC<PostItemProps> = ({
 							</div>
 						</div>
 					)}
-					<div className="post-footer-buttons bg-white flex flex-row items-center gap-	x-2">
+					<div className="post-footer-buttons bg-white flex flex-row items-center gap-x-2">
 						<button
 							type="button"
 							title="Comments"
@@ -142,17 +143,15 @@ const PostItem: React.FC<PostItemProps> = ({
 								{post.numberOfComments} Comments
 							</p>
 						</button>
-						{/* <button
+						<button
 							type="button"
 							title="Comments"
 							className="p-2 flex flex-row items-center text-gray-500 gap-x-1 rounded-md hover:bg-gray-200 focus:bg-gray-200"
 						>
 							<div className="aspect-square h-6 w-6">
-								<BiMessageSquareDetail className="h-full w-full" />
+								<FaRegShareSquare className="h-full w-full" />
 							</div>
-							<p className="font-semibold text-sm">
-								{post.numberOfComments} Share
-							</p>
+							<p className="font-semibold text-sm">Share</p>
 						</button>
 						<button
 							type="button"
@@ -162,10 +161,8 @@ const PostItem: React.FC<PostItemProps> = ({
 							<div className="aspect-square h-6 w-6">
 								<BiMessageSquareDetail className="h-full w-full" />
 							</div>
-							<p className="font-semibold text-sm">
-								{post.numberOfComments} Comments
-							</p>
-						</button> */}
+							<p className="font-semibold text-sm">Comments</p>
+						</button>
 					</div>
 				</div>
 			</div>
