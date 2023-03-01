@@ -92,7 +92,7 @@ const PostItem: React.FC<PostItemProps> = ({
 						</p>
 					</div>
 					{post.imagesAndVideos && (
-						<div className="post-iv-wrapper w-full max-h-[480px] mt-4">
+						<div className="post-iv-wrapper w-full h-[480px] mt-4">
 							<div className="relative post-iv-container w-full h-full p-4 flex items-center justify-center bg-gray-100 rounded-lg hover:bg-gray-300 focus-within:bg-gray-300">
 								{currentImageAndVideoIndex > 0 && (
 									<button
