@@ -40,6 +40,9 @@ const usePosts = () => {
 		getPostImagesAndVideos,
 		postStateValue,
 		setPostsStateValue,
+		onDelete,
+		onSelectPost,
+		onVote,
 	};
 };
 
