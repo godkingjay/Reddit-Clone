@@ -3,26 +3,49 @@ import {
 	Community,
 	UserCommunity,
 	communityState,
+	defaultCommunity,
 } from "@/atoms/communitiesAtom";
 import { auth, firestore } from "@/firebase/clientApp";
 import {
 	collection,
 	doc,
+	getDoc,
 	getDocs,
 	increment,
 	writeBatch,
 } from "firebase/firestore";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRecoilState, useSetRecoilState } from "recoil";
 
 const useCommunityData = () => {
+	const router = useRouter();
 	const [communityStateValue, setCommunityStateValue] =
 		useRecoilState(communityState);
 	const [user] = useAuthState(auth);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState("false");
 	const setAuthModal = useSetRecoilState(authModalState);
+
+	const getCommunityData = async (communityId: string) => {
+		setLoading(true);
+		try {
+			const communityDocRef = await doc(firestore, "communities", communityId);
+			const communityDoc = await getDoc(communityDocRef);
+			setCommunityStateValue((prev) => ({
+				...prev,
+				currentCommunity: {
+					id: communityDoc.id,
+					...communityDoc.data(),
+				} as Community,
+			}));
+		} catch (error: any) {
+			console.log("fetchErrorCurrentCommunity", error.message);
+			setError(error.message);
+		}
+		setLoading(false);
+	};
 
 	const getUserCommunities = async () => {
 		setLoading(true);
@@ -133,8 +156,26 @@ const useCommunityData = () => {
 	};
 
 	useEffect(() => {
-		if (!user) return;
-		getUserCommunities();
+		// if (!user) return;
+		// getUserCommunities();
+		const { communityId } = router.query;
+		if (communityId) {
+			const communityData = communityStateValue.currentCommunity;
+			if (!communityData?.id) {
+				getCommunityData(communityId as string);
+			}
+		} else {
+			setCommunityStateValue((prev) => ({
+				...prev,
+				currentCommunity: defaultCommunity,
+			}));
+		}
+	}, [router.query, communityStateValue.currentCommunity]);
+
+	useEffect(() => {
+		if (user) {
+			getUserCommunities();
+		}
 	}, [user]);
 
 	return {
