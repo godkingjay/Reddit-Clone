@@ -7,6 +7,14 @@
 		}
 	}
 
+	.loading-spinner-brand {
+		@apply h-full w-full;
+
+		path {
+			@apply stroke-brand-100;
+		}
+	}
+
 	.modal-pop-up {
 		.modal-close {
 			@apply outline-offset-4;
