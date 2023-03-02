@@ -14,6 +14,7 @@ import {
 } from "react-icons/io5";
 import ImageAndVideoLoading from "../Skeletons/ImageAndVideoLoading";
 import LoadingSpinner from "public/svg/loading-spinner.svg";
+import ErrorBanner from "../Banner/ErrorBanner";
 
 type PostItemProps = {
 	post: Post;
@@ -38,6 +39,7 @@ const PostItem: React.FC<PostItemProps> = ({
 	const [deletionError, setDeletionError] = useState("");
 
 	const handleDeletePost = async () => {
+		setDeletionError("");
 		setLoadingDelete(true);
 		try {
 			const success = await onDeletePost(post);
@@ -233,6 +235,12 @@ const PostItem: React.FC<PostItemProps> = ({
 						<h2 className="text-sm font-bold text-gray-700">Deleting Post</h2>
 					</div>
 				</div>
+			)}
+			{deletionError && (
+				<ErrorBanner
+					title="Error Deleting Post"
+					setError={setDeletionError}
+				/>
 			)}
 		</div>
 	);
