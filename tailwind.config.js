@@ -5,6 +5,10 @@ module.exports = {
 	content: ["./src/**/*.{js,jsx,ts,tsx}"],
 	theme: {
 		extend: {
+			blur: {
+				xs: "2px",
+				"2xs": "1px",
+			},
 			boxShadow: {
 				"tab-item-active": "inset 0 -2px 0 0",
 			},

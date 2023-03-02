@@ -157,11 +157,13 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 				});
 			}
 			if (postError.length === 0) {
+				await new Promise(() => {
+					setTimeout(() => router.push(`/r/${communityId}`), 2000);
+				});
 				setImagesAndVideos([]);
 				setIsFileExists(false);
 				setPostInput({ title: "", body: "" });
 				setPostInputLength({ title: 0, body: 0 });
-				router.push(`/r/${communityId}`);
 			}
 		} catch (error: any) {
 			console.log("Post Creation ERROR:", error.message);
