@@ -19,7 +19,7 @@ export interface UserCommunity {
 
 export interface CommunityState {
 	userCommunities: UserCommunity[];
-	currentCommunity?: Community;
+	currentCommunity: Community;
 }
 
 export const defaultCommunity: Community = {
