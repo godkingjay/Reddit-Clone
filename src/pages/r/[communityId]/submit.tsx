@@ -3,6 +3,8 @@ import Sidebar from "@/components/CommunityPage/Sidebar";
 import PageContentLayout from "@/components/Layout/PageContentLayout";
 import NewPostForm from "@/components/Posts/NewPostForm";
 import NewPostHeader from "@/components/Posts/NewPostHeader";
+import HeaderCardSkeleton from "@/components/Skeletons/HeaderCardSkeleton";
+import NewPostFormSkeleton from "@/components/Skeletons/NewPostFormSkeleton";
 import { auth } from "@/firebase/clientApp";
 import useCommunityData from "@/hooks/useCommunityData";
 import { NextPage } from "next";
@@ -27,10 +29,6 @@ const SubmitPostPage: NextPage = () => {
 		}
 	}, [loading, communityStateValue.currentCommunity, communityId]);
 
-	if (loading) {
-		return <div>Loading...</div>;
-	}
-
 	return (
 		<>
 			<Head>
@@ -40,8 +38,17 @@ const SubmitPostPage: NextPage = () => {
 				<PageContentLayout>
 					<>
 						<div className="w-full flex flex-col gap-y-4">
-							<NewPostHeader />
-							{user && <NewPostForm user={user} />}
+							{!loading ? (
+								<>
+									<NewPostHeader />
+									{user && <NewPostForm user={user} />}
+								</>
+							) : (
+								<>
+									<HeaderCardSkeleton />
+									<NewPostFormSkeleton />
+								</>
+							)}
 						</div>
 					</>
 					<>
