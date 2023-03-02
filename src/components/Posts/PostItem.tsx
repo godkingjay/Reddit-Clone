@@ -13,6 +13,7 @@ import {
 	IoArrowUpCircleOutline,
 } from "react-icons/io5";
 import ImageAndVideoLoading from "../Skeletons/ImageAndVideoLoading";
+import LoadingSpinner from "public/svg/loading-spinner.svg";
 
 type PostItemProps = {
 	post: Post;
@@ -33,9 +34,11 @@ const PostItem: React.FC<PostItemProps> = ({
 }) => {
 	const [currentImageAndVideoIndex, setCurrentImageAndVideoIndex] = useState(0);
 	const [loadingImageAndVideo, setLoadingImageAndVideo] = useState(true);
+	const [loadingDelete, setLoadingDelete] = useState(false);
 	const [deletionError, setDeletionError] = useState("");
 
 	const handleDeletePost = async () => {
+		setLoadingDelete(true);
 		try {
 			const success = await onDeletePost(post);
 			if (!success) {
@@ -45,15 +48,20 @@ const PostItem: React.FC<PostItemProps> = ({
 			console.log("Post Deletion Error:", error.message);
 			setDeletionError(error.message);
 		}
+		setLoadingDelete(false);
 	};
 
 	return (
 		<div
-			className="bordered-box-1 bg-white rounded-md cursor-pointer hover:border-gray-500 focus:border-gray-500 flex flex-col"
+			className="bordered-box-1 bg-white rounded-md cursor-pointer hover:border-gray-500 focus:border-gray-500 flex flex-col relative"
 			tabIndex={0}
 			onClick={onSelectPost}
 		>
-			<div className="post-card-wrapper flex flex-row">
+			<div
+				className={`post-card-wrapper flex flex-row ${
+					loadingDelete && "blur-xs"
+				}`}
+			>
 				<div className="post-card-container flex flex-col bg-gray-100 p-2 items-center rounded-l-md gap-y-1 w-10">
 					<button
 						type="button"
@@ -216,6 +224,16 @@ const PostItem: React.FC<PostItemProps> = ({
 					</div>
 				</div>
 			</div>
+			{loadingDelete && (
+				<div className="absolute h-full w-full bg-red-500 bg-opacity-10 rounded-md border grid place-items-center">
+					<div className="h-full flex flex-col justify-center items-center gap-y-2">
+						<div className="h-8 w-8 aspect-square">
+							<LoadingSpinner className="loading-spinner-brand animate-spin" />
+						</div>
+						<h2 className="text-sm font-bold text-gray-700">Deleting Post</h2>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 };
