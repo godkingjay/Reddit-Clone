@@ -55,9 +55,11 @@ const PostItem: React.FC<PostItemProps> = ({
 
 	return (
 		<div
-			className="bordered-box-1 bg-white rounded-md cursor-pointer hover:border-gray-500 focus:border-gray-500 flex flex-col relative"
+			className={`bordered-box-1 bg-white rounded-md hover:border-gray-500 focus:border-gray-500 flex flex-col relative ${
+				!loadingDelete && "cursor-pointer"
+			}`}
 			tabIndex={0}
-			onClick={onSelectPost}
+			onClick={() => (!loadingDelete ? onSelectPost() : () => {})}
 		>
 			<div
 				className={`post-card-wrapper flex flex-row ${
