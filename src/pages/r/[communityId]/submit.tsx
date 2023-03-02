@@ -5,6 +5,7 @@ import NewPostForm from "@/components/Posts/NewPostForm";
 import NewPostHeader from "@/components/Posts/NewPostHeader";
 import HeaderCardSkeleton from "@/components/Skeletons/HeaderCardSkeleton";
 import NewPostFormSkeleton from "@/components/Skeletons/NewPostFormSkeleton";
+import SidebarSkeleton from "@/components/Skeletons/SidebarSkeleton";
 import { auth } from "@/firebase/clientApp";
 import useCommunityData from "@/hooks/useCommunityData";
 import { NextPage } from "next";
@@ -52,8 +53,11 @@ const SubmitPostPage: NextPage = () => {
 						</div>
 					</>
 					<>
-						{/* <Sidebar communityData={communityData} /> */}
-						<div>Hello</div>
+						{!loading || communityStateValue.currentCommunity.id ? (
+							<Sidebar communityData={communityStateValue.currentCommunity} />
+						) : (
+							<SidebarSkeleton />
+						)}
 					</>
 				</PageContentLayout>
 			</section>

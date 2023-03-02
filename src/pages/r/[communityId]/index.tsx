@@ -4,7 +4,9 @@ import Header from "@/components/CommunityPage/Header";
 import Sidebar from "@/components/CommunityPage/Sidebar";
 import CommunityNotFound from "@/components/ErrorPages/CommunityError/CommunityNotFound";
 import PageContentLayout from "@/components/Layout/PageContentLayout";
+import SidebarSkeleton from "@/components/Skeletons/SidebarSkeleton";
 import { auth, firestore } from "@/firebase/clientApp";
+import useCommunityData from "@/hooks/useCommunityData";
 import { doc, getDoc } from "firebase/firestore";
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
@@ -19,6 +21,7 @@ type CommunityPageProps = {
 
 const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
 	const [user, loading] = useAuthState(auth);
+	const { loading: loadingCommunities } = useCommunityData();
 	const [communityStateValue, setCommunityStateValue] =
 		useRecoilState(communityState);
 
@@ -53,7 +56,11 @@ const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
 						<Body communityData={communityData} />
 					</>
 					<>
-						<Sidebar communityData={communityData} />
+						{!loadingCommunities ? (
+							<Sidebar communityData={communityData} />
+						) : (
+							<SidebarSkeleton />
+						)}
 					</>
 				</PageContentLayout>
 			</section>
