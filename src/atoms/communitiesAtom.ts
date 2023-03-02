@@ -19,10 +19,20 @@ export interface UserCommunity {
 
 export interface CommunityState {
 	userCommunities: UserCommunity[];
+	currentCommunity?: Community;
 }
 
-const defaultCommunityState: CommunityState = {
+export const defaultCommunity: Community = {
+	id: "",
+	creatorId: "",
+	name: "",
+	members: 0,
+	privacyType: "public",
+};
+
+export const defaultCommunityState: CommunityState = {
 	userCommunities: [],
+	currentCommunity: defaultCommunity,
 };
 
 export const communityState = atom<CommunityState>({
