@@ -8,8 +8,9 @@ import { auth, firestore } from "@/firebase/clientApp";
 import { doc, getDoc } from "firebase/firestore";
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
+import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import safeJsonStringify from "safe-json-stringify";
 
 type CommunityPageProps = {
@@ -20,6 +21,17 @@ const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
 	const [user, loading] = useAuthState(auth);
 	const [communityStateValue, setCommunityStateValue] =
 		useRecoilState(communityState);
+
+	useEffect(() => {
+		if (communityData) {
+			setCommunityStateValue((prev) => {
+				return {
+					...prev,
+					currentCommunity: communityData,
+				};
+			});
+		}
+	}, [communityData]);
 
 	if (!communityData) {
 		return <CommunityNotFound />;
