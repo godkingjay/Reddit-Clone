@@ -22,10 +22,14 @@ const SubmitPostPage: NextPage = () => {
 	const communityStateValue = useRecoilValue(communityState);
 
 	useEffect(() => {
-		if (!user && !loadingUser && communityStateValue.currentCommunity.id) {
-			router.push(`/r/${communityStateValue.currentCommunity.id}`);
+		if (!loading && !communityStateValue.currentCommunity.id && communityId) {
+			router.push(`/r/${communityId}`);
 		}
-	}, [user, loadingUser, communityStateValue.currentCommunity]);
+	}, [loading, communityStateValue.currentCommunity, communityId]);
+
+	if (loading) {
+		return <div>Loading...</div>;
+	}
 
 	return (
 		<>
