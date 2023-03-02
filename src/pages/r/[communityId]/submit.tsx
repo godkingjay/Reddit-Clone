@@ -1,15 +1,31 @@
+import { communityState } from "@/atoms/communitiesAtom";
 import Sidebar from "@/components/CommunityPage/Sidebar";
 import PageContentLayout from "@/components/Layout/PageContentLayout";
 import NewPostForm from "@/components/Posts/NewPostForm";
 import NewPostHeader from "@/components/Posts/NewPostHeader";
 import { auth } from "@/firebase/clientApp";
+import useCommunityData from "@/hooks/useCommunityData";
+import { NextPage } from "next";
 import Head from "next/head";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useRecoilValue } from "recoil";
 
 type SubmitPostPageProps = {};
 
-const SubmitPostPage: React.FC<SubmitPostPageProps> = () => {
-	const [user] = useAuthState(auth);
+const SubmitPostPage: NextPage = () => {
+	const [user, loadingUser, error] = useAuthState(auth);
+	const router = useRouter();
+	const { communityId } = router.query;
+	const { loading } = useCommunityData();
+	const communityStateValue = useRecoilValue(communityState);
+
+	useEffect(() => {
+		if (!user && !loadingUser && communityStateValue.currentCommunity.id) {
+			router.push(`/r/${communityStateValue.currentCommunity.id}`);
+		}
+	}, [user, loadingUser, communityStateValue.currentCommunity]);
 
 	return (
 		<>
