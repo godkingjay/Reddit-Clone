@@ -1,7 +1,7 @@
 import { communityState } from "@/atoms/communitiesAtom";
 import Sidebar from "@/components/CommunityPage/Sidebar";
 import PageContentLayout from "@/components/Layout/PageContentLayout";
-import NewPostForm from "@/components/Posts/NewPostForm";
+import NewPostForm, { FormTabItem } from "@/components/Posts/NewPostForm";
 import NewPostHeader from "@/components/Posts/NewPostHeader";
 import HeaderCardSkeleton from "@/components/Skeletons/HeaderCardSkeleton";
 import NewPostFormSkeleton from "@/components/Skeletons/NewPostFormSkeleton";
@@ -10,7 +10,7 @@ import { auth } from "@/firebase/clientApp";
 import useCommunityData from "@/hooks/useCommunityData";
 import { NextPage } from "next";
 import Head from "next/head";
-import { useRouter } from "next/router";
+import { useRouter, withRouter } from "next/router";
 import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRecoilValue } from "recoil";
@@ -20,7 +20,7 @@ type SubmitPostPageProps = {};
 const SubmitPostPage: NextPage = () => {
 	const [user, loadingUser, error] = useAuthState(auth);
 	const router = useRouter();
-	const { communityId } = router.query;
+	const { communityId, tabItem } = router.query;
 	const { loading } = useCommunityData();
 	const communityStateValue = useRecoilValue(communityState);
 
@@ -47,7 +47,12 @@ const SubmitPostPage: NextPage = () => {
 							{!loading ? (
 								<>
 									<NewPostHeader />
-									{user && <NewPostForm user={user} />}
+									{user && (
+										<NewPostForm
+											user={user}
+											tabItem={tabItem as FormTabItem["title"]}
+										/>
+									)}
 								</>
 							) : (
 								<>
@@ -70,4 +75,4 @@ const SubmitPostPage: NextPage = () => {
 	);
 };
 
-export default SubmitPostPage;
+export default withRouter(SubmitPostPage);

@@ -7,10 +7,11 @@ import PageContentLayout from "@/components/Layout/PageContentLayout";
 import SidebarSkeleton from "@/components/Skeletons/SidebarSkeleton";
 import { auth, firestore } from "@/firebase/clientApp";
 import useCommunityData from "@/hooks/useCommunityData";
+import usePosts from "@/hooks/usePosts";
 import { doc, getDoc } from "firebase/firestore";
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
-import { useEffect } from "react";
+import { use, useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import safeJsonStringify from "safe-json-stringify";
@@ -22,6 +23,7 @@ type CommunityPageProps = {
 const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
 	const [user, loading] = useAuthState(auth);
 	const { loading: loadingCommunities } = useCommunityData();
+	const { loadingPosts } = usePosts();
 	const [communityStateValue, setCommunityStateValue] =
 		useRecoilState(communityState);
 
@@ -43,7 +45,7 @@ const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
 	return (
 		<>
 			<Head>
-				<title>{communityData.name}</title>
+				<title>{communityData.name || "Community"}</title>
 			</Head>
 			<section className="flex flex-col items-center w-full">
 				<Header
@@ -53,7 +55,11 @@ const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
 				/>
 				<PageContentLayout>
 					<>
-						<Body communityData={communityData} />
+						<Body
+							communityData={communityData}
+							loadingPosts={loadingPosts}
+							user={user}
+						/>
 					</>
 					<>
 						{!loadingCommunities ? (

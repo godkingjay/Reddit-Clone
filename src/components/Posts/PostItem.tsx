@@ -20,7 +20,7 @@ type PostItemProps = {
 	post: Post;
 	userIsCreator: boolean;
 	userVoteValue: number | undefined;
-	onVote: () => {};
+	onVote: (post: Post, vote: number, communityId: string) => void;
 	onDeletePost: (post: Post) => Promise<boolean>;
 	onSelectPost: () => void;
 };
@@ -53,6 +53,10 @@ const PostItem: React.FC<PostItemProps> = ({
 		setLoadingDelete(false);
 	};
 
+	const handlePostVote = (vote: number) => {
+		onVote(post, vote, post.communityId);
+	};
+
 	return (
 		<div
 			className={`bordered-box-1 bg-white rounded-md hover:border-gray-500 focus:border-gray-500 flex flex-col relative ${
@@ -71,7 +75,7 @@ const PostItem: React.FC<PostItemProps> = ({
 						type="button"
 						title="Upvote"
 						className="h-7 w-7 aspect-square text-gray-400 hover:text-brand-100 focus:text-brand-100"
-						onClick={onVote}
+						onClick={() => handlePostVote(1)}
 					>
 						{userVoteValue === 1 ? (
 							<IoArrowUpCircle className="h-full w-full text-brand-100" />
@@ -94,7 +98,7 @@ const PostItem: React.FC<PostItemProps> = ({
 						type="button"
 						title="Downvote"
 						className="h-7 w-7 aspect-square text-gray-400 hover:text-blue-500 focus:text-blue-500"
-						onClick={onVote}
+						onClick={() => handlePostVote(-1)}
 					>
 						{userVoteValue === -1 ? (
 							<IoArrowDownCircle className="h-full w-full text-blue-500" />
