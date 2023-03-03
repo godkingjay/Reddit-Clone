@@ -24,6 +24,7 @@ import ErrorBanner from "../Banner/ErrorBanner";
 
 type NewPostFormProps = {
 	user: User;
+	tabItem?: FormTabItem["title"];
 };
 
 export type FormTabItem = {
@@ -67,10 +68,12 @@ const formTabs: FormTabItem[] = [
 const maxUploads = 20;
 const maxFileSize = 20000000;
 
-const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
+const NewPostForm: React.FC<NewPostFormProps> = ({ user, tabItem }) => {
 	const router = useRouter();
 	const setErrorModal = useSetRecoilState(errorModalState);
-	const [currentTab, setCurrentTab] = useState(formTabs[0].title);
+	const [currentTab, setCurrentTab] = useState(
+		tabItem ? tabItem : formTabs[0].title
+	);
 	const [loading, setLoading] = useState(false);
 	const [imagesAndVideos, setImagesAndVideos] = useState<ImageAndVideo[]>([]);
 	const [isFileExists, setIsFileExists] = useState(false);
