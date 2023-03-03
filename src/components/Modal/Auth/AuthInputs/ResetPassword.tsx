@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import LoadingSpinner from "public/svg/loading-spinner.svg";
 import { useSendPasswordResetEmail } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/clientApp";
@@ -8,10 +7,11 @@ import { AuthModalState, authModalState } from "@/atoms/authModalAtom";
 import { FIREBASE_ERRORS } from "@/firebase/errors";
 import Image from "next/image";
 import { FiMail } from "react-icons/fi";
-
 type ResetPasswordProps = {};
 
 const ResetPassword: React.FC<ResetPasswordProps> = () => {
+	const [userError, setUserError] = useState<typeof error | null>(null);
+	const [emailSent, setEmailSent] = useState(false);
 	const [resetForm, setResetForm] = useState({
 		username: "",
 		email: "",
@@ -21,10 +21,6 @@ const ResetPassword: React.FC<ResetPasswordProps> = () => {
 		useSendPasswordResetEmail(auth);
 
 	const setAuthModal = useSetRecoilState(authModalState);
-
-	const [userError, setUserError] = useState<typeof error | null>(null);
-
-	const [emailSent, setEmailSent] = useState(false);
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -93,18 +89,6 @@ const ResetPassword: React.FC<ResetPasswordProps> = () => {
 					onSubmit={handleSubmit}
 				>
 					<div className="w-full flex flex-col gap-y-4 mt-1">
-						{/* <input
-					required
-					title="Username"
-					type="text"
-					name="username"
-					placeholder="Username"
-					className="auth-input"
-					onChange={(e) => {
-						setUserError(null);
-						handleChange(e);
-					}}
-				/> */}
 						<input
 							required
 							title="Email"

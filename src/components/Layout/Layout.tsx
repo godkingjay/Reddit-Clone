@@ -1,7 +1,5 @@
-import { userAuthenticatedState } from "@/atoms/userAtom";
 import NavBar from "@/components/NavBar/NavBar";
 import { auth } from "@/firebase/clientApp";
-
 import React, { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useSetRecoilState } from "recoil";
@@ -13,21 +11,11 @@ type LayoutProps = {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
 	const [user] = useAuthState(auth);
-	const setUserAuthenticated = useSetRecoilState(userAuthenticatedState);
-
-	useEffect(() => {
-		if (user) {
-			setUserAuthenticated((prev) => ({
-				...prev,
-				authenticated: true,
-			}));
-		}
-	}, [user, setUserAuthenticated]);
 
 	return (
-		<main className="flex flex-col max-h-screen h-screen overflow-hidden">
+		<main className="flex flex-col max-h-screen h-screen overflow-hidden z-20">
 			<NavBar />
-			<div className="bg-gray-200 flex-1 overflow-y-auto scroll-y-style">
+			<div className="bg-gray-200 flex-1 overflow-y-auto scroll-y-style z-10">
 				{children}
 			</div>
 			<ErrorModal />

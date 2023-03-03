@@ -1,9 +1,6 @@
 import React from "react";
-
 import AuthButtons from "./AuthButtons";
-
 import AuthModal from "@/components/Modal/Auth/AuthModal";
-
 import { User } from "firebase/auth";
 import Icons from "./Icons";
 

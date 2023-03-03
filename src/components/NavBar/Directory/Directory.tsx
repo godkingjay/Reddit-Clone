@@ -80,7 +80,7 @@ const Directory: React.FC<DirectoryProps> = () => {
 						<h2 className="label hidden xs:block flex-1">{directory.title}</h2>
 						<FaCaretDown className="caret max-[380px]:hidden fill-gray-400 transition-transform" />
 					</summary>
-					<div className="directory-content absolute z-30 w-[192px]  xs:w-[240px] bg-white top-[130%] h-max left-0 rounded py-1 shadow-sm max-h-[60vh] overflow-y-auto scroll-y-style">
+					<div className="directory-content absolute z-30 w-[192px]  xs:w-[240px] bg-white top-[130%] h-max left-0 rounded py-1 shadow-[0_0_8px_#0001] max-h-[60vh] overflow-y-auto scroll-y-style">
 						<details
 							className="directory-communities"
 							open
