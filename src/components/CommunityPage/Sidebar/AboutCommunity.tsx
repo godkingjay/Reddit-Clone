@@ -1,18 +1,82 @@
-import { Community } from "@/atoms/communitiesAtom";
+import { Community, communityState } from "@/atoms/communitiesAtom";
+import { auth, firestore, storage } from "@/firebase/clientApp";
+import useSelectFile from "@/hooks/useSelectFile";
 import moment from "moment";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
-import { BsDot, BsThreeDots } from "react-icons/bs";
+import React, { useRef, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { BsThreeDots } from "react-icons/bs";
 import { RiCake2Line } from "react-icons/ri";
+import NoCommunityImage from "public/svg/community-no-image.svg";
+import LoadingSpinner from "public/svg/loading-spinner.svg";
+import { useSetRecoilState } from "recoil";
+import { errorModalState } from "@/atoms/errorModalAtom";
+import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import { doc, updateDoc } from "firebase/firestore";
 
 type AboutCommunityProps = {
 	communityData: Community;
 };
 
+const maxFileSize = 20 * 1024 * 1024;
+
 const AboutCommunity: React.FC<AboutCommunityProps> = ({ communityData }) => {
 	const router = useRouter();
+	const [user] = useAuthState(auth);
+	const selectFileRef = useRef<HTMLInputElement>(null);
+	const { selectedFile, setSelectedFile, onSelectFile } = useSelectFile();
+	const [uploadingImage, setUploadingImage] = useState(false);
+	const setErrorModal = useSetRecoilState(errorModalState);
+	const setCommunityStateValue = useSetRecoilState(communityState);
 	const { pathname } = router;
+
+	const validateFile = (fileName: string, fileSize: number) => {
+		const allowedExtensions = /(\.jpg|\.jpeg|\.jfif|\.pjpeg|\.pjp|\.png)$/i;
+		if (!allowedExtensions.exec(fileName) || fileSize > maxFileSize) {
+			setErrorModal((prev) => ({
+				...prev,
+				open: true,
+				view: "file-upload",
+			}));
+			return false;
+		} else return true;
+	};
+
+	const handleUploadImagesAndVideos = (
+		e: React.ChangeEvent<HTMLInputElement>
+	) => {
+		if (e.target.files?.[0]) {
+			const file = e.target.files[0];
+			if (validateFile(file.name, file.size)) {
+				onSelectFile(e);
+			}
+		}
+	};
+
+	const onUpdateImage = async (e: React.MouseEvent<HTMLButtonElement>) => {
+		if (!selectedFile) return;
+		setUploadingImage(true);
+		try {
+			const imageRef = ref(storage, `communities/${communityData.id}/image`);
+			await uploadString(imageRef, selectedFile, "data_url");
+			const downloadURL = await getDownloadURL(imageRef);
+			await updateDoc(doc(firestore, `communities`, communityData.id), {
+				imageURL: downloadURL,
+			});
+			setCommunityStateValue((prev) => ({
+				...prev,
+				currentCommunity: {
+					...prev.currentCommunity,
+					imageURL: downloadURL,
+				},
+			}));
+		} catch (error: any) {
+			console.log("Error updating image: ", error.message);
+		}
+		setUploadingImage(false);
+	};
 
 	return (
 		<div className="bordered-box-1 bg-white rounded-md">
@@ -44,9 +108,9 @@ const AboutCommunity: React.FC<AboutCommunityProps> = ({ communityData }) => {
 						<p className="text-xs text-gray-500">Online</p>
 					</div>
 				</div>
-				<div className="h-[1px] bg-gray-500 bg-opacity-20 mx-2"></div>
 				{communityData.createdAt && (
 					<>
+						<div className="h-[1px] bg-gray-500 bg-opacity-20 mx-2"></div>
 						<div className="flex flex-row gap-x-2 items-center py-4 px-2">
 							<div className="w-6 h-6 aspect-square">
 								<RiCake2Line className="h-full w-full" />
@@ -58,9 +122,9 @@ const AboutCommunity: React.FC<AboutCommunityProps> = ({ communityData }) => {
 								).format("MMM DD, YYYY")}
 							</p>
 						</div>
-						<div className="h-[1px] bg-gray-500 bg-opacity-20 mx-2"></div>
 					</>
 				)}
+				<div className="h-[1px] bg-gray-500 bg-opacity-20 mx-2"></div>
 				{!(pathname.split("/").pop() as string).match(/submit/g) && (
 					<div className="px-2 py-4 flex flex-col items-center">
 						<Link
@@ -70,6 +134,67 @@ const AboutCommunity: React.FC<AboutCommunityProps> = ({ communityData }) => {
 							Create A Post
 						</Link>
 					</div>
+				)}
+				{user?.uid === communityData.creatorId && (
+					<>
+						<div className="h-[1px] bg-gray-500 bg-opacity-20 mx-2"></div>
+						<div className="flex flex-col gap-y-1 px-2 py-4">
+							<p className="text-sm font-bold">Admin</p>
+							<div className="flex flex-row items-center justify-between gap-x-2">
+								<p
+									className="text-blue-500 cursor-pointer text-sm hover:underline"
+									onClick={() => selectFileRef.current?.click()}
+								>
+									Change Image
+								</p>
+								<div className="aspect-square w-12 h-12 rounded-full bg-white">
+									{communityData.imageURL || selectedFile ? (
+										<Image
+											src={
+												((selectedFile as string) ||
+													communityData.imageURL) as string
+											}
+											alt={`${communityData.name} image`}
+											width={256}
+											height={256}
+											loading="lazy"
+											className="w-full h-full rounded-full bg-contain bg-center"
+										/>
+									) : (
+										<NoCommunityImage className="w-full h-full rounder-full fill-blue-500" />
+									)}
+								</div>
+							</div>
+							{selectedFile &&
+								(uploadingImage ? (
+									<button
+										type="button"
+										title="Save Changes"
+										className="page-button max-w-none w-full grayscale h-10"
+									>
+										<LoadingSpinner className="aspect-square h-full w-full [&>path]:stroke-white animate-spin" />
+									</button>
+								) : (
+									<button
+										type="button"
+										title="Save Changes"
+										className="page-button max-w-none w-full h-10 bg-brand-100 border-brand-100 hover:bg-brand-200 hover:border-brand-200 focus:bg-brand-200 focus:border-brand-200"
+										onClick={onUpdateImage}
+									>
+										Save Changes
+									</button>
+								))}
+						</div>
+						<input
+							type="file"
+							accept="image/png, image/jpeg"
+							title="Upload File"
+							ref={selectFileRef}
+							onChange={handleUploadImagesAndVideos}
+							hidden
+							disabled={uploadingImage}
+						/>
+					</>
 				)}
 			</div>
 		</div>
