@@ -37,9 +37,9 @@ const Header: React.FC<HeaderProps> = ({
 
 	return (
 		<div className="bg-white w-full flex flex-col items-center">
-			{communityData.imageURL ? (
+			{communityStateValue.currentCommunity.imageURL ? (
 				<Link
-					href={communityData.imageURL}
+					href={communityStateValue.currentCommunity.imageURL}
 					target="_blank"
 					className="w-full h-max"
 				>
@@ -53,10 +53,10 @@ const Header: React.FC<HeaderProps> = ({
 			<div className="max-w-6xl w-full flex flex-col px-6">
 				<div className="relative w-full flex flex-row gap-x-4">
 					<div className="border-4 border-solid border-white aspect-square w-20 h-20 rounded-full bg-white translate-y-[-20%]">
-						{communityData.imageURL ? (
+						{communityStateValue.currentCommunity.imageURL ? (
 							<Image
-								src={communityData.imageURL}
-								alt={`${communityData.name} image`}
+								src={communityStateValue.currentCommunity.imageURL}
+								alt={`${communityStateValue.currentCommunity.name} image`}
 								width={256}
 								height={256}
 								loading="lazy"
@@ -68,10 +68,10 @@ const Header: React.FC<HeaderProps> = ({
 					</div>
 					<div className="my-2 flex flex-col gap-y-1">
 						<h1 className="text-2xl font-bold break-words">
-							{communityData.name}
+							{communityStateValue.currentCommunity.name}
 						</h1>
 						<p className="text-sm font-semibold text-gray-500 truncate">
-							r/{communityData.id}
+							r/{communityStateValue.currentCommunity.id}
 						</p>
 					</div>
 					<div className="my-2 ml-4">
@@ -114,13 +114,6 @@ const Header: React.FC<HeaderProps> = ({
 						</button>
 					</div>
 				</div>
-				{/* <nav>
-					<ul>
-						<li>
-
-						</li>
-					</ul>
-				</nav> */}
 			</div>
 		</div>
 	);
