@@ -28,7 +28,7 @@ const Posts: React.FC<PostProps> = ({ communityData }) => {
 	const {
 		getPostImagesAndVideos,
 		postStateValue,
-		setPostsStateValue,
+		setPostStateValue,
 		onDeletePost,
 		onSelectPost,
 		onVote,
@@ -63,7 +63,7 @@ const Posts: React.FC<PostProps> = ({ communityData }) => {
 				})
 			);
 
-			setPostsStateValue((prev) => ({
+			setPostStateValue((prev) => ({
 				...prev,
 				posts: posts as Post[],
 			}));
@@ -83,15 +83,18 @@ const Posts: React.FC<PostProps> = ({ communityData }) => {
 				<PostLoader />
 			) : (
 				<div className="flex flex-col w-full gap-y-4">
-					{postStateValue.posts.map((item) => (
+					{postStateValue.posts.map((post: Post) => (
 						<PostItem
-							post={item}
+							post={post}
 							onDeletePost={onDeletePost}
 							onSelectPost={onSelectPost}
 							onVote={onVote}
-							userIsCreator={user?.uid === item.creatorId}
-							userVoteValue={undefined}
-							key={item.id}
+							userIsCreator={user?.uid === post.creatorId}
+							userVoteValue={
+								postStateValue.postVotes.find((vote) => vote.postId === post.id)
+									?.voteValue
+							}
+							key={post.id}
 						/>
 					))}
 				</div>
