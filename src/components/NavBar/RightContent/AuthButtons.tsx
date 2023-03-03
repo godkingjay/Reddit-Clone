@@ -7,6 +7,12 @@ type AuthButtonsProps = {};
 const AuthButtons: React.FC<AuthButtonsProps> = () => {
 	const setAuthModalOpen = useSetRecoilState(authModalState);
 
+	/**
+	 *
+	 *
+	 * @param {boolean} state
+	 * @param {AuthModalState["view"]} view
+	 */
 	const handleClick = (state: boolean, view: AuthModalState["view"]) => {
 		setAuthModalOpen({
 			open: state,

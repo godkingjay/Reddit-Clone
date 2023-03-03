@@ -25,6 +25,19 @@ type PostItemProps = {
 	onSelectPost: () => void;
 };
 
+/**
+ *
+ *
+ * @param {*} {
+ * 	onDeletePost,
+ * 	onSelectPost,
+ * 	onVote,
+ * 	post,
+ * 	userIsCreator,
+ * 	userVoteValue,
+ * }
+ * @return {*}
+ */
 const PostItem: React.FC<PostItemProps> = ({
 	onDeletePost,
 	onSelectPost,

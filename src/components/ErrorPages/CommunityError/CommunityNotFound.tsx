@@ -16,6 +16,11 @@ const CommunityNotFound: React.FC<CommunityNotFoundProps> = () => {
 	const setAuthModal = useSetRecoilState(authModalState);
 	const [user] = useAuthState(auth);
 
+	/**
+	 *
+	 *
+	 * @param {CommunityModalState["view"]} viewModal
+	 */
 	const handleCommunityModal = (viewModal: CommunityModalState["view"]) => {
 		if (!user) {
 			setAuthModal((prev) => ({

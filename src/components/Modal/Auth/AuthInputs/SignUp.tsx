@@ -30,6 +30,12 @@ const SignUp: React.FC<SignUpProps> = () => {
 	const [formError, setFormError] = useState(false);
 	const [userError, setUserError] = useState<typeof error | null>(null);
 
+	/**
+	 *
+	 *
+	 * @param {React.FormEvent} e
+	 * @return {*}
+	 */
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (formError) setFormError(false);
@@ -40,6 +46,13 @@ const SignUp: React.FC<SignUpProps> = () => {
 		await createUserWithEmailAndPassword(signUpForm.email, signUpForm.password);
 	};
 
+	/**
+	 *
+	 *
+	 * @param {React.ChangeEvent<HTMLInputElement>} {
+	 * 		target: { name, value },
+	 * 	}
+	 */
 	const handleChange = ({
 		target: { name, value },
 	}: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,6 +62,11 @@ const SignUp: React.FC<SignUpProps> = () => {
 		}));
 	};
 
+	/**
+	 *
+	 *
+	 * @param {AuthModalState["view"]} view
+	 */
 	const handleChangeAuth = (view: AuthModalState["view"]) => {
 		setAuthModal((prev) => ({
 			...prev,
@@ -56,6 +74,11 @@ const SignUp: React.FC<SignUpProps> = () => {
 		}));
 	};
 
+	/**
+	 *
+	 *
+	 * @param {User} user
+	 */
 	const createUserDoc = async (user: User) => {
 		const userDocRef = doc(firestore, "users", user.uid);
 		await setDoc(userDocRef, JSON.parse(JSON.stringify(user)));

@@ -15,6 +15,11 @@ const OAuthButtons: React.FC<OAuthProps> = () => {
 	const [signInWithGoogle, userCred, loading, error] =
 		useSignInWithGoogle(auth);
 
+	/**
+	 *
+	 *
+	 * @param {User} user
+	 */
 	const createUserDoc = async (user: User) => {
 		const userDocRef = doc(firestore, "users", user.uid);
 		const userDoc = await getDoc(userDocRef);

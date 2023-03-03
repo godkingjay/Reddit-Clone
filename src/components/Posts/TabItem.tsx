@@ -6,6 +6,16 @@ type FormTabItemProps = {
 	setCurrentTab: (tab: FormTabItem["title"]) => void;
 };
 
+/**
+ *
+ *
+ * @param {*} {
+ * 	tabItem,
+ * 	currentTab,
+ * 	setCurrentTab,
+ * }
+ * @return {*}
+ */
 const TabItem: React.FC<FormTabItemProps> = ({
 	tabItem,
 	currentTab,

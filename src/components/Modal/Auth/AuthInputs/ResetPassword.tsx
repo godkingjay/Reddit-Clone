@@ -22,12 +22,24 @@ const ResetPassword: React.FC<ResetPasswordProps> = () => {
 
 	const setAuthModal = useSetRecoilState(authModalState);
 
+	/**
+	 *
+	 *
+	 * @param {React.FormEvent<HTMLFormElement>} e
+	 */
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		await sendPasswordResetEmail(resetForm.email);
 		setEmailSent(true);
 	};
 
+	/**
+	 *
+	 *
+	 * @param {React.ChangeEvent<HTMLInputElement>} {
+	 * 		target: { name, value },
+	 * 	}
+	 */
 	const handleChange = ({
 		target: { name, value },
 	}: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,6 +49,11 @@ const ResetPassword: React.FC<ResetPasswordProps> = () => {
 		}));
 	};
 
+	/**
+	 *
+	 *
+	 * @param {AuthModalState["view"]} view
+	 */
 	const handleChangeAuth = (view: AuthModalState["view"]) => {
 		setAuthModal((prev) => ({
 			...prev,

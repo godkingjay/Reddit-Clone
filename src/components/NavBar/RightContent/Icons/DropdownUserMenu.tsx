@@ -15,6 +15,12 @@ type DropdownUserMenuProps = {
 // 	class: string[] | null;
 // };
 
+/**
+ *
+ *
+ * @param {*} { user }
+ * @return {*}
+ */
 const DropdownUserMenu: React.FC<DropdownUserMenuProps> = ({ user }) => {
 	const resetCommunityState = useResetRecoilState(communityState);
 
@@ -31,6 +37,10 @@ const DropdownUserMenu: React.FC<DropdownUserMenuProps> = ({ user }) => {
 	// 	},
 	// ];
 
+	/**
+	 *
+	 *
+	 */
 	const handleLogOut = async () => {
 		await signOut(auth);
 		resetCommunityState();

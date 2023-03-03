@@ -21,6 +21,12 @@ type PostProps = {
 	communityData: Community;
 };
 
+/**
+ *
+ *
+ * @param {*} { communityData }
+ * @return {*}
+ */
 const Posts: React.FC<PostProps> = ({ communityData }) => {
 	const [user] = useAuthState(auth);
 	const [loadingPosts, setLoadingPosts] = useState(true);

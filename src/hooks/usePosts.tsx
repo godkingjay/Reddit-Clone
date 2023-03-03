@@ -1,15 +1,15 @@
 import { authModalState } from "@/atoms/authModalAtom";
 import { communityState } from "@/atoms/communitiesAtom";
-import { ImagesAndVideos, Post, PostVote, postState } from "@/atoms/postAtom";
+import { ImagesAndVideos, Post, postState, PostVote } from "@/atoms/postAtom";
 import { auth, firestore, storage } from "@/firebase/clientApp";
 import {
-	DocumentData,
-	QueryDocumentSnapshot,
 	collection,
 	deleteDoc,
 	doc,
+	DocumentData,
 	getDocs,
 	query,
+	QueryDocumentSnapshot,
 	where,
 	writeBatch,
 } from "firebase/firestore";
@@ -27,6 +27,14 @@ const usePosts = () => {
 	const setAuthModal = useSetRecoilState(authModalState);
 	const communityStateValue = useRecoilValue(communityState);
 
+	/**
+	 *
+	 *
+	 * @param {Post} post
+	 * @param {number} vote
+	 * @param {string} communityId
+	 * @return {*}
+	 */
 	const onVote = async (post: Post, vote: number, communityId: string) => {
 		if (!user) {
 			setAuthModal((prev) => ({
@@ -220,6 +228,12 @@ const usePosts = () => {
 
 	const onSelectPost = () => {};
 
+	/**
+	 *
+	 *
+	 * @param {Post} post
+	 * @return {*}  {Promise<boolean>}
+	 */
 	const onDeletePost = async (post: Post): Promise<boolean> => {
 		try {
 			if (post.imagesAndVideos) {
@@ -259,6 +273,12 @@ const usePosts = () => {
 		}
 	};
 
+	/**
+	 *
+	 *
+	 * @param {QueryDocumentSnapshot<DocumentData>} doc
+	 * @return {*}
+	 */
 	const getPostImagesAndVideos = async (
 		doc: QueryDocumentSnapshot<DocumentData>
 	) => {
@@ -278,6 +298,11 @@ const usePosts = () => {
 		}
 	};
 
+	/**
+	 *
+	 *
+	 * @param {string} communityId
+	 */
 	const getCommunityPostVotes = async (communityId: string) => {
 		setLoadingPosts(true);
 		const postVotesQuery = query(

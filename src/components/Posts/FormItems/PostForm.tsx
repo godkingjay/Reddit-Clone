@@ -6,6 +6,16 @@ type PostProps = {
 	loading: boolean;
 };
 
+/**
+ *
+ *
+ * @param {*} {
+ * 	handleTextChange,
+ * 	bodyValue,
+ * 	loading,
+ * }
+ * @return {*}
+ */
 const Post: React.FC<PostProps> = ({
 	handleTextChange,
 	bodyValue,

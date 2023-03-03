@@ -13,6 +13,16 @@ type HeaderProps = {
 	user?: User | null;
 };
 
+/**
+ *
+ *
+ * @param {*} {
+ * 	communityData,
+ * 	communityStateValue,
+ * 	user,
+ * }
+ * @return {*}
+ */
 const Header: React.FC<HeaderProps> = ({
 	communityData,
 	communityStateValue,
@@ -27,6 +37,10 @@ const Header: React.FC<HeaderProps> = ({
 		(item) => item.communityId === communityData.id
 	);
 
+	/**
+	 *
+	 *
+	 */
 	const handleJoinOrLeave = () => {
 		onJoinOrLeaveCommunity(communityData, isJoined);
 	};

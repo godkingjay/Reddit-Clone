@@ -12,6 +12,18 @@ type ImagesAndVideosFormProps = {
 	loading: boolean;
 };
 
+/**
+ *
+ *
+ * @param {*} {
+ * 	imagesAndVideos,
+ * 	handleUploadImagesAndVideos,
+ * 	handleRemoveImageAndVideo,
+ * 	maxUploads,
+ * 	loading,
+ * }
+ * @return {*}
+ */
 const ImagesAndVideosForm: React.FC<ImagesAndVideosFormProps> = ({
 	imagesAndVideos,
 	handleUploadImagesAndVideos,
