@@ -25,10 +25,15 @@ const SubmitPostPage: NextPage = () => {
 	const communityStateValue = useRecoilValue(communityState);
 
 	useEffect(() => {
-		if (!loading && !communityStateValue.currentCommunity.id && communityId) {
+		if (
+			!loading &&
+			!loadingUser &&
+			!communityStateValue.currentCommunity.id &&
+			communityId
+		) {
 			router.push(`/r/${communityId}`);
 		}
-	}, [loading, communityStateValue.currentCommunity, communityId]);
+	}, [loading, loadingUser, communityStateValue.currentCommunity, communityId]);
 
 	return (
 		<>
