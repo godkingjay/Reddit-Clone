@@ -11,7 +11,7 @@ const NavBar: React.FC = () => {
 	const [user, loading, error] = useAuthState(auth);
 
 	return (
-		<div className="flex bg-hsl(0, 0%, 100%) px-[16px] py-[8px] gap-x-2 items-center">
+		<div className="flex bg-hsl(0, 0%, 100%) px-[16px] py-[8px] gap-x-2 items-center shadow-sm w-full border-b border-solid border-b-gray-500 border-opacity-10">
 			<Link
 				href={"/"}
 				className="flex"
