@@ -13,9 +13,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 	const [user] = useAuthState(auth);
 
 	return (
-		<main className="flex flex-col max-h-screen h-screen overflow-hidden">
+		<main className="flex flex-col max-h-screen h-screen overflow-hidden z-20">
 			<NavBar />
-			<div className="bg-gray-200 flex-1 overflow-y-auto scroll-y-style">
+			<div className="bg-gray-200 flex-1 overflow-y-auto scroll-y-style z-10">
 				{children}
 			</div>
 			<ErrorModal />
