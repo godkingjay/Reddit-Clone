@@ -123,11 +123,11 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 		try {
 			const postDocRef = await addDoc(collection(firestore, "posts"), newPost);
 			if (imagesAndVideos.length > 0) {
-				imagesAndVideos.forEach(async (imageAndVideo) => {
+				imagesAndVideos.forEach(async (imageAndVideo, index) => {
 					await runTransaction(firestore, async (transaction) => {
 						imageAndVideo = {
 							...imageAndVideo,
-							path: `posts/${postDocRef.id}/${imageAndVideo.index}-${imageAndVideo.name}-${imagesAndVideos.length}`,
+							path: `posts/${postDocRef.id}/${index}`,
 						};
 						const imageAndVideoStorageRef = await ref(
 							storage,
@@ -151,6 +151,7 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 							url: downloadURL,
 							id: downloadURL.split("=").pop() as string,
 							path: imageAndVideo.path,
+							index,
 						};
 						transaction.set(postImageAndVideoDocRef, newImageAndVideo);
 					});
