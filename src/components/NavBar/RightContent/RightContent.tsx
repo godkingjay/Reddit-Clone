@@ -8,6 +8,12 @@ type RightContentProps = {
 	user?: User | null;
 };
 
+/**
+ *
+ *
+ * @param {*} { user }
+ * @return {*}
+ */
 const RightContent: React.FC<RightContentProps> = ({ user }) => {
 	return (
 		<>

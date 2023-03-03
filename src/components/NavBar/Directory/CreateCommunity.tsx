@@ -11,6 +11,11 @@ type CreateCommunityProps = {};
 const CreateCommunity: React.FC<CreateCommunityProps> = () => {
 	const setCommunityModal = useSetRecoilState(communityModalState);
 
+	/**
+	 *
+	 *
+	 * @param {CommunityModalState["view"]} viewModal
+	 */
 	const handleCommunityModal = (viewModal: CommunityModalState["view"]) => {
 		setCommunityModal((prev) => ({
 			open: true,

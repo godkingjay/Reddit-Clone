@@ -68,6 +68,12 @@ const formTabs: FormTabItem[] = [
 const maxUploads = 20;
 const maxFileSize = 20000000;
 
+/**
+ *
+ *
+ * @param {*} { user, tabItem }
+ * @return {*}
+ */
 const NewPostForm: React.FC<NewPostFormProps> = ({ user, tabItem }) => {
 	const router = useRouter();
 	const setErrorModal = useSetRecoilState(errorModalState);
@@ -87,6 +93,13 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user, tabItem }) => {
 		body: 0,
 	});
 
+	/**
+	 *
+	 *
+	 * @param {string} fileName
+	 * @param {number} fileSize
+	 * @return {*}
+	 */
 	const validateFile = (fileName: string, fileSize: number) => {
 		const allowedExtensions = /(\.jpg|\.jpeg|\.jfif|\.pjpeg|\.pjp|\.png)$/i;
 		if (!allowedExtensions.exec(fileName) || fileSize > maxFileSize) {
@@ -99,6 +112,11 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user, tabItem }) => {
 		} else return true;
 	};
 
+	/**
+	 *
+	 *
+	 * @param {React.FormEvent<HTMLFormElement>} e
+	 */
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setPostError("");
@@ -106,6 +124,10 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user, tabItem }) => {
 		handleCreatePost();
 	};
 
+	/**
+	 *
+	 *
+	 */
 	const handleCreatePost = async () => {
 		const { communityId } = router.query;
 		const { title, body } = postInput;
@@ -176,6 +198,11 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user, tabItem }) => {
 		setLoading(false);
 	};
 
+	/**
+	 *
+	 *
+	 * @param {React.ChangeEvent<HTMLInputElement>} e
+	 */
 	const handleUploadImagesAndVideos = (
 		e: React.ChangeEvent<HTMLInputElement>
 	) => {
@@ -210,10 +237,20 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user, tabItem }) => {
 		}
 	};
 
+	/**
+	 *
+	 *
+	 * @param {number} index
+	 */
 	const handleRemoveImageAndVideo = (index: number) => {
 		setImagesAndVideos((prev) => prev.filter((img) => img.index !== index));
 	};
 
+	/**
+	 *
+	 *
+	 * @param {(React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)} e
+	 */
 	const handleTextChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {

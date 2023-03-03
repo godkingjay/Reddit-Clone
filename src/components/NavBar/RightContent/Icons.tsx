@@ -6,6 +6,12 @@ type IconsProps = {
 	user?: User | null;
 };
 
+/**
+ *
+ *
+ * @param {*} { user }
+ * @return {*}
+ */
 const Icons: React.FC<IconsProps> = ({ user }) => {
 	return (
 		<section className="flex flex-row w-full h-full items-center">

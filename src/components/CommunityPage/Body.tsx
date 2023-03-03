@@ -8,6 +8,12 @@ type BodyProps = {
 	user?: User | null;
 };
 
+/**
+ *
+ *
+ * @param {*} { communityData, loadingPosts, user }
+ * @return {*}
+ */
 const Body: React.FC<BodyProps> = ({ communityData, loadingPosts, user }) => {
 	return (
 		<div className="flex-1 flex flex-col gap-y-4 w-full">

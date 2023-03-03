@@ -1,9 +1,9 @@
 import { authModalState } from "@/atoms/authModalAtom";
 import {
 	Community,
-	UserCommunity,
 	communityState,
 	defaultCommunity,
+	UserCommunity,
 } from "@/atoms/communitiesAtom";
 import { auth, firestore } from "@/firebase/clientApp";
 import {
@@ -19,12 +19,6 @@ import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRecoilState, useSetRecoilState } from "recoil";
 
-
-/**
- *
- *
- * @return {*} 
- */
 const useCommunityData = () => {
 	const router = useRouter();
 	const [communityStateValue, setCommunityStateValue] =

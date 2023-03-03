@@ -22,6 +22,12 @@ type AboutCommunityProps = {
 
 const maxFileSize = 20 * 1024 * 1024;
 
+/**
+ *
+ *
+ * @param {*} { communityData }
+ * @return {*}
+ */
 const AboutCommunity: React.FC<AboutCommunityProps> = ({ communityData }) => {
 	const router = useRouter();
 	const [user] = useAuthState(auth);
@@ -32,6 +38,13 @@ const AboutCommunity: React.FC<AboutCommunityProps> = ({ communityData }) => {
 	const setCommunityStateValue = useSetRecoilState(communityState);
 	const { pathname } = router;
 
+	/**
+	 *
+	 *
+	 * @param {string} fileName
+	 * @param {number} fileSize
+	 * @return {*}
+	 */
 	const validateFile = (fileName: string, fileSize: number) => {
 		const allowedExtensions = /(\.jpg|\.jpeg|\.jfif|\.pjpeg|\.pjp|\.png)$/i;
 		if (!allowedExtensions.exec(fileName) || fileSize > maxFileSize) {
@@ -44,6 +57,11 @@ const AboutCommunity: React.FC<AboutCommunityProps> = ({ communityData }) => {
 		} else return true;
 	};
 
+	/**
+	 *
+	 *
+	 * @param {React.ChangeEvent<HTMLInputElement>} e
+	 */
 	const handleUploadImagesAndVideos = (
 		e: React.ChangeEvent<HTMLInputElement>
 	) => {
@@ -55,6 +73,12 @@ const AboutCommunity: React.FC<AboutCommunityProps> = ({ communityData }) => {
 		}
 	};
 
+	/**
+	 *
+	 *
+	 * @param {React.MouseEvent<HTMLButtonElement>} e
+	 * @return {*}
+	 */
 	const onUpdateImage = async (e: React.MouseEvent<HTMLButtonElement>) => {
 		if (!selectedFile) return;
 		setUploadingImage(true);

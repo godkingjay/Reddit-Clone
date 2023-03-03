@@ -7,6 +7,12 @@ import { auth } from "@/firebase/clientApp";
 import Directory from "./Directory/Directory";
 import Link from "next/link";
 
+
+/**
+ *
+ *
+ * @return {*} 
+ */
 const NavBar: React.FC = () => {
 	const [user, loading, error] = useAuthState(auth);
 

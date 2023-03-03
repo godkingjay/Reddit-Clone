@@ -7,6 +7,16 @@ type ErrorBannerProps = {
 	setError: (message: string) => void;
 };
 
+/**
+ *
+ *
+ * @param {*} {
+ * 	title,
+ * 	message,
+ * 	setError,
+ * }
+ * @return {*}
+ */
 const ErrorBanner: React.FC<ErrorBannerProps> = ({
 	title,
 	message,

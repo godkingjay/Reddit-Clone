@@ -4,6 +4,12 @@ type PageContentLayoutProps = {
 	children: React.ReactNode[];
 };
 
+/**
+ *
+ *
+ * @param {} { children }
+ * @return {*}
+ */
 const PageContentLayout: React.FC<PageContentLayoutProps> = ({ children }) => {
 	return (
 		<div className="w-full max-w-6xl px-6 justify-center gap-8 my-4 grid grid-cols-2 grid-flow-col">

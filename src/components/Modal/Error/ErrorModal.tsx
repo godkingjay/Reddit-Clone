@@ -9,6 +9,10 @@ type ErrorModalProps = {};
 const ErrorModal: React.FC<ErrorModalProps> = () => {
 	const [errorModal, setErrorModal] = useRecoilState(errorModalState);
 
+	/**
+	 *
+	 *
+	 */
 	const handleClose = () => {
 		setErrorModal((prev) => ({
 			...prev,

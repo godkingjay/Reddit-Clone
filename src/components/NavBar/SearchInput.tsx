@@ -6,6 +6,12 @@ type SearchInputProps = {
 	user?: User | null;
 };
 
+/**
+ *
+ *
+ * @param {*} { user }
+ * @return {*}
+ */
 const SearchInput: React.FC<SearchInputProps> = ({ user }) => {
 	return (
 		<div className="flex flex-row flex-1 group max-w-[600px] h-full mx-auto">

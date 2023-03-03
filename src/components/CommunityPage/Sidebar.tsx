@@ -7,6 +7,12 @@ type SidebarProps = {
 	communityData: Community;
 };
 
+/**
+ *
+ *
+ * @param {*} { communityData }
+ * @return {*}
+ */
 const Sidebar: React.FC<SidebarProps> = ({ communityData }) => {
 	const { loading } = useCommunityData();
 	return (

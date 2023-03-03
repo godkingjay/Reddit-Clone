@@ -13,6 +13,15 @@ type CreatePostLinkProps = {
 	user?: User | null;
 };
 
+/**
+ *
+ *
+ * @param {*} {
+ * 	communityData,
+ * 	user,
+ * }
+ * @return {*}
+ */
 const CreatePostLink: React.FC<CreatePostLinkProps> = ({
 	communityData,
 	user,
@@ -20,6 +29,12 @@ const CreatePostLink: React.FC<CreatePostLinkProps> = ({
 	const router = useRouter();
 	const setAuthModalState = useSetRecoilState(authModalState);
 
+	/**
+	 *
+	 *
+	 * @param {(React.MouseEvent<HTMLInputElement | HTMLButtonElement>)} e
+	 * @param {FormTabItem["title"]} [tabItem]
+	 */
 	const handleInputClick = (
 		e: React.MouseEvent<HTMLInputElement | HTMLButtonElement>,
 		tabItem?: FormTabItem["title"]

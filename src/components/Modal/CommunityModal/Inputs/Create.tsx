@@ -20,6 +20,12 @@ type CreateProps = {
 	handleClose: Function;
 };
 
+/**
+ *
+ *
+ * @param {*} { handleClose }
+ * @return {*}
+ */
 const Create: React.FC<CreateProps> = ({ handleClose }) => {
 	const router = useRouter();
 	const [user] = useAuthState(auth);
@@ -32,6 +38,13 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 	const [loading, setLoading] = useState(false);
 	const { onAddCommunity } = useCommunityData();
 
+	/**
+	 *
+	 *
+	 * @param {React.ChangeEvent<HTMLInputElement>} {
+	 * 		target: { name, value },
+	 * 	}
+	 */
 	const handleChange = ({
 		target: { name, value },
 	}: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,6 +66,13 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 		}
 	};
 
+	/**
+	 *
+	 *
+	 * @param {React.ChangeEvent<HTMLInputElement>} {
+	 * 		target: { name, title },
+	 * 	}
+	 */
 	const handleSelect = ({
 		target: { name, title },
 	}: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,6 +82,12 @@ const Create: React.FC<CreateProps> = ({ handleClose }) => {
 		}));
 	};
 
+	/**
+	 *
+	 *
+	 * @param {React.FormEvent} e
+	 * @return {*}
+	 */
 	const handleCreateCommunity = async (e: React.FormEvent) => {
 		e.preventDefault();
 

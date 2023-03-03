@@ -5,6 +5,12 @@ type EmptyProps = {
 	loading: boolean;
 };
 
+/**
+ *
+ *
+ * @param {*} { uploadImagesAndVideos, loading }
+ * @return {*}
+ */
 const Empty: React.FC<EmptyProps> = ({ uploadImagesAndVideos, loading }) => {
 	return (
 		<div className="relative flex flex-col border-2 bg-transparent border-dashed border-gray-300 rounded-md hover:border-blue-500 focus-within:border-blue-500 gap-x-2 outline-none">

@@ -10,6 +10,18 @@ type UploadsProps = {
 	loading: boolean;
 };
 
+/**
+ *
+ *
+ * @param {*} {
+ * 	imagesAndVideos,
+ * 	uploadImagesAndVideos,
+ * 	handleRemoveImageAndVideo,
+ * 	maxUploads,
+ * 	loading,
+ * }
+ * @return {*}
+ */
 const Uploads: React.FC<UploadsProps> = ({
 	imagesAndVideos,
 	uploadImagesAndVideos,

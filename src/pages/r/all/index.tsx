@@ -1,7 +1,6 @@
 import Head from "next/head";
 
 type AllProps = {};
-
 const All: React.FC<AllProps> = () => {
 	return (
 		<>

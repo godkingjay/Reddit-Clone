@@ -61,6 +61,11 @@ const Directory: React.FC<DirectoryProps> = () => {
 	// 	handlePathChange(current as FeedsItem);
 	// }, [router]);
 
+	/**
+	 *
+	 *
+	 * @param {FeedsItem} dir
+	 */
 	const handlePathChange = (dir: FeedsItem) => {
 		setDirectory({
 			icon: dir.icon,

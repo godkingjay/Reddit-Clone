@@ -9,6 +9,12 @@ type LayoutProps = {
 	children: React.ReactNode;
 };
 
+/**
+ *
+ *
+ * @param {React.ReactNode} { children }
+ * @return {*}
+ */
 const Layout: React.FC<LayoutProps> = ({ children }) => {
 	const [user] = useAuthState(auth);
 
