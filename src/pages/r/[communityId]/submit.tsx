@@ -26,13 +26,14 @@ const SubmitPostPage: NextPage = () => {
 
 	useEffect(() => {
 		if (
+			!loading &&
 			!loadingUser &&
 			!communityStateValue.currentCommunity.id &&
 			communityId
 		) {
 			router.push(`/r/${communityId}`);
 		}
-	}, [loadingUser, communityStateValue.currentCommunity, communityId]);
+	}, [loading, loadingUser, communityStateValue.currentCommunity, communityId]);
 
 	return (
 		<>
