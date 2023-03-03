@@ -55,7 +55,7 @@ const DropdownUserMenu: React.FC<DropdownUserMenuProps> = ({ user }) => {
 				</div>
 				<FaCaretDown className="caret fill-gray-400 transition-transform" />
 			</summary>
-			<div className="absolute z-30 bg-white top-[130%] h-max right-0 rounded py-1 min-w-[192px] max-w-[192px] xs:min-w-[240px] xs:max-w-[240px] shadow-sm max-h-[60vh] overflow-y-auto scroll-y-style">
+			<div className="absolute z-30 bg-white top-[130%] h-max right-0 rounded py-1 min-w-[192px] max-w-[192px] xs:min-w-[240px] xs:max-w-[240px] shadow-[0_0_8px_#0001] max-h-[60vh] overflow-y-auto scroll-y-style">
 				<ul className="dropdown-user-list h-full w-full flex flex-col">
 					<li>
 						<button
