@@ -43,7 +43,16 @@ const Header: React.FC<HeaderProps> = ({
 					target="_blank"
 					className="w-full h-max"
 				>
-					<div className="w-full h-24 bg-blue-400"></div>
+					<div className="w-full h-24 bg-blue-400 overflow-hidden flex flex-col items-center justify-center">
+						<Image
+							src={communityStateValue.currentCommunity.imageURL}
+							alt={`${communityData.name} image`}
+							width={256}
+							height={256}
+							loading="lazy"
+							className="w-full rounded-full bg-auto bg-center"
+						/>
+					</div>
 				</Link>
 			) : (
 				<div className="w-full h-max">
@@ -56,7 +65,7 @@ const Header: React.FC<HeaderProps> = ({
 						{communityStateValue.currentCommunity.imageURL ? (
 							<Image
 								src={communityStateValue.currentCommunity.imageURL}
-								alt={`${communityStateValue.currentCommunity.name} image`}
+								alt={`${communityData.name} image`}
 								width={256}
 								height={256}
 								loading="lazy"
@@ -68,10 +77,10 @@ const Header: React.FC<HeaderProps> = ({
 					</div>
 					<div className="my-2 flex flex-col gap-y-1">
 						<h1 className="text-2xl font-bold break-words">
-							{communityStateValue.currentCommunity.name}
+							{communityData.name}
 						</h1>
 						<p className="text-sm font-semibold text-gray-500 truncate">
-							r/{communityStateValue.currentCommunity.id}
+							r/{communityData.id}
 						</p>
 					</div>
 					<div className="my-2 ml-4">
