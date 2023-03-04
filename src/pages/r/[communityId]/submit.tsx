@@ -1,4 +1,3 @@
-import { communityState } from "@/atoms/communitiesAtom";
 import Sidebar from "@/components/CommunityPage/Sidebar";
 import PageContentLayout from "@/components/Layout/PageContentLayout";
 import NewPostForm, { FormTabItem } from "@/components/Posts/NewPostForm";
@@ -13,9 +12,6 @@ import Head from "next/head";
 import { useRouter, withRouter } from "next/router";
 import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useRecoilValue } from "recoil";
-
-type SubmitPostPageProps = {};
 
 const SubmitPostPage: NextPage = () => {
 	const [user, loading, error] = useAuthState(auth);
