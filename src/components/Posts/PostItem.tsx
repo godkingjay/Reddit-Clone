@@ -15,6 +15,8 @@ import {
 import ImageAndVideoLoading from "../Skeletons/ImageAndVideoLoading";
 import LoadingSpinner from "public/svg/loading-spinner.svg";
 import ErrorBanner from "../Banner/ErrorBanner";
+import { FiCopy } from "react-icons/fi";
+import { useRouter } from "next/router";
 
 type PostItemProps = {
 	post: Post;
@@ -46,6 +48,7 @@ const PostItem: React.FC<PostItemProps> = ({
 	userIsCreator,
 	userVoteValue,
 }) => {
+	const router = useRouter();
 	const [currentImageAndVideoIndex, setCurrentImageAndVideoIndex] = useState(0);
 	const [loadingImageAndVideo, setLoadingImageAndVideo] = useState(true);
 	const [loadingDelete, setLoadingDelete] = useState(false);
@@ -83,6 +86,12 @@ const PostItem: React.FC<PostItemProps> = ({
 		e.stopPropagation();
 		setCurrentImageAndVideoIndex((prev) => prev + change);
 		setLoadingImageAndVideo(true);
+	};
+
+	const handleCopyLink = (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.stopPropagation();
+		navigator.clipboard.writeText(e.currentTarget.dataset.link as string);
+		alert("Link Copied to Clipboard");
 	};
 
 	return (
@@ -261,6 +270,18 @@ const PostItem: React.FC<PostItemProps> = ({
 											</button>
 										</li>
 									)}
+									<li className="item">
+										<button
+											type="button"
+											title="Copy Link"
+											className="button"
+											onClick={handleCopyLink}
+											data-link={`https://reddit-gkj.vercel.app/r/${post.communityId}/comments/${post.id}`}
+										>
+											<FiCopy className="icon" />
+											<p className="label">Copy Link</p>
+										</button>
+									</li>
 								</ul>
 							</div>
 						</details>
