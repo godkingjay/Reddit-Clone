@@ -21,10 +21,10 @@ type CommunityPageProps = {
 };
 
 /**
- * 
+ *
  *
  * @param {*} { communityData }
- * @return {*} 
+ * @return {*}
  */
 const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
 	const [user, loading] = useAuthState(auth);
