@@ -202,7 +202,7 @@ const useCommunityData = () => {
 				currentCommunity: defaultCommunity,
 			}));
 		}
-	}, [communityStateValue.currentCommunity]);
+	}, [router.query.communityId, communityStateValue.currentCommunity]);
 
 	useEffect(() => {
 		if (user) {
