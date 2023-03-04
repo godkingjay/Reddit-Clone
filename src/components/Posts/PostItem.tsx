@@ -20,9 +20,13 @@ type PostItemProps = {
 	post: Post;
 	userIsCreator: boolean;
 	userVoteValue: number | undefined;
-	onVote: (post: Post, vote: number, communityId: string) => void;
+	onVote: (
+		post: Post,
+		vote: number,
+		communityId: string
+	) => void;
 	onDeletePost: (post: Post) => Promise<boolean>;
-	onSelectPost: () => void;
+	onSelectPost?: (post: Post) => void;
 };
 
 /**
@@ -50,8 +54,10 @@ const PostItem: React.FC<PostItemProps> = ({
 	const [loadingImageAndVideo, setLoadingImageAndVideo] = useState(true);
 	const [loadingDelete, setLoadingDelete] = useState(false);
 	const [deletionError, setDeletionError] = useState("");
+	const singlePostPage = !onSelectPost;
 
-	const handleDeletePost = async () => {
+	const handleDeletePost = async (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.stopPropagation();
 		setDeletionError("");
 		setLoadingDelete(true);
 		try {
@@ -66,29 +72,45 @@ const PostItem: React.FC<PostItemProps> = ({
 		setLoadingDelete(false);
 	};
 
-	const handlePostVote = (vote: number) => {
+	const handlePostVote = (
+		e: React.MouseEvent<HTMLButtonElement>,
+		vote: number
+	) => {
+		e.stopPropagation();
 		onVote(post, vote, post.communityId);
 	};
 
+	const handleImageAndVideoNavigation = (e: React.MouseEvent<HTMLButtonElement>, change: number) => {
+		e.stopPropagation();
+		setCurrentImageAndVideoIndex((prev) => prev + change);
+		setLoadingImageAndVideo(true);
+	}
+
 	return (
 		<div
-			className={`bordered-box-1 bg-white rounded-md hover:border-gray-500 focus:border-gray-500 flex flex-col relative ${
-				!loadingDelete && "cursor-pointer"
-			}`}
-			tabIndex={0}
-			onClick={() => (!loadingDelete ? onSelectPost() : () => {})}
+			className={`bordered-box-1 bg-white rounded-md flex flex-col relative
+				${!loadingDelete && !singlePostPage && "cursor-pointer"}
+				${!singlePostPage && "hover:border-gray-500 focus:border-gray-500"}
+				${singlePostPage ? "" : ""}
+				`}
+			tabIndex={!singlePostPage ? 0 : -1}
+			onClick={() => !loadingDelete && !singlePostPage && onSelectPost(post)}
 		>
 			<div
 				className={`post-card-wrapper flex flex-row ${
 					loadingDelete && "blur-xs"
 				}`}
 			>
-				<div className="post-card-container flex flex-col bg-gray-100 p-2 items-center rounded-l-md gap-y-1 w-10">
+				<div
+					className={`post-card-container flex flex-col p-2 items-center rounded-l-md gap-y-1 w-10 ${
+						!singlePostPage ? "bg-gray-100" : "bg-none"
+					}`}
+				>
 					<button
 						type="button"
 						title="Upvote"
 						className="h-7 w-7 aspect-square text-gray-400 hover:text-brand-100 focus:text-brand-100"
-						onClick={() => handlePostVote(1)}
+						onClick={(e) => handlePostVote(e, 1)}
 					>
 						{userVoteValue === 1 ? (
 							<IoArrowUpCircle className="h-full w-full text-brand-100" />
@@ -111,7 +133,7 @@ const PostItem: React.FC<PostItemProps> = ({
 						type="button"
 						title="Downvote"
 						className="h-7 w-7 aspect-square text-gray-400 hover:text-blue-500 focus:text-blue-500"
-						onClick={() => handlePostVote(-1)}
+						onClick={(e) => handlePostVote(e, -1)}
 					>
 						{userVoteValue === -1 ? (
 							<IoArrowDownCircle className="h-full w-full text-blue-500" />
@@ -151,9 +173,8 @@ const PostItem: React.FC<PostItemProps> = ({
 										type="button"
 										title="Previous Image"
 										className="bg-white h-10 w-10 rounded-full border-2 border-solid absolute top-[50%] left-0 translate-x-[-4px] translate-y-[-50%] shadow-md border-transparent text-gray-500 flex items-center justify-center hover:border-brand-100 hover:text-brand-100 focus:border-brand-100 focus:text-brand-100"
-										onClick={() => {
-											setCurrentImageAndVideoIndex((prev) => prev - 1);
-											setLoadingImageAndVideo(true);
+										onClick={(e) => {
+											handleImageAndVideoNavigation(e, -1);
 										}}
 									>
 										<HiChevronLeft className="h-full w-full" />
@@ -175,9 +196,8 @@ const PostItem: React.FC<PostItemProps> = ({
 										type="button"
 										title="Previous Image"
 										className="bg-white h-10 w-10 rounded-full border-2 border-solid absolute top-[50%] right-0 translate-x-[4px] translate-y-[-50%] shadow-md border-transparent text-gray-500 flex items-center justify-center hover:border-brand-100 hover:text-brand-100 focus:border-brand-100 focus:text-brand-100"
-										onClick={() => {
-											setCurrentImageAndVideoIndex((prev) => prev + 1);
-											setLoadingImageAndVideo(true);
+										onClick={(e) => {
+											handleImageAndVideoNavigation(e, 1);
 										}}
 									>
 										<HiChevronRight className="h-full w-full" />
@@ -221,7 +241,7 @@ const PostItem: React.FC<PostItemProps> = ({
 							<p className="font-semibold text-sm hidden xs:inline">Comments</p>
 						</button>
 						<details className="ml-auto flex flex-row items-center [&[open]>summary]:bg-gray-200">
-							<summary className="list-none aspect-square h-8 w-8 p-1 text-gray-500 rounded-md hover:bg-gray-200 focus:bg-gray-200">
+							<summary className="list-none aspect-square h-8 w-8 p-1 text-gray-500 rounded-md hover:bg-gray-200 focus:bg-gray-200" onClick={(e) => e.stopPropagation()}>
 								<BsThreeDots className="h-full w-full" />
 							</summary>
 							<div className="absolute h-max w-max min-w-[160px] bg-white right-0 bottom-[110%] shadow-[_0_0_8px_#0002] overflow-hidden rounded-md">
@@ -232,7 +252,7 @@ const PostItem: React.FC<PostItemProps> = ({
 												type="button"
 												title="Delete Post"
 												className="button delete"
-												onClick={() => handleDeletePost()}
+												onClick={handleDeletePost}
 											>
 												<FaRegTrashAlt className="icon" />
 												<p className="label">Delete</p>
