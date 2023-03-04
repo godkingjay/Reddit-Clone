@@ -25,8 +25,6 @@ const PostPage: React.FC<PostPageProps> = () => {
 		usePosts();
 	const [user] = useAuthState(auth);
 
-	console.log(postStateValue);
-
 	useEffect(() => {
 		if (!postStateValue.selectedPost && currentPostId) {
 			getPost(currentPostId as string);
