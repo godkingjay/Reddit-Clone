@@ -284,6 +284,16 @@ const usePosts = () => {
 				posts: prev.posts.filter((item) => item.id !== post.id),
 			}));
 
+			if (postStateValue.selectedPost) {
+				if (postStateValue.selectedPost.id === post.id) {
+					setPostStateValue((prev) => ({
+						...prev,
+						selectedPost: null,
+					}));
+					router.push(`/r/${post.communityId}`);
+				}
+			}
+
 			return true;
 		} catch (error) {
 			console.log();

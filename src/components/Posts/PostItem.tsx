@@ -20,11 +20,7 @@ type PostItemProps = {
 	post: Post;
 	userIsCreator: boolean;
 	userVoteValue: number | undefined;
-	onVote: (
-		post: Post,
-		vote: number,
-		communityId: string
-	) => void;
+	onVote: (post: Post, vote: number, communityId: string) => void;
 	onDeletePost: (post: Post) => Promise<boolean>;
 	onSelectPost?: (post: Post) => void;
 };
@@ -80,11 +76,14 @@ const PostItem: React.FC<PostItemProps> = ({
 		onVote(post, vote, post.communityId);
 	};
 
-	const handleImageAndVideoNavigation = (e: React.MouseEvent<HTMLButtonElement>, change: number) => {
+	const handleImageAndVideoNavigation = (
+		e: React.MouseEvent<HTMLButtonElement>,
+		change: number
+	) => {
 		e.stopPropagation();
 		setCurrentImageAndVideoIndex((prev) => prev + change);
 		setLoadingImageAndVideo(true);
-	}
+	};
 
 	return (
 		<div
@@ -238,10 +237,13 @@ const PostItem: React.FC<PostItemProps> = ({
 							<div className="aspect-square h-6 w-6">
 								<FaRegBookmark className="h-full w-full" />
 							</div>
-							<p className="font-semibold text-sm hidden xs:inline">Comments</p>
+							<p className="font-semibold text-sm hidden xs:inline">Bookmark</p>
 						</button>
 						<details className="ml-auto flex flex-row items-center [&[open]>summary]:bg-gray-200">
-							<summary className="list-none aspect-square h-8 w-8 p-1 text-gray-500 rounded-md hover:bg-gray-200 focus:bg-gray-200" onClick={(e) => e.stopPropagation()}>
+							<summary
+								className="list-none aspect-square h-8 w-8 p-1 text-gray-500 rounded-md hover:bg-gray-200 focus:bg-gray-200"
+								onClick={(e) => e.stopPropagation()}
+							>
 								<BsThreeDots className="h-full w-full" />
 							</summary>
 							<div className="absolute h-max w-max min-w-[160px] bg-white right-0 bottom-[110%] shadow-[_0_0_8px_#0002] overflow-hidden rounded-md">
