@@ -90,7 +90,9 @@ const PostItem: React.FC<PostItemProps> = ({
 
 	const handleCopyLink = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.stopPropagation();
-		navigator.clipboard.writeText(e.currentTarget.dataset.link as string);
+		const origin = typeof window !== "undefined" ? window.location.origin : "";
+		const URL = `${origin}/r/${post.communityId}/comments/${post.id}`;
+		navigator.clipboard.writeText(URL);
 		alert("Link Copied to Clipboard");
 	};
 
@@ -276,7 +278,6 @@ const PostItem: React.FC<PostItemProps> = ({
 											title="Copy Link"
 											className="button"
 											onClick={handleCopyLink}
-											data-link={`https://reddit-gkj.vercel.app/r/${post.communityId}/comments/${post.id}`}
 										>
 											<FiCopy className="icon" />
 											<p className="label">Copy Link</p>
