@@ -193,7 +193,7 @@ const useCommunityData = () => {
 		const { communityId } = router.query;
 		if (communityId) {
 			const communityData = communityStateValue.currentCommunity;
-			if (!communityData?.id) {
+			if (!communityData?.id && communityData.id !== communityId) {
 				getCommunityData(communityId as string);
 			}
 		} else {
@@ -202,7 +202,7 @@ const useCommunityData = () => {
 				currentCommunity: defaultCommunity,
 			}));
 		}
-	}, [router.query, communityStateValue.currentCommunity]);
+	}, [communityStateValue.currentCommunity]);
 
 	useEffect(() => {
 		if (user) {
