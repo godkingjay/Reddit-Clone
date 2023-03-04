@@ -18,22 +18,27 @@ import { useRecoilValue } from "recoil";
 type SubmitPostPageProps = {};
 
 const SubmitPostPage: NextPage = () => {
-	const [user, loadingUser, error] = useAuthState(auth);
+	const [user, loading, error] = useAuthState(auth);
 	const router = useRouter();
 	const { communityId, tabItem } = router.query;
-	const { loading } = useCommunityData();
-	const communityStateValue = useRecoilValue(communityState);
+	const { loading: loadingCommunity, communityStateValue } = useCommunityData();
 
 	useEffect(() => {
 		if (
-			!loading &&
-			!loadingUser &&
-			!communityStateValue.currentCommunity.id &&
-			communityId
+			(communityId &&
+				!loadingCommunity &&
+				!communityStateValue.currentCommunity.id) ||
+			(!user && !loading)
 		) {
 			router.push(`/r/${communityId}`);
 		}
-	}, [loading, loadingUser, communityStateValue.currentCommunity, communityId]);
+	}, [
+		communityId,
+		user,
+		loading,
+		loadingCommunity,
+		communityStateValue.currentCommunity,
+	]);
 
 	return (
 		<>
@@ -44,7 +49,9 @@ const SubmitPostPage: NextPage = () => {
 				<PageContentLayout>
 					<>
 						<div className="w-full flex flex-col gap-y-4">
-							{!loading ? (
+							{!loadingCommunity &&
+							!loading &&
+							communityStateValue.currentCommunity.id ? (
 								<>
 									<NewPostHeader />
 									{user && (
@@ -63,7 +70,9 @@ const SubmitPostPage: NextPage = () => {
 						</div>
 					</>
 					<>
-						{!loading || communityStateValue.currentCommunity.id ? (
+						{!loadingCommunity &&
+						!loading &&
+						communityStateValue.currentCommunity.id ? (
 							<Sidebar communityData={communityStateValue.currentCommunity} />
 						) : (
 							<SidebarSkeleton />
