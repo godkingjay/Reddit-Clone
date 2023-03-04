@@ -205,6 +205,13 @@ const usePosts = () => {
 				postVotes: updatedPostVotes,
 			}));
 
+			if (postStateValue.selectedPost) {
+				setPostStateValue((prev) => ({
+					...prev,
+					selectedPost: updatedPost,
+				}));
+			}
+
 			/**
 			 * @create // * a reference to the post document
 			 */
@@ -226,7 +233,18 @@ const usePosts = () => {
 		}
 	};
 
-	const onSelectPost = () => {};
+	/**
+	 *
+	 *
+	 * @param {Post} post
+	 */
+	const onSelectPost = (post: Post) => {
+		setPostStateValue((prev) => ({
+			...prev,
+			selectedPost: post,
+		}));
+		router.push(`/r/${post.communityId}/comments/${post.id}`);
+	};
 
 	/**
 	 *
