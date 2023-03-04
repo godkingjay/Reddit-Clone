@@ -1,21 +1,12 @@
 import { Community } from "@/atoms/communitiesAtom";
 import { auth, firestore } from "@/firebase/clientApp";
 import usePosts from "@/hooks/usePosts";
-import {
-	DocumentData,
-	QueryDocumentSnapshot,
-	collection,
-	getDocs,
-	orderBy,
-	query,
-	where,
-} from "firebase/firestore";
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import LoadingSpinner from "public/svg/loading-spinner.svg";
-import { ImagesAndVideos, Post } from "@/atoms/postAtom";
 import PostItem from "./PostItem";
-import PostLoader from "./PostLoader";
+import PostSkeleton from "../Skeletons/PostSkeleton";
+import { Post } from "@/atoms/postAtom";
 
 type PostProps = {
 	communityData: Community;
@@ -85,26 +76,32 @@ const Posts: React.FC<PostProps> = ({ communityData }) => {
 
 	return (
 		<div className="w-full flex flex-col">
-			{loadingPosts ? (
-				<PostLoader />
-			) : (
-				<div className="flex flex-col w-full gap-y-4">
-					{postStateValue.posts.map((post: Post) => (
-						<PostItem
-							post={post}
-							onDeletePost={onDeletePost}
-							onSelectPost={onSelectPost}
-							onVote={onVote}
-							userIsCreator={user?.uid === post.creatorId}
-							userVoteValue={
-								postStateValue.postVotes.find((vote) => vote.postId === post.id)
-									?.voteValue
-							}
-							key={post.id}
-						/>
-					))}
-				</div>
-			)}
+			<div className="flex flex-col w-full gap-y-4">
+				{loadingPosts ? (
+					<>
+						<PostSkeleton />
+						<PostSkeleton />
+					</>
+				) : (
+					<>
+						{postStateValue.posts.map((post: Post) => (
+							<PostItem
+								post={post}
+								onDeletePost={onDeletePost}
+								onSelectPost={onSelectPost}
+								onVote={onVote}
+								userIsCreator={user?.uid === post.creatorId}
+								userVoteValue={
+									postStateValue.postVotes.find(
+										(vote) => vote.postId === post.id
+									)?.voteValue
+								}
+								key={post.id}
+							/>
+						))}
+					</>
+				)}
+			</div>
 		</div>
 	);
 };

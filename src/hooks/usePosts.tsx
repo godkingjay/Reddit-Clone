@@ -7,6 +7,7 @@ import {
 	deleteDoc,
 	doc,
 	DocumentData,
+	getDoc,
 	getDocs,
 	query,
 	QueryDocumentSnapshot,
@@ -22,10 +23,47 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 const usePosts = () => {
 	const router = useRouter();
 	const [user, loadingUser] = useAuthState(auth);
+	const [loadingPost, setLoadingPost] = useState(false);
 	const [loadingPosts, setLoadingPosts] = useState(false);
 	const [postStateValue, setPostStateValue] = useRecoilState(postState);
 	const setAuthModal = useSetRecoilState(authModalState);
 	const communityStateValue = useRecoilValue(communityState);
+
+	/**
+	 *
+	 *
+	 * @param {string} postId
+	 */
+	const getPost = async (postId: string) => {
+		if (!postId) return;
+		setLoadingPost(true);
+		try {
+			const postDocRef = doc(firestore, "posts", postId);
+			const postDoc = await getDoc(postDocRef);
+			if (postDoc.exists()) {
+				const selectedPost = {
+					id: postDoc.id,
+					...postDoc.data(),
+				} as Post;
+
+				const imagesAndVideos = (await getPostImagesAndVideos(
+					postDoc
+				)) as ImagesAndVideos[];
+
+				if (imagesAndVideos) {
+					selectedPost.imagesAndVideos = imagesAndVideos;
+				}
+
+				setPostStateValue((prev) => ({
+					...prev,
+					selectedPost,
+				}));
+			}
+		} catch (error: any) {
+			console.log("Fetch Selected Post Error: ", error.message);
+		}
+		setLoadingPost(false);
+	};
 
 	/**
 	 *
@@ -353,7 +391,6 @@ const usePosts = () => {
 	useEffect(() => {
 		if (!user?.uid || !communityStateValue.currentCommunity) return;
 		getCommunityPostVotes(communityStateValue.currentCommunity.id);
-		getCommunityPostVotes(communityStateValue.currentCommunity.id);
 	}, [user, communityStateValue.currentCommunity]);
 
 	useEffect(() => {
@@ -376,6 +413,9 @@ const usePosts = () => {
 		getCommunityPostVotes,
 		loadingPosts,
 		setLoadingPosts,
+		getPost,
+		loadingPost,
+		setLoadingPost,
 	};
 };
 
