@@ -66,6 +66,7 @@ const Posts: React.FC<PostProps> = ({ communityData }) => {
 			}));
 		} catch (error: any) {
 			console.log(error.message);
+			setPostsLoadError(error.message);
 		}
 		setLoadingPosts(false);
 	};
@@ -96,6 +97,7 @@ const Posts: React.FC<PostProps> = ({ communityData }) => {
 										(vote) => vote.postId === post.id
 									)?.voteValue
 								}
+								user={user}
 								key={post.id}
 							/>
 						))}

@@ -12,17 +12,20 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 
-type PostPageProps = {
-	// communityData: Community;
-};
+type PostPageProps = {};
 
 const PostPage: React.FC<PostPageProps> = () => {
 	const router = useRouter();
 	const currentPostId = router.query.postId;
-	const { loading: loadingCommunities, communityStateValue } =
-		useCommunityData();
-	const { onDeletePost, postStateValue, onVote, loadingPost, getPost } =
-		usePosts();
+	const { communityStateValue } = useCommunityData();
+	const {
+		onDeletePost,
+		postStateValue,
+		onVote,
+		loadingPost,
+		loadingPosts,
+		getPost,
+	} = usePosts();
 	const [user] = useAuthState(auth);
 
 	useEffect(() => {
@@ -46,7 +49,9 @@ const PostPage: React.FC<PostPageProps> = () => {
 				<PageContentLayout>
 					<>
 						<div className="flex flex-col w-full gap-y-4">
-							{!loadingPost && postStateValue.selectedPost ? (
+							{!loadingPost &&
+							postStateValue.postVotes &&
+							postStateValue.selectedPost ? (
 								<PostItem
 									post={postStateValue.selectedPost}
 									onDeletePost={onDeletePost}
@@ -59,6 +64,7 @@ const PostPage: React.FC<PostPageProps> = () => {
 											(vote) => vote.postId === postStateValue.selectedPost?.id
 										)?.voteValue
 									}
+									user={user}
 								/>
 							) : (
 								<>
@@ -68,7 +74,7 @@ const PostPage: React.FC<PostPageProps> = () => {
 						</div>
 					</>
 					<>
-						{!loadingCommunities && communityStateValue.currentCommunity ? (
+						{communityStateValue.currentCommunity.id ? (
 							<Sidebar communityData={communityStateValue.currentCommunity} />
 						) : (
 							<SidebarSkeleton />
