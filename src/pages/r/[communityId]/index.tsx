@@ -69,7 +69,7 @@ const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
 					</>
 					<>
 						{!loadingCommunities ? (
-							<Sidebar communityData={communityData} />
+							<Sidebar communityData={communityStateValue.currentCommunity} />
 						) : (
 							<SidebarSkeleton />
 						)}

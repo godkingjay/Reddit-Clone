@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import SinglePostCommentInput from "./SinglePostCommentInput";
 import { AuthModalState, authModalState } from "@/atoms/authModalAtom";
 import { useSetRecoilState } from "recoil";
+import useComment from "@/hooks/useComment";
 
 type CommentSectionProps = {
 	user?: User | null;
@@ -20,6 +21,8 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 	selectedPost,
 	communityId,
 }) => {
+	const { createComment, onDeleteComment } = useComment();
+
 	const [commentInput, setCommentInput] = useState<CommentInput>({
 		text: "",
 	});
@@ -33,14 +36,17 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 		setCommentingError("");
 		setIsCreatingComment(true);
 		try {
+			await createComment(commentInput);
+			setCommentInput((prev) => ({
+				...prev,
+				text: "",
+			}));
 		} catch (error: any) {
 			console.log("Posting Comment Error:", error.message);
 			setCommentingError(error.message);
 		}
 		setIsCreatingComment(false);
 	};
-
-	const onDeleteComment = async (comment: any) => {};
 
 	const getPostComments = async () => {};
 

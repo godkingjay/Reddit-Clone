@@ -153,6 +153,10 @@ const useCommunityData = () => {
 			setCommunityStateValue((prev) => ({
 				...prev,
 				userCommunities: [...prev.userCommunities, newUserCommunity],
+				currentCommunity: {
+					...prev.currentCommunity,
+					members: prev.currentCommunity.members + 1,
+				},
 			}));
 		} catch (error: any) {
 			console.log("Joining Community Error:", error);
@@ -181,6 +185,10 @@ const useCommunityData = () => {
 				userCommunities: prev.userCommunities.filter(
 					(items) => items.communityId !== communityId
 				),
+				currentCommunity: {
+					...prev.currentCommunity,
+					members: prev.currentCommunity.members - 1,
+				},
 			}));
 		} catch (error: any) {
 			console.log("Leave Community Error: ", error);
