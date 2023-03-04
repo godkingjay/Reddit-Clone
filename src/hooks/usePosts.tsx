@@ -50,7 +50,7 @@ const usePosts = () => {
 					postDoc
 				)) as ImagesAndVideos[];
 
-				if (imagesAndVideos) {
+				if (imagesAndVideos.length > 0) {
 					selectedPost.imagesAndVideos = imagesAndVideos;
 				}
 

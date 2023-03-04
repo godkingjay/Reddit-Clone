@@ -31,6 +31,12 @@ const PostPage: React.FC<PostPageProps> = () => {
 		}
 	}, [currentPostId]);
 
+	useEffect(() => {
+		if (!postStateValue.selectedPost && currentPostId && !loadingPost) {
+			router.push(`/r/${communityStateValue.currentCommunity?.id}`);
+		}
+	}, [loadingPost, postStateValue.selectedPost]);
+
 	return (
 		<>
 			<Head>
