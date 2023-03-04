@@ -230,16 +230,32 @@ const PostItem: React.FC<PostItemProps> = ({
 								<span className="hidden xs:inline"> Comments</span>
 							</p>
 						</button>
-						<button
-							type="button"
-							title="Comments"
-							className="p-2 flex flex-row items-center text-gray-500 gap-x-2 rounded-md hover:bg-gray-200 focus:bg-gray-200"
-						>
-							<div className="aspect-square h-6 w-6">
-								<FaRegShareSquare className="h-full w-full" />
+						<details className="[&[open]>summary]:bg-gray-200 relative">
+							<summary
+								title="Comments"
+								className="list-none p-2 flex flex-row items-center text-gray-500 gap-x-2 rounded-md hover:bg-gray-200 focus:bg-gray-200 cursor-pointer"
+							>
+								<div className="aspect-square h-6 w-6">
+									<FaRegShareSquare className="h-full w-full" />
+								</div>
+								<p className="font-semibold text-sm hidden xs:inline">Share</p>
+							</summary>
+							<div className="absolute h-max w-max min-w-[160px] bg-white left-0 bottom-[110%] shadow-[_0_0_8px_#0004] overflow-hidden rounded-md">
+								<ul className="post-others-menu py-1">
+									<li className="item">
+										<button
+											type="button"
+											title="Copy Link"
+											className="button"
+											onClick={handleCopyLink}
+										>
+											<FiCopy className="icon" />
+											<p className="label">Copy Link</p>
+										</button>
+									</li>
+								</ul>
 							</div>
-							<p className="font-semibold text-sm hidden xs:inline">Share</p>
-						</button>
+						</details>
 						<button
 							type="button"
 							title="Comments"
@@ -258,7 +274,7 @@ const PostItem: React.FC<PostItemProps> = ({
 								<BsThreeDots className="h-full w-full" />
 							</summary>
 							<div className="absolute h-max w-max min-w-[160px] bg-white right-0 bottom-[110%] shadow-[_0_0_8px_#0002] overflow-hidden rounded-md">
-								<ul className="post-others-menu">
+								<ul className="post-others-menu py-1">
 									{userIsCreator && (
 										<li className="item">
 											<button
@@ -272,17 +288,6 @@ const PostItem: React.FC<PostItemProps> = ({
 											</button>
 										</li>
 									)}
-									<li className="item">
-										<button
-											type="button"
-											title="Copy Link"
-											className="button"
-											onClick={handleCopyLink}
-										>
-											<FiCopy className="icon" />
-											<p className="label">Copy Link</p>
-										</button>
-									</li>
 								</ul>
 							</div>
 						</details>
