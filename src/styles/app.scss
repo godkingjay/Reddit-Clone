@@ -15,6 +15,14 @@
 		}
 	}
 
+	.loading-spinner-button {
+		@apply h-full w-full;
+
+		path {
+			@apply stroke-white;
+		}
+	}
+
 	.modal-pop-up {
 		.modal-close {
 			@apply outline-offset-4;

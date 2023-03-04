@@ -7,6 +7,7 @@ import {
 	deleteDoc,
 	doc,
 	DocumentData,
+	getDoc,
 	getDocs,
 	query,
 	QueryDocumentSnapshot,
@@ -22,10 +23,47 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 const usePosts = () => {
 	const router = useRouter();
 	const [user, loadingUser] = useAuthState(auth);
+	const [loadingPost, setLoadingPost] = useState(false);
 	const [loadingPosts, setLoadingPosts] = useState(false);
 	const [postStateValue, setPostStateValue] = useRecoilState(postState);
 	const setAuthModal = useSetRecoilState(authModalState);
 	const communityStateValue = useRecoilValue(communityState);
+
+	/**
+	 *
+	 *
+	 * @param {string} postId
+	 */
+	const getPost = async (postId: string) => {
+		if (!postId) return;
+		setLoadingPost(true);
+		try {
+			const postDocRef = doc(firestore, "posts", postId);
+			const postDoc = await getDoc(postDocRef);
+			if (postDoc.exists()) {
+				const selectedPost = {
+					id: postDoc.id,
+					...postDoc.data(),
+				} as Post;
+
+				const imagesAndVideos = (await getPostImagesAndVideos(
+					postDoc
+				)) as ImagesAndVideos[];
+
+				if (imagesAndVideos.length > 0) {
+					selectedPost.imagesAndVideos = imagesAndVideos;
+				}
+
+				setPostStateValue((prev) => ({
+					...prev,
+					selectedPost,
+				}));
+			}
+		} catch (error: any) {
+			console.log("Fetch Selected Post Error: ", error.message);
+		}
+		setLoadingPost(false);
+	};
 
 	/**
 	 *
@@ -205,6 +243,13 @@ const usePosts = () => {
 				postVotes: updatedPostVotes,
 			}));
 
+			if (postStateValue.selectedPost) {
+				setPostStateValue((prev) => ({
+					...prev,
+					selectedPost: updatedPost,
+				}));
+			}
+
 			/**
 			 * @create // * a reference to the post document
 			 */
@@ -226,7 +271,18 @@ const usePosts = () => {
 		}
 	};
 
-	const onSelectPost = () => {};
+	/**
+	 *
+	 *
+	 * @param {Post} post
+	 */
+	const onSelectPost = (post: Post) => {
+		setPostStateValue((prev) => ({
+			...prev,
+			selectedPost: post,
+		}));
+		router.push(`/r/${post.communityId}/comments/${post.id}`);
+	};
 
 	/**
 	 *
@@ -265,6 +321,16 @@ const usePosts = () => {
 				...prev,
 				posts: prev.posts.filter((item) => item.id !== post.id),
 			}));
+
+			if (postStateValue.selectedPost) {
+				if (postStateValue.selectedPost.id === post.id) {
+					setPostStateValue((prev) => ({
+						...prev,
+						selectedPost: null,
+					}));
+					router.push(`/r/${post.communityId}`);
+				}
+			}
 
 			return true;
 		} catch (error) {
@@ -325,7 +391,6 @@ const usePosts = () => {
 	useEffect(() => {
 		if (!user?.uid || !communityStateValue.currentCommunity) return;
 		getCommunityPostVotes(communityStateValue.currentCommunity.id);
-		getCommunityPostVotes(communityStateValue.currentCommunity.id);
 	}, [user, communityStateValue.currentCommunity]);
 
 	useEffect(() => {
@@ -348,6 +413,9 @@ const usePosts = () => {
 		getCommunityPostVotes,
 		loadingPosts,
 		setLoadingPosts,
+		getPost,
+		loadingPost,
+		setLoadingPost,
 	};
 };
 
