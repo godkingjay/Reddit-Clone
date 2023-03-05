@@ -72,11 +72,12 @@ const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
 						/>
 					</>
 					<>
-						{!loadingCommunities ? (
+						{!loadingCommunities || communityData ? (
 							<Sidebar
 								communityData={communityStateValue.currentCommunity}
 								user={user}
-								loading={loading} /* error={error} */
+								loading={loading}
+								error={error}
 							/>
 						) : (
 							<SidebarSkeleton />
