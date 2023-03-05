@@ -5,6 +5,7 @@ import { AuthModalState, authModalState } from "@/atoms/authModalAtom";
 import { useSetRecoilState } from "recoil";
 import useComment from "@/hooks/useComment";
 import { UserAuth } from "@/pages/_app";
+import Comments from "./Comments/Comments";
 
 type CommentSectionProps = {
 	user?: UserAuth["user"] | null;
@@ -21,7 +22,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 	selectedPost,
 	communityId,
 }) => {
-	const { createComment, onDeleteComment } = useComment();
+	const { commentStateValue, createComment, onDeleteComment } = useComment();
 
 	const [commentInput, setCommentInput] = useState<CommentInput>({
 		text: "",
@@ -101,7 +102,9 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 					</>
 				)}
 			</div>
-			<div>comments</div>
+			{commentStateValue.comments.length > 0 && (
+				<Comments commentStateValue={commentStateValue} />
+			)}
 		</section>
 	);
 };
