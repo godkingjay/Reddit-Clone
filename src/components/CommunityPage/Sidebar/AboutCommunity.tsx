@@ -1,12 +1,10 @@
 import { Community, communityState } from "@/atoms/communitiesAtom";
-import { auth, firestore, storage } from "@/firebase/clientApp";
+import { firestore, storage } from "@/firebase/clientApp";
 import useSelectFile from "@/hooks/useSelectFile";
 import moment from "moment";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useRef, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { BsThreeDots } from "react-icons/bs";
 import { RiCake2Line } from "react-icons/ri";
 import NoCommunityImage from "public/svg/community-no-image.svg";
@@ -15,9 +13,12 @@ import { useSetRecoilState } from "recoil";
 import { errorModalState } from "@/atoms/errorModalAtom";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { doc, updateDoc } from "firebase/firestore";
+import { authModalState } from "@/atoms/authModalAtom";
+import { UserAuth } from "@/pages/_app";
 
 type AboutCommunityProps = {
 	communityData: Community;
+	user?: UserAuth["user"] | null;
 };
 
 const maxFileSize = 20 * 1024 * 1024;
@@ -28,12 +29,15 @@ const maxFileSize = 20 * 1024 * 1024;
  * @param {*} { communityData }
  * @return {*}
  */
-const AboutCommunity: React.FC<AboutCommunityProps> = ({ communityData }) => {
+const AboutCommunity: React.FC<AboutCommunityProps> = ({
+	communityData,
+	user,
+}) => {
 	const router = useRouter();
-	const [user] = useAuthState(auth);
 	const selectFileRef = useRef<HTMLInputElement>(null);
 	const { selectedFile, setSelectedFile, onSelectFile } = useSelectFile();
 	const [uploadingImage, setUploadingImage] = useState(false);
+	const setAuthModalState = useSetRecoilState(authModalState);
 	const setErrorModal = useSetRecoilState(errorModalState);
 	const setCommunityStateValue = useSetRecoilState(communityState);
 	const { pathname } = router;
@@ -102,6 +106,20 @@ const AboutCommunity: React.FC<AboutCommunityProps> = ({ communityData }) => {
 		setUploadingImage(false);
 	};
 
+	const handleNavigateToPostCreation = (
+		e: React.MouseEvent<HTMLButtonElement>
+	) => {
+		if (user) {
+			router.push(`/r/${communityData.id}/submit`);
+		} else {
+			setAuthModalState((prev) => ({
+				...prev,
+				open: true,
+				view: "login",
+			}));
+		}
+	};
+
 	return (
 		<div className="bordered-box-1 bg-white rounded-md">
 			<div className="flex flex-col w-full">
@@ -151,12 +169,14 @@ const AboutCommunity: React.FC<AboutCommunityProps> = ({ communityData }) => {
 				<div className="h-[1px] bg-gray-500 bg-opacity-20 mx-2"></div>
 				{!(pathname.split("/").pop() as string).match(/submit/g) && (
 					<div className="px-2 py-4 flex flex-col items-center">
-						<Link
-							href={`/r/${communityData.id}/submit`}
+						<button
+							type="button"
+							title="Create A Post"
+							onClick={handleNavigateToPostCreation}
 							className="page-button max-w-none w-full flex flex-row justify-center items-center hover:bg-blue-600 hover:border-blue-600 focus:bg-blue-600 focus:border-blue-600"
 						>
 							Create A Post
-						</Link>
+						</button>
 					</div>
 				)}
 				{user?.uid === communityData.creatorId && (

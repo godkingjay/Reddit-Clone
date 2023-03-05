@@ -1,9 +1,9 @@
-import { User } from "firebase/auth";
 import DropdownUserMenu from "./Icons/DropdownUserMenu";
 import RightContentIcons from "./Icons/RightContentIcons";
+import { UserAuth } from "@/pages/_app";
 
 type IconsProps = {
-	user?: User | null;
+	user?: UserAuth["user"] | null;
 };
 
 /**

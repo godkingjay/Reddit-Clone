@@ -11,6 +11,8 @@ import { FormTabItem } from "../Posts/NewPostForm";
 type CreatePostLinkProps = {
 	communityData: any;
 	user?: User | null;
+	loading?: boolean;
+	error?: any;
 };
 
 /**

@@ -1,7 +1,7 @@
 import { authModalState } from "@/atoms/authModalAtom";
 import { communityState } from "@/atoms/communitiesAtom";
 import { ImagesAndVideos, Post, postState, PostVote } from "@/atoms/postAtom";
-import { auth, firestore, storage } from "@/firebase/clientApp";
+import { firestore, storage } from "@/firebase/clientApp";
 import {
 	collection,
 	deleteDoc,
@@ -17,12 +17,12 @@ import {
 import { deleteObject, ref } from "firebase/storage";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import useAuth from "./useAuth";
 
 const usePosts = () => {
 	const router = useRouter();
-	const [user, loadingUser] = useAuthState(auth);
+	const { user, loading: loadingUser } = useAuth();
 	const [loadingPost, setLoadingPost] = useState(false);
 	const [loadingPosts, setLoadingPosts] = useState(false);
 	const [postStateValue, setPostStateValue] = useRecoilState(postState);

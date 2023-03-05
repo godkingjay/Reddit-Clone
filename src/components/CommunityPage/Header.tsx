@@ -11,6 +11,8 @@ type HeaderProps = {
 	communityData: Community;
 	communityStateValue: CommunityState;
 	user?: User | null;
+	loading?: boolean;
+	error?: any;
 };
 
 /**
@@ -27,6 +29,8 @@ const Header: React.FC<HeaderProps> = ({
 	communityData,
 	communityStateValue,
 	user,
+	loading,
+	error,
 }) => {
 	const {
 		onJoinOrLeaveCommunity,

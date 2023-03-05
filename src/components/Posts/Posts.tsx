@@ -1,15 +1,18 @@
 import { Community } from "@/atoms/communitiesAtom";
-import { auth, firestore } from "@/firebase/clientApp";
+import { firestore } from "@/firebase/clientApp";
 import usePosts from "@/hooks/usePosts";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
 import PostItem from "./PostItem";
 import PostSkeleton from "../Skeletons/PostSkeleton";
 import { Post } from "@/atoms/postAtom";
+import { UserAuth } from "@/pages/_app";
 
 type PostProps = {
 	communityData: Community;
+	user?: UserAuth["user"] | null;
+	loading?: UserAuth["loading"];
+	error?: UserAuth["error"];
 };
 
 /**
@@ -18,8 +21,7 @@ type PostProps = {
  * @param {*} { communityData }
  * @return {*}
  */
-const Posts: React.FC<PostProps> = ({ communityData }) => {
-	const [user] = useAuthState(auth);
+const Posts: React.FC<PostProps> = ({ communityData, user }) => {
 	const [loadingPosts, setLoadingPosts] = useState(true);
 	const [postsLoadError, setPostsLoadError] = useState("");
 	const {

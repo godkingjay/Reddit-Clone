@@ -3,10 +3,12 @@ import React from "react";
 import { BsXLg } from "react-icons/bs";
 import { useRecoilState } from "recoil";
 import CreateCommunity from "./CreateCommunity";
+import useAuth from "@/hooks/useAuth";
 
 type CommunityModalProps = {};
 
 const CommunityModal: React.FC<CommunityModalProps> = () => {
+	const { user } = useAuth();
 	const [communityModal, setCommunityModal] =
 		useRecoilState(communityModalState);
 
@@ -42,7 +44,10 @@ const CommunityModal: React.FC<CommunityModalProps> = () => {
 						<div className="relative flex flex-1 flex-col overflow-hidden items-center w-full pt-4 pb-2">
 							<div className="flex flex-col flex-1 items-center w-full overflow-y-auto overflow-x-hidden scroll-y-style px-4">
 								{communityModal.view === "create" && (
-									<CreateCommunity handleClose={handleClose} />
+									<CreateCommunity
+										handleClose={handleClose}
+										user={user}
+									/>
 								)}
 							</div>
 						</div>

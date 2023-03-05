@@ -15,8 +15,10 @@ import { auth } from "@/firebase/clientApp";
 import LoadingSpinner from "public/svg/loading-spinner.svg";
 import { useRouter } from "next/router";
 import useCommunityData from "@/hooks/useCommunityData";
+import { UserAuth } from "@/pages/_app";
 
 type CreateProps = {
+	user?: UserAuth["user"] | null;
 	handleClose: Function;
 };
 
@@ -26,9 +28,8 @@ type CreateProps = {
  * @param {*} { handleClose }
  * @return {*}
  */
-const Create: React.FC<CreateProps> = ({ handleClose }) => {
+const Create: React.FC<CreateProps> = ({ handleClose, user }) => {
 	const router = useRouter();
-	const [user] = useAuthState(auth);
 	const [createCommunityForm, setCreateCommunityForm] = useState({
 		communityName: "",
 		privacyType: "public",

@@ -18,7 +18,7 @@ import ErrorBanner from "../Banner/ErrorBanner";
 import { FiCopy } from "react-icons/fi";
 import { useRouter } from "next/router";
 import CommentSection from "./Post/CommentSection";
-import { User } from "firebase/auth";
+import { UserAuth } from "@/pages/_app";
 
 type PostItemProps = {
 	post: Post;
@@ -27,7 +27,7 @@ type PostItemProps = {
 	onVote: (post: Post, vote: number, communityId: string) => void;
 	onDeletePost: (post: Post) => Promise<boolean>;
 	onSelectPost?: (post: Post) => void;
-	user?: User | null;
+	user?: UserAuth["user"] | null;
 };
 
 /**

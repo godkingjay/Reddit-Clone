@@ -2,20 +2,22 @@ import Image from "next/image";
 import React from "react";
 import SearchInput from "./SearchInput";
 import RightContent from "./RightContent/RightContent";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "@/firebase/clientApp";
 import Directory from "./Directory/Directory";
 import Link from "next/link";
+import { UserAuth } from "@/pages/_app";
 
+type NavBarProps = {
+	user?: UserAuth["user"] | null;
+	loading: UserAuth["loading"];
+	error?: UserAuth["error"];
+};
 
 /**
  *
  *
- * @return {*} 
+ * @return {*}
  */
-const NavBar: React.FC = () => {
-	const [user, loading, error] = useAuthState(auth);
-
+const NavBar: React.FC<NavBarProps> = ({ user, loading, error }) => {
 	return (
 		<div className="flex bg-hsl(0, 0%, 100%) px-[16px] py-[8px] gap-x-2 items-center shadow-sm w-full border-b border-solid border-b-gray-500 border-opacity-10">
 			<Link
