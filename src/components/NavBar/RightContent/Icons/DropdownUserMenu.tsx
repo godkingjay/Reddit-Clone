@@ -1,12 +1,13 @@
 import { FaCaretDown, FaDoorOpen, FaRegUserCircle } from "react-icons/fa";
 import { auth } from "@/firebase/clientApp";
-import { User, signOut } from "firebase/auth";
+import { signOut } from "firebase/auth";
 import { IconType } from "react-icons";
 import { useResetRecoilState } from "recoil";
 import { communityState } from "@/atoms/communitiesAtom";
+import { UserAuth } from "@/pages/_app";
 
 type DropdownUserMenuProps = {
-	user?: User | null;
+	user?: UserAuth["user"] | null;
 };
 
 // type DropdownItem = {

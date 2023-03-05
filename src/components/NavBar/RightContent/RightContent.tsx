@@ -1,11 +1,11 @@
 import React from "react";
 import AuthButtons from "./AuthButtons";
 import AuthModal from "@/components/Modal/Auth/AuthModal";
-import { User } from "firebase/auth";
 import Icons from "./Icons";
+import { UserAuth } from "@/pages/_app";
 
 type RightContentProps = {
-	user?: User | null;
+	user?: UserAuth["user"] | null;
 };
 
 /**

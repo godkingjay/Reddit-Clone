@@ -1,9 +1,7 @@
 import NavBar from "@/components/NavBar/NavBar";
-import { auth } from "@/firebase/clientApp";
-import React, { useEffect } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useSetRecoilState } from "recoil";
+import React from "react";
 import ErrorModal from "@/components/Modal/Error/ErrorModal";
+import useAuth from "@/hooks/useAuth";
 
 type LayoutProps = {
 	children: React.ReactNode;
@@ -16,11 +14,15 @@ type LayoutProps = {
  * @return {*}
  */
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-	const [user] = useAuthState(auth);
+	const { user, loading, error } = useAuth();
 
 	return (
 		<main className="flex flex-col max-h-screen h-screen overflow-hidden z-20">
-			<NavBar />
+			<NavBar
+				user={user}
+				loading={loading}
+				error={error}
+			/>
 			<div className="bg-gray-200 flex-1 overflow-y-auto scroll-y-style z-10">
 				{children}
 			</div>

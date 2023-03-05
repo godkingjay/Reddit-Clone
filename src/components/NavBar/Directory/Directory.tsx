@@ -47,7 +47,6 @@ export const feedsItems: FeedsItem[] = [
 ];
 
 const Directory: React.FC<DirectoryProps> = () => {
-	const router = useRouter();
 	const [directory, setDirectory] = useState({
 		icon: feedsItems[0].icon,
 		active: feedsItems[0].active,

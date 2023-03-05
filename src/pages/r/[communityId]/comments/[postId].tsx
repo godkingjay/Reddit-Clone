@@ -4,20 +4,27 @@ import PageContentLayout from "@/components/Layout/PageContentLayout";
 import PostItem from "@/components/Posts/PostItem";
 import PostSkeleton from "@/components/Skeletons/PostSkeleton";
 import SidebarSkeleton from "@/components/Skeletons/SidebarSkeleton";
-import { auth } from "@/firebase/clientApp";
+import useAuth from "@/hooks/useAuth";
+import useComment from "@/hooks/useComment";
 import useCommunityData from "@/hooks/useCommunityData";
 import usePosts from "@/hooks/usePosts";
+import { UserAuth } from "@/pages/_app";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
+import React, { useEffect, useState } from "react";
 
-type PostPageProps = {};
+type PostPageProps = {
+	user?: UserAuth["user"] | null;
+	loading?: UserAuth["loading"];
+	error?: UserAuth["error"];
+};
 
 const PostPage: React.FC<PostPageProps> = () => {
 	const router = useRouter();
+	const { user, loading, error } = useAuth();
 	const currentPostId = router.query.postId;
 	const { communityStateValue } = useCommunityData();
+	const { getPostComments, fetchPostCommentsError } = useComment();
 	const {
 		onDeletePost,
 		postStateValue,
@@ -26,13 +33,22 @@ const PostPage: React.FC<PostPageProps> = () => {
 		loadingPosts,
 		getPost,
 	} = usePosts();
-	const [user] = useAuthState(auth);
+	const [loadingPostComments, setLoadingPostComments] = useState(false);
+
+	const fetchPostComments = async () => {
+		setLoadingPostComments(true);
+		await getPostComments(currentPostId as string);
+		setLoadingPostComments(false);
+	};
 
 	useEffect(() => {
 		if (!postStateValue.selectedPost && currentPostId) {
 			getPost(currentPostId as string);
 		}
-	}, [currentPostId]);
+		if (postStateValue.selectedPost && currentPostId) {
+			fetchPostComments();
+		}
+	}, [currentPostId, postStateValue.selectedPost]);
 
 	useEffect(() => {
 		if (!postStateValue.selectedPost && currentPostId && !loadingPost) {
@@ -75,7 +91,12 @@ const PostPage: React.FC<PostPageProps> = () => {
 					</>
 					<>
 						{communityStateValue.currentCommunity.id ? (
-							<Sidebar communityData={communityStateValue.currentCommunity} />
+							<Sidebar
+								communityData={communityStateValue.currentCommunity}
+								user={user}
+								loading={loading}
+								error={error}
+							/>
 						) : (
 							<SidebarSkeleton />
 						)}

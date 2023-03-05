@@ -5,15 +5,15 @@ import Sidebar from "@/components/CommunityPage/Sidebar";
 import CommunityNotFound from "@/components/ErrorPages/CommunityError/CommunityNotFound";
 import PageContentLayout from "@/components/Layout/PageContentLayout";
 import SidebarSkeleton from "@/components/Skeletons/SidebarSkeleton";
-import { auth, firestore } from "@/firebase/clientApp";
+import { firestore } from "@/firebase/clientApp";
+import useAuth from "@/hooks/useAuth";
 import useCommunityData from "@/hooks/useCommunityData";
 import usePosts from "@/hooks/usePosts";
 import { doc, getDoc } from "firebase/firestore";
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
-import { use, useEffect } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useEffect } from "react";
+import { useRecoilState } from "recoil";
 import safeJsonStringify from "safe-json-stringify";
 
 type CommunityPageProps = {
@@ -27,7 +27,7 @@ type CommunityPageProps = {
  * @return {*}
  */
 const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
-	const [user, loading] = useAuthState(auth);
+	const { user, loading, error } = useAuth();
 	const { loading: loadingCommunities } = useCommunityData();
 	const { loadingPosts } = usePosts();
 	const [communityStateValue, setCommunityStateValue] =
@@ -58,6 +58,8 @@ const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
 					communityData={communityData}
 					communityStateValue={communityStateValue}
 					user={user}
+					loading={loading}
+					error={error}
 				/>
 				<PageContentLayout>
 					<>
@@ -65,11 +67,17 @@ const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
 							communityData={communityData}
 							loadingPosts={loadingPosts}
 							user={user}
+							loading={loading}
+							error={error}
 						/>
 					</>
 					<>
 						{!loadingCommunities ? (
-							<Sidebar communityData={communityStateValue.currentCommunity} />
+							<Sidebar
+								communityData={communityStateValue.currentCommunity}
+								user={user}
+								loading={loading} /* error={error} */
+							/>
 						) : (
 							<SidebarSkeleton />
 						)}

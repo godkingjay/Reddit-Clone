@@ -5,16 +5,15 @@ import NewPostHeader from "@/components/Posts/NewPostHeader";
 import HeaderCardSkeleton from "@/components/Skeletons/HeaderCardSkeleton";
 import NewPostFormSkeleton from "@/components/Skeletons/NewPostFormSkeleton";
 import SidebarSkeleton from "@/components/Skeletons/SidebarSkeleton";
-import { auth } from "@/firebase/clientApp";
+import useAuth from "@/hooks/useAuth";
 import useCommunityData from "@/hooks/useCommunityData";
 import { NextPage } from "next";
 import Head from "next/head";
 import { useRouter, withRouter } from "next/router";
 import { useEffect } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
 
 const SubmitPostPage: NextPage = () => {
-	const [user, loading, error] = useAuthState(auth);
+	const { user, loading, error } = useAuth();
 	const router = useRouter();
 	const { communityId, tabItem } = router.query;
 	const { loading: loadingCommunity, communityStateValue } = useCommunityData();
@@ -69,7 +68,12 @@ const SubmitPostPage: NextPage = () => {
 						{!loadingCommunity &&
 						!loading &&
 						communityStateValue.currentCommunity.id ? (
-							<Sidebar communityData={communityStateValue.currentCommunity} />
+							<Sidebar
+								communityData={communityStateValue.currentCommunity}
+								user={user}
+								loading={loading}
+								error={error}
+							/>
 						) : (
 							<SidebarSkeleton />
 						)}

@@ -1,12 +1,11 @@
 import { Community, communityState } from "@/atoms/communitiesAtom";
-import { auth, firestore, storage } from "@/firebase/clientApp";
+import { firestore, storage } from "@/firebase/clientApp";
 import useSelectFile from "@/hooks/useSelectFile";
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useRef, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { BsThreeDots } from "react-icons/bs";
 import { RiCake2Line } from "react-icons/ri";
 import NoCommunityImage from "public/svg/community-no-image.svg";
@@ -15,9 +14,11 @@ import { useSetRecoilState } from "recoil";
 import { errorModalState } from "@/atoms/errorModalAtom";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { doc, updateDoc } from "firebase/firestore";
+import { User } from "firebase/auth";
 
 type AboutCommunityProps = {
 	communityData: Community;
+	user?: User | null;
 };
 
 const maxFileSize = 20 * 1024 * 1024;
@@ -28,9 +29,11 @@ const maxFileSize = 20 * 1024 * 1024;
  * @param {*} { communityData }
  * @return {*}
  */
-const AboutCommunity: React.FC<AboutCommunityProps> = ({ communityData }) => {
+const AboutCommunity: React.FC<AboutCommunityProps> = ({
+	communityData,
+	user,
+}) => {
 	const router = useRouter();
-	const [user] = useAuthState(auth);
 	const selectFileRef = useRef<HTMLInputElement>(null);
 	const { selectedFile, setSelectedFile, onSelectFile } = useSelectFile();
 	const [uploadingImage, setUploadingImage] = useState(false);

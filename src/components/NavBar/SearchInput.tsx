@@ -1,9 +1,9 @@
-import { User } from "firebase/auth";
+import { UserAuth } from "@/pages/_app";
 import React from "react";
 import { BsSearch } from "react-icons/bs";
 
 type SearchInputProps = {
-	user?: User | null;
+	user?: UserAuth["user"] | null;
 };
 
 /**

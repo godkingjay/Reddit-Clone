@@ -1,13 +1,13 @@
 import { Post } from "@/atoms/postAtom";
-import { User } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import SinglePostCommentInput from "./SinglePostCommentInput";
 import { AuthModalState, authModalState } from "@/atoms/authModalAtom";
 import { useSetRecoilState } from "recoil";
 import useComment from "@/hooks/useComment";
+import { UserAuth } from "@/pages/_app";
 
 type CommentSectionProps = {
-	user?: User | null;
+	user?: UserAuth["user"] | null;
 	selectedPost: Post;
 	communityId: string;
 };
