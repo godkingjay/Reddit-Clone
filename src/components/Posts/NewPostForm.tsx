@@ -8,7 +8,6 @@ import LoadingSpinner from "public/svg/loading-spinner.svg";
 import ImagesAndVideosForm from "./FormItems/ImagesAndVideosForm";
 import { useSetRecoilState } from "recoil";
 import { errorModalState } from "@/atoms/errorModalAtom";
-import { User } from "firebase/auth";
 import { useRouter } from "next/router";
 import {
 	Timestamp,
@@ -21,9 +20,10 @@ import {
 import { firestore, storage } from "@/firebase/clientApp";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import ErrorBanner from "../Banner/ErrorBanner";
+import { UserAuth } from "@/pages/_app";
 
 type NewPostFormProps = {
-	user: User;
+	user: UserAuth["user"];
 	tabItem?: FormTabItem["title"];
 };
 
