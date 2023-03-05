@@ -24,7 +24,10 @@ const Sidebar: React.FC<SidebarProps> = ({
 }) => {
 	return (
 		<div className="w-full flex flex-col gap-y-4">
-			<AboutCommunity communityData={communityData} />
+			<AboutCommunity
+				communityData={communityData}
+				user={user}
+			/>
 		</div>
 	);
 };
