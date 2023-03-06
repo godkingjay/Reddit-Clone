@@ -50,6 +50,7 @@ const useComment = () => {
 				createdAt: serverTimestamp() as Timestamp,
 			};
 			batch.set(commentDocRef, newComment);
+			newComment.createdAt = { seconds: Date.now() / 1000 } as Timestamp;
 			const postDocRef = doc(
 				firestore,
 				"posts",
