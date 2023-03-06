@@ -108,7 +108,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
 				</div>
 			</div>
 			{deletingComment && (
-				<div className="absolute h-full w-full bg-red-800 bg-opacity-50 rounded-md border grid place-items-center">
+				<div className="absolute h-full w-full bg-red-800 bg-opacity-30 rounded-md border grid place-items-center">
 					<div className="h-full flex flex-col justify-center items-center gap-y-2">
 						<div className="h-8 w-8 aspect-square">
 							<LoadingSpinner className="loading-spinner-brand animate-spin" />

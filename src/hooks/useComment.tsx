@@ -131,7 +131,6 @@ const useComment = () => {
 				const commentDocRef = doc(firestore, "comments", comment.id);
 				const commentDoc = await getDoc(commentDocRef);
 				if (commentDoc.exists()) {
-					console.log("Deleting comment: ", comment.id);
 					batch.delete(commentDocRef);
 					const postDocRef = doc(firestore, "posts", comment.postId);
 					batch.update(postDocRef, {
