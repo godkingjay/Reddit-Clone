@@ -11,6 +11,7 @@ type SinglePostCommentInputProps = {
 	isCreatingComment: boolean;
 	handleTextChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 	onCreateComment: (e: React.FormEvent<HTMLFormElement>) => void;
+	loadingPostComments?: boolean;
 };
 
 const SinglePostCommentInput: React.FC<SinglePostCommentInputProps> = ({
@@ -19,6 +20,7 @@ const SinglePostCommentInput: React.FC<SinglePostCommentInputProps> = ({
 	isCreatingComment,
 	handleTextChange,
 	onCreateComment,
+	loadingPostComments,
 }) => {
 	return (
 		<form
@@ -40,7 +42,7 @@ const SinglePostCommentInput: React.FC<SinglePostCommentInputProps> = ({
 				}}
 				rows={1}
 				value={commentInput.text}
-				disabled={isCreatingComment}
+				disabled={isCreatingComment || loadingPostComments}
 			/>
 			<div className="sticky bottom-0 w-full">
 				<div className="w-full flex flex-col">
@@ -62,7 +64,7 @@ const SinglePostCommentInput: React.FC<SinglePostCommentInputProps> = ({
 								className="page-button bg-blue-600 border-blue-600 disabled:bg-gray-500 h-8 disabled:border-gray-500 disabled:cursor-none disabled:pointer-events-none text-xs px-4 hover:bg-blue-700 hover:border-blue-700 focus:bg-blue-700 focus:border-blue-700 outline-offset-0 min-w-0 w-24 flex flex-row items-center justify-center"
 								disabled={isCreatingComment || commentInput.text.length === 0}
 							>
-								{isCreatingComment ? (
+								{isCreatingComment || loadingPostComments ? (
 									<LoadingSpinner className="loading-spinner-button aspect-square w-6 animate-spin" />
 								) : (
 									<span>Comment</span>
