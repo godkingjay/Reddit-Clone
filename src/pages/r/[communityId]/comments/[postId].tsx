@@ -51,7 +51,9 @@ const PostPage: React.FC<PostPageProps> = () => {
 			currentPostId &&
 			commentStateValue.comments.length === 0
 		) {
-			fetchPostComments();
+			if (postStateValue.selectedPost.numberOfComments > 0) {
+				fetchPostComments();
+			}
 		}
 	}, [currentPostId, postStateValue.selectedPost]);
 

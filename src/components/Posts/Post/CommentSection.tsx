@@ -80,6 +80,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 								handleTextChange={handleTextChange}
 								onCreateComment={onCreateComment}
 								commentingError={commentingError}
+								loadingPostComments={loadingPostComments}
 							/>
 						) : (
 							<div className="w-full">
