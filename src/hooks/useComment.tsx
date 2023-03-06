@@ -125,45 +125,36 @@ const useComment = () => {
 	};
 
 	const onDeleteComment = async (comment: Comment) => {
-		if (comment) {
-			try {
-				const batch = writeBatch(firestore);
-				const commentDocRef = doc(firestore, "comments", comment.id);
-				batch.delete(commentDocRef);
-				const postDocRef = doc(firestore, "posts", comment.postId);
-				batch.update(postDocRef, {
-					numberOfComments: increment(-1),
-				});
-				await batch.commit();
-				setCommentStateValue((prev) => ({
-					...prev,
-					comments: prev.comments.filter((c) => c.id !== comment.id),
-				}));
-				setPostStateValue((prev) => ({
-					...prev,
-					selectedPost: {
-						...prev.selectedPost,
-						numberOfComments: prev.selectedPost?.numberOfComments! - 1,
-					} as Post,
-				}));
-				if (postStateValue.posts.length > 0) {
-					const postIndex = postStateValue.posts.findIndex(
-						(post) => post.id === postStateValue.selectedPost?.id
-					);
-					if (postIndex !== -1) {
-						setPostStateValue((prev) => ({
-							...prev,
-							posts: [
-								...prev.posts.slice(0, postIndex),
-								prev.selectedPost,
-								...prev.posts.slice(postIndex + 1),
-							] as Post[],
-						}));
-					}
-				}
-			} catch (error: any) {
-				console.log("Deleting Comment Error: ", error.message);
-			}
+		try {
+			const batch = writeBatch(firestore);
+			const commentDocRef = doc(firestore, "comments", comment.id);
+			batch.delete(commentDocRef);
+			const postDocRef = doc(firestore, "posts", comment.postId);
+			batch.update(postDocRef, {
+				numberOfComments: increment(-1),
+			});
+			await batch.commit();
+			setCommentStateValue((prev) => ({
+				...prev,
+				comments: prev.comments.filter((c) => c.id !== comment.id),
+			}));
+			const postIndex = postStateValue.posts.findIndex(
+				(post) => post.id === postStateValue.selectedPost?.id
+			);
+			setPostStateValue((prev) => ({
+				...prev,
+				selectedPost: {
+					...prev.selectedPost,
+					numberOfComments: prev.selectedPost?.numberOfComments! - 1,
+				} as Post,
+				posts: [
+					...prev.posts.slice(0, postIndex),
+					prev.selectedPost,
+					...prev.posts.slice(postIndex + 1),
+				] as Post[],
+			}));
+		} catch (error: any) {
+			console.log("Deleting Comment Error: ", error.message);
 		}
 	};
 
