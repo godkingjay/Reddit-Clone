@@ -30,20 +30,20 @@ export const feedsItems: FeedsItem[] = [
 		path: "/",
 		type: "feeds",
 	},
-	{
-		icon: <BsArrowUpRightCircle className="icon" />,
-		active: <BsArrowUpRightCircleFill className="icon active" />,
-		title: "Popular",
-		path: "/r/popular",
-		type: "feeds",
-	},
-	{
-		icon: <BsBarChartLine className="icon" />,
-		active: <BsBarChartLineFill className="icon active" />,
-		title: "All",
-		path: "/r/all",
-		type: "feeds",
-	},
+	// {
+	// 	icon: <BsArrowUpRightCircle className="icon" />,
+	// 	active: <BsArrowUpRightCircleFill className="icon active" />,
+	// 	title: "Popular",
+	// 	path: "/r/popular",
+	// 	type: "feeds",
+	// },
+	// {
+	// 	icon: <BsBarChartLine className="icon" />,
+	// 	active: <BsBarChartLineFill className="icon active" />,
+	// 	title: "All",
+	// 	path: "/r/all",
+	// 	type: "feeds",
+	// },
 ];
 
 const Directory: React.FC<DirectoryProps> = () => {
