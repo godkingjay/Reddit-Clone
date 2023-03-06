@@ -52,8 +52,6 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 		setIsCreatingComment(false);
 	};
 
-	const getPostComments = async () => {};
-
 	const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		setCommentingError("");
 		setCommentInput({
@@ -70,12 +68,8 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 		}));
 	};
 
-	useEffect(() => {
-		getPostComments();
-	}, []);
-
 	return (
-		<section className="bordered-box-1 rounded-md w-full flex flex-col bg-white">
+		<section className="bordered-box-1 rounded-md flex flex-col bg-white">
 			<div className="w-full px-8 py-8 flex flex-col">
 				{selectedPost && (
 					<>
@@ -108,7 +102,11 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 			{!loadingPostComments ? (
 				<>
 					{commentStateValue.comments.length > 0 && (
-						<Comments comments={commentStateValue.comments} />
+						<Comments
+							comments={commentStateValue.comments}
+							onDeleteComment={onDeleteComment}
+							user={user}
+						/>
 					)}
 				</>
 			) : (

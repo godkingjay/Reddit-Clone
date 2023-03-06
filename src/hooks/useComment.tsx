@@ -19,6 +19,7 @@ import { Comment, commentState } from "@/atoms/commentAtom";
 import { useRecoilState } from "recoil";
 import { useState } from "react";
 import useAuth from "./useAuth";
+import { Post } from "@/atoms/postAtom";
 
 const useComment = () => {
 	const { user } = useAuth();
@@ -123,7 +124,54 @@ const useComment = () => {
 		}
 	};
 
-	const onDeleteComment = async (comment: Comment) => {};
+	const onDeleteComment = async (comment: Comment) => {
+		if (comment) {
+			try {
+				const batch = writeBatch(firestore);
+				const commentDocRef = doc(firestore, "comments", comment.id);
+				const commentDoc = await getDoc(commentDocRef);
+				if (commentDoc.exists()) {
+					console.log("Deleting comment: ", comment.id);
+					batch.delete(commentDocRef);
+					const postDocRef = doc(firestore, "posts", comment.postId);
+					batch.update(postDocRef, {
+						numberOfComments: increment(-1),
+					});
+					await batch.commit();
+					setCommentStateValue((prev) => ({
+						...prev,
+						comments: prev.comments.filter((c) => c.id !== comment.id),
+					}));
+					setPostStateValue((prev) => ({
+						...prev,
+						selectedPost: {
+							...prev.selectedPost,
+							numberOfComments: prev.selectedPost?.numberOfComments! - 1,
+						} as Post,
+					}));
+					if (postStateValue.posts.length > 0) {
+						const postIndex = postStateValue.posts.findIndex(
+							(post) => post.id === postStateValue.selectedPost?.id
+						);
+						if (postIndex !== -1) {
+							setPostStateValue((prev) => ({
+								...prev,
+								posts: [
+									...prev.posts.slice(0, postIndex),
+									prev.selectedPost,
+									...prev.posts.slice(postIndex + 1),
+								] as Post[],
+							}));
+						}
+					}
+				} else {
+					throw new Error("Comment does not exist.");
+				}
+			} catch (error: any) {
+				console.log("Deleting Comment Error: ", error.message);
+			}
+		}
+	};
 
 	return {
 		createComment,
