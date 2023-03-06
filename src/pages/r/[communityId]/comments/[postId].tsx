@@ -80,6 +80,7 @@ const PostPage: React.FC<PostPageProps> = () => {
 											(vote) => vote.postId === postStateValue.selectedPost?.id
 										)?.voteValue
 									}
+									loadingPostComments={loadingPostComments}
 									user={user}
 								/>
 							) : (

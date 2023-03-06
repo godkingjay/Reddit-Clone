@@ -28,6 +28,7 @@ type PostItemProps = {
 	onDeletePost: (post: Post) => Promise<boolean>;
 	onSelectPost?: (post: Post) => void;
 	user?: UserAuth["user"] | null;
+	loadingPostComments?: boolean;
 };
 
 /**
@@ -51,6 +52,7 @@ const PostItem: React.FC<PostItemProps> = ({
 	userIsCreator,
 	userVoteValue,
 	user,
+	loadingPostComments,
 }) => {
 	const router = useRouter();
 	const [currentImageAndVideoIndex, setCurrentImageAndVideoIndex] = useState(0);
@@ -329,6 +331,7 @@ const PostItem: React.FC<PostItemProps> = ({
 					user={user}
 					selectedPost={post}
 					communityId={post.communityId}
+					loadingPostComments={loadingPostComments}
 				/>
 			)}
 		</div>

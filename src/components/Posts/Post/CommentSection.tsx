@@ -6,11 +6,13 @@ import { useSetRecoilState } from "recoil";
 import useComment from "@/hooks/useComment";
 import { UserAuth } from "@/pages/_app";
 import Comments from "./Comments/Comments";
+import CommentSkeleton from "@/components/Skeletons/CommentSkeleton";
 
 type CommentSectionProps = {
 	user?: UserAuth["user"] | null;
 	selectedPost: Post;
 	communityId: string;
+	loadingPostComments?: boolean;
 };
 
 export type CommentInput = {
@@ -21,6 +23,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 	user,
 	selectedPost,
 	communityId,
+	loadingPostComments,
 }) => {
 	const { commentStateValue, createComment, onDeleteComment } = useComment();
 
@@ -102,8 +105,17 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 					</>
 				)}
 			</div>
-			{commentStateValue.comments.length > 0 && (
-				<Comments commentStateValue={commentStateValue} />
+			{!loadingPostComments ? (
+				<>
+					{commentStateValue.comments.length > 0 && (
+						<Comments comments={commentStateValue.comments} />
+					)}
+				</>
+			) : (
+				<div className="flex flex-col p-4 gap-y-4">
+					<CommentSkeleton />
+					<CommentSkeleton />
+				</div>
 			)}
 		</section>
 	);
