@@ -24,7 +24,8 @@ const PostPage: React.FC<PostPageProps> = () => {
 	const { user, loading, error } = useAuth();
 	const currentPostId = router.query.postId;
 	const { communityStateValue } = useCommunityData();
-	const { getPostComments, fetchPostCommentsError } = useComment();
+	const { commentStateValue, getPostComments, fetchPostCommentsError } =
+		useComment();
 	const {
 		onDeletePost,
 		postStateValue,
@@ -45,7 +46,11 @@ const PostPage: React.FC<PostPageProps> = () => {
 		if (!postStateValue.selectedPost && currentPostId) {
 			getPost(currentPostId as string);
 		}
-		if (postStateValue.selectedPost && currentPostId) {
+		if (
+			postStateValue.selectedPost &&
+			currentPostId &&
+			commentStateValue.comments.length === 0
+		) {
 			fetchPostComments();
 		}
 	}, [currentPostId, postStateValue.selectedPost]);
