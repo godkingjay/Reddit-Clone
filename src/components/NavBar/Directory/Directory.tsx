@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaCaretDown, FaCaretRight } from "react-icons/fa";
 import { AiFillHome, AiOutlineHome } from "react-icons/ai";
 import Link from "next/link";
@@ -7,15 +7,22 @@ import {
 	BsArrowUpRightCircleFill,
 	BsBarChartLine,
 	BsBarChartLineFill,
+	BsReddit,
 } from "react-icons/bs";
 import { useRouter } from "next/router";
 import CreateCommunity from "./CreateCommunity";
 import CommunityModal from "@/components/Modal/CommunityModal/CommunityModal";
+import { useRecoilValue } from "recoil";
+import { commentState } from "@/atoms/commentAtom";
+import useCommunityData from "@/hooks/useCommunityData";
+import CommunityListItem from "./CommunityListItem";
+import { UserCommunity } from "@/atoms/communitiesAtom";
+import Image from "next/image";
 
 type DirectoryProps = {};
 
-type FeedsItem = {
-	icon: JSX.Element;
+export type FeedsItem = {
+	icon?: JSX.Element;
 	active: JSX.Element;
 	title: string;
 	path: string;
@@ -47,6 +54,8 @@ export const feedsItems: FeedsItem[] = [
 ];
 
 const Directory: React.FC<DirectoryProps> = () => {
+	const router = useRouter();
+	const { communityStateValue } = useCommunityData();
 	const [directory, setDirectory] = useState({
 		icon: feedsItems[0].icon,
 		active: feedsItems[0].active,
@@ -55,25 +64,72 @@ const Directory: React.FC<DirectoryProps> = () => {
 		type: feedsItems[0].type,
 	});
 
-	// useEffect(() => {
-	// 	const current = feedsItems.find((feed) => feed.path === router.pathname);
-	// 	handlePathChange(current as FeedsItem);
-	// }, [router]);
+	const {
+		communityStateValue: { userCommunities },
+	} = useCommunityData();
 
 	/**
 	 *
 	 *
 	 * @param {FeedsItem} dir
 	 */
-	const handlePathChange = (dir: FeedsItem) => {
-		setDirectory({
-			icon: dir.icon,
-			active: dir.active,
-			title: dir.title,
-			path: dir.path,
-			type: dir.type,
-		});
+	const handlePathChange = (
+		dir?: FeedsItem | null,
+		community?: UserCommunity | null
+	) => {
+		if (dir && dir.path !== directory.path) {
+			setDirectory({
+				icon: dir.icon,
+				active: dir.active,
+				title: dir.title,
+				path: dir.path,
+				type: dir.type,
+			});
+			router.push(dir.path);
+		} else if (community && `/r/${community.communityId}` !== directory.path) {
+			setDirectory({
+				icon: community.imageURL ? (
+					<Image
+						src={community.imageURL}
+						alt={community.communityId}
+						height={256}
+						width={256}
+						className="icon"
+					/>
+				) : (
+					<BsReddit className="icon active" />
+				),
+				active: community.imageURL ? (
+					<Image
+						src={community.imageURL}
+						alt={community.communityId}
+						height={256}
+						width={256}
+						className="icon"
+					/>
+				) : (
+					<BsReddit className="icon active" />
+				),
+				title: community.communityId,
+				path: `/r/${community.communityId}`,
+				type: "community",
+			});
+			router.push(`/r/${community.communityId}`);
+		}
 	};
+
+	useEffect(() => {
+		if (communityStateValue.currentCommunity.id) {
+			handlePathChange(null, {
+				communityId: communityStateValue.currentCommunity.id,
+				imageURL: communityStateValue.currentCommunity.imageURL,
+				isModerator: userCommunities.find(
+					(community) =>
+						community.communityId === communityStateValue.currentCommunity.id
+				)?.isModerator,
+			});
+		}
+	}, [communityStateValue.currentCommunity]);
 
 	return (
 		<>
@@ -81,10 +137,34 @@ const Directory: React.FC<DirectoryProps> = () => {
 				<details className="nav-bar-dropdown directory-container relative h-full max-w-[240px]">
 					<summary className="directory-header h-full w-max xs:w-[96px] md:w-[128px] lg:w-[129px] xl:w-[240px] flex items-center px-2 border-[1px] border-solid border-[#80808010] rounded-md gap-x-2">
 						{directory.active}
-						<h2 className="label hidden xs:block flex-1">{directory.title}</h2>
+						<h2 className="label hidden xs:block flex-1 text-sm">
+							{directory.title}
+						</h2>
 						<FaCaretDown className="caret max-[380px]:hidden fill-gray-400 transition-transform" />
 					</summary>
 					<div className="directory-content absolute z-30 w-[192px]  xs:w-[240px] bg-white top-[130%] h-max left-0 rounded py-1 shadow-[0_0_8px_#0001] max-h-[60vh] overflow-y-auto scroll-y-style">
+						<details
+							className="directory-communities"
+							open
+						>
+							<summary>
+								<FaCaretRight className="caret" />
+								<p className="label">Moderating</p>
+							</summary>
+							<ul>
+								{userCommunities
+									.filter((community) => community.imageURL)
+									.map((community) => {
+										return (
+											<CommunityListItem
+												key={community.communityId}
+												community={community}
+												handlePathChange={handlePathChange}
+											/>
+										);
+									})}
+							</ul>
+						</details>
 						<details
 							className="directory-communities"
 							open
@@ -95,7 +175,15 @@ const Directory: React.FC<DirectoryProps> = () => {
 							</summary>
 							<ul>
 								<CreateCommunity />
-								{/* <Communities /> */}
+								{userCommunities.map((community) => {
+									return (
+										<CommunityListItem
+											key={community.communityId}
+											community={community}
+											handlePathChange={handlePathChange}
+										/>
+									);
+								})}
 							</ul>
 						</details>
 						<details
@@ -114,7 +202,7 @@ const Directory: React.FC<DirectoryProps> = () => {
 												href={item.path}
 												title={item.title}
 												className="item"
-												onClick={() => handlePathChange(item)}
+												onClick={() => handlePathChange(item, null)}
 											>
 												{directory.title === item.title ? (
 													<>{item.active}</>
