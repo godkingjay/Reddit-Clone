@@ -141,6 +141,7 @@ const useCommunityData = () => {
 			const newUserCommunity: UserCommunity = {
 				communityId: communityData.id,
 				imageURL: communityData.imageURL || "",
+				isModerator: user?.uid === communityData.creatorId,
 			};
 			batch.set(
 				doc(firestore, `users/${user?.uid}/userCommunities`, communityData.id),
