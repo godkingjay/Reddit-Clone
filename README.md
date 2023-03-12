@@ -8,7 +8,7 @@ A Reddit Clone built using TypeScript React, Tailwind CSS, SASS, NextJS, RecoilJ
 
 ```
 # Clone this repository
-$ git clone https://github.com/salihozdemir/reddit-clone.git
+$ git clone https://github.com/godkingjay/reddit-clone.git
 
 # Go into the repository
 $ cd reddit-clone
