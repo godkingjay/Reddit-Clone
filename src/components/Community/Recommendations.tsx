@@ -7,6 +7,9 @@ import React, { useEffect, useState } from "react";
 import NoCommunityImage from "public/svg/community-no-image.svg";
 import LoadingSpinner from "public/svg/loading-spinner.svg";
 import Link from "next/link";
+import useDirectory from "@/hooks/useDirectory";
+import { useSetRecoilState } from "recoil";
+import { communityModalState } from "@/atoms/communityModalAtom";
 
 type RecommendationsProps = {};
 
@@ -15,6 +18,8 @@ const Recommendations: React.FC<RecommendationsProps> = () => {
 	const [loadingCommunities, setLoadingCommunities] = useState(false);
 	const { onJoinOrLeaveCommunity, communityStateValue } = useCommunityData();
 	const [memberLoading, setMemberLoading] = useState(false);
+	const { setDirectoryOpen } = useDirectory();
+	const setCommunityModal = useSetRecoilState(communityModalState);
 
 	const getCommunityRecommendations = async () => {
 		setLoadingCommunities(true);
@@ -45,13 +50,28 @@ const Recommendations: React.FC<RecommendationsProps> = () => {
 		onJoinOrLeaveCommunity(communityData, isJoined);
 	};
 
+	const handleCreatePost = () => {
+		setDirectoryOpen((prev) => ({
+			...prev,
+			open: true,
+		}));
+	};
+
+	const handleCreateCommunity = () => {
+		setCommunityModal((prev) => ({
+			...prev,
+			open: true,
+			view: "create",
+		}));
+	};
+
 	useEffect(() => {
 		getCommunityRecommendations();
 	}, []);
 
 	return (
-		<div className="bordered-box-1 w-full bg-white rounded-md flex flex-col gap-y-4">
-			<div className="flex flex-col w-full">
+		<div className="w-full flex flex-col gap-y-4">
+			<div className="flex flex-col w-full bordered-box-1 bg-white rounded-md">
 				<div className="w-full z-10 relative h-20 overflow-hidden rounded-t-md flex flex-col justify-end p-2">
 					<Image
 						src={"/images/recCommsArt.png"}
@@ -160,6 +180,56 @@ const Recommendations: React.FC<RecommendationsProps> = () => {
 							className="page-button max-w-none min-w-0 w-full hover:bg-blue-600 hover:border-blue-600 focus:bg-blue-600 focus:border-blue-600"
 						>
 							View All
+						</button>
+					</div>
+				</div>
+			</div>
+			<div className="w-full bordered-box-1 rounded-md bg-white">
+				<div className="w-full flex flex-col">
+					<div className="w-full h-12 rounded-t-md overflow-hidden">
+						<Image
+							src={"/images/redditPersonalHome.png"}
+							alt="Reddit Personal Home"
+							height={256}
+							width={256}
+							loading="lazy"
+							className="w-full h-full object-cover"
+						/>
+					</div>
+					<div className="flex flex-row items-center w-full gap-x-4 px-4">
+						<div className="h-12 w-12 aspect-square translate-y-[-20%]">
+							<Image
+								src={"/images/redditFace.svg"}
+								alt="Reddit Personal Home"
+								height={256}
+								width={256}
+								loading="lazy"
+								className="w-full h-full object-cover"
+							/>
+						</div>
+						<p className="font-bold">Home</p>
+					</div>
+					<div className="flex flex-col p-4 pt-0 gap-y-2">
+						<p className="text-sm">
+							Your personal Reddit frontpage. Come here to check in with your
+							favorite communities.
+						</p>
+						<div className="divider h-[1px] bg-gray-100"></div>
+						<button
+							type="button"
+							title="Create Post"
+							className="page-button max-w-none min-w-0 w-full hover:bg-blue-600 hover:border-blue-600 focus:bg-blue-600 focus:border-blue-600"
+							onClick={handleCreatePost}
+						>
+							Create Post
+						</button>
+						<button
+							type="button"
+							title="Create Community"
+							className="page-button max-w-none min-w-0 w-full bg-brand-100 border-brand-100 hover:bg-brand-200 hover:border-brand-200 focus:bg-brand-200 focus:border-brand-200"
+							onClick={handleCreateCommunity}
+						>
+							Create Community
 						</button>
 					</div>
 				</div>
