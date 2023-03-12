@@ -3,7 +3,7 @@ import moment from "moment";
 import Image from "next/image";
 import React, { useState } from "react";
 import { BiMessageSquareDetail } from "react-icons/bi";
-import { BsThreeDots } from "react-icons/bs";
+import { BsDot, BsThreeDots } from "react-icons/bs";
 import { FaRegBookmark, FaRegShareSquare, FaRegTrashAlt } from "react-icons/fa";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import {
@@ -19,6 +19,8 @@ import { FiCopy } from "react-icons/fi";
 import { useRouter } from "next/router";
 import CommentSection from "./Post/CommentSection";
 import { UserAuth } from "@/pages/_app";
+import Link from "next/link";
+import NoCommunityImage from "public/svg/community-no-image.svg";
 
 type PostItemProps = {
 	post: Post;
@@ -29,6 +31,7 @@ type PostItemProps = {
 	onSelectPost?: (post: Post) => void;
 	user?: UserAuth["user"] | null;
 	loadingPostComments?: boolean;
+	homePage?: boolean;
 };
 
 /**
@@ -53,6 +56,7 @@ const PostItem: React.FC<PostItemProps> = ({
 	userVoteValue,
 	user,
 	loadingPostComments,
+	homePage,
 }) => {
 	const router = useRouter();
 	const [currentImageAndVideoIndex, setCurrentImageAndVideoIndex] = useState(0);
@@ -100,6 +104,11 @@ const PostItem: React.FC<PostItemProps> = ({
 		const URL = `${origin}/r/${post.communityId}/comments/${post.id}`;
 		navigator.clipboard.writeText(URL);
 		alert("Link Copied to Clipboard");
+	};
+
+	const handleClickCommunity = (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.stopPropagation();
+		router.push(`/r/${post.communityId}`);
 	};
 
 	return (
@@ -160,7 +169,36 @@ const PostItem: React.FC<PostItemProps> = ({
 						</button>
 					</div>
 					<div className="flex flex-col p-2 gap-y-2 flex-1">
-						<div className="flex flex-row gap-x-1 items-center text-xs text-gray-500">
+						<div className="flex flex-row items-center text-xs text-gray-500">
+							{homePage && (
+								<>
+									<button
+										type="button"
+										title={`Go to r/${post.communityId} community`}
+										className="h-full flex flex-row items-center gap-x-1 font-bold text-black hover:underline focus:underline"
+										onClick={handleClickCommunity}
+									>
+										<div className="aspect-square w-4 h-4 rounded-full bg-gray-100">
+											{post.communityImageURL ? (
+												<Image
+													src={post.communityImageURL}
+													alt={`${post.id} image`}
+													width={256}
+													height={256}
+													loading="lazy"
+													className="w-full h-full rounded-full bg-contain bg-center"
+												/>
+											) : (
+												<NoCommunityImage className="w-full h-full rounder-full fill-blue-500" />
+											)}
+										</div>
+										<p>r/{post.communityId}</p>
+									</button>
+									<div className="h-4 w-4 aspect-square">
+										<BsDot className="h-full w-full" />
+									</div>
+								</>
+							)}
 							<p>
 								<span>Posted by </span>u/<span>{post.creatorDisplayName} </span>
 								<span>
