@@ -17,6 +17,7 @@ import { Post, PostVote } from "@/atoms/postAtom";
 import PostSkeleton from "@/components/Skeletons/PostSkeleton";
 import PostItem from "@/components/Posts/PostItem";
 import CreatePostLink from "@/components/CommunityPage/CreatePostLink";
+import Recommendations from "@/components/Community/Recommendations";
 
 const Home = () => {
 	const { user, loading: loadingUser } = useAuth();
@@ -27,6 +28,7 @@ const Home = () => {
 		onDeletePost,
 		onSelectPost,
 		onVote,
+		getPostImagesAndVideos,
 	} = usePosts();
 	const [loading, setLoading] = useState(false);
 
@@ -45,10 +47,23 @@ const Home = () => {
 				);
 
 				const postDocs = await getDocs(postQuery);
-				const posts = postDocs.docs.map((doc) => ({
-					...doc.data(),
-					id: doc.id,
-				}));
+				const posts = await Promise.all(
+					postDocs.docs.map(async (doc) => {
+						const imagesAndVideos = await getPostImagesAndVideos(doc);
+						if (imagesAndVideos.length > 0) {
+							return {
+								...doc.data(),
+								id: doc.id,
+								imagesAndVideos,
+							};
+						} else {
+							return {
+								...doc.data(),
+								id: doc.id,
+							};
+						}
+					})
+				);
 
 				setPostStateValue((prev) => ({
 					...prev,
@@ -73,12 +88,23 @@ const Home = () => {
 			);
 
 			const postDocs = await getDocs(postQuery);
-			const posts = postDocs.docs.map((doc) => {
-				return {
-					...doc.data(),
-					id: doc.id,
-				};
-			});
+			const posts = await Promise.all(
+				postDocs.docs.map(async (doc) => {
+					const imagesAndVideos = await getPostImagesAndVideos(doc);
+					if (imagesAndVideos.length > 0) {
+						return {
+							...doc.data(),
+							id: doc.id,
+							imagesAndVideos,
+						};
+					} else {
+						return {
+							...doc.data(),
+							id: doc.id,
+						};
+					}
+				})
+			);
 
 			setPostStateValue((prev) => ({
 				...prev,
@@ -168,7 +194,9 @@ const Home = () => {
 							)}
 						</div>
 					</>
-					<>{/* <Recommendations /> */}</>
+					<>
+						<Recommendations />
+					</>
 				</PageContentLayout>
 			</section>
 		</>
