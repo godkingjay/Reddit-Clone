@@ -5,6 +5,7 @@ import { User } from "firebase/auth";
 import { NextPage } from "next";
 
 import type { AppProps } from "next/app";
+import Head from "next/head";
 
 import { ReactElement, ReactNode } from "react";
 import { RecoilRoot } from "recoil";
@@ -35,6 +36,17 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
 	return (
 		<RecoilRoot>
+			<Head>
+				<title>Home</title>
+				<meta
+					name="viewport"
+					content="width=device-width, initial-scale=1"
+				/>
+				<link
+					rel="icon"
+					href="/images/redditFace.svg"
+				/>
+			</Head>
 			<>
 				<Layout>{getLayout(<Component {...pageProps} />)}</Layout>
 			</>
