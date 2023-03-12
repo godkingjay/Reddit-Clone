@@ -142,14 +142,15 @@ const Directory: React.FC<DirectoryProps> = () => {
 					ref={directoryRef}
 					onClick={(e) => {
 						e.preventDefault();
-						setDirectoryOpen((prev) => ({
-							...prev,
-							open: !prev.open,
-						}));
 					}}
 					open={directoryOpen.open}
 				>
-					<summary className="directory-header h-full w-max xs:w-[96px] md:w-[128px] lg:w-[129px] xl:w-[240px] flex items-center px-2 border-[1px] border-solid border-[#80808010] rounded-md gap-x-2">
+					<summary className="directory-header h-full w-max xs:w-[96px] md:w-[128px] lg:w-[129px] xl:w-[240px] flex items-center px-2 border-[1px] border-solid border-[#80808010] rounded-md gap-x-2" onClick={(e) => {
+							setDirectoryOpen((prev) => ({
+								...prev,
+								open: !prev.open,
+							}));
+						}}>
 						{directory.active}
 						<h2 className="label hidden xs:block flex-1 text-sm">
 							{directory.title}
