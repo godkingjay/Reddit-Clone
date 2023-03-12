@@ -7,6 +7,7 @@ import PostItem from "./PostItem";
 import PostSkeleton from "../Skeletons/PostSkeleton";
 import { Post } from "@/atoms/postAtom";
 import { UserAuth } from "@/pages/_app";
+import { useRouter } from "next/router";
 
 type PostProps = {
 	communityData: Community;
@@ -22,6 +23,8 @@ type PostProps = {
  * @return {*}
  */
 const Posts: React.FC<PostProps> = ({ communityData, user }) => {
+	const router = useRouter();
+	const { communityId } = router.query;
 	const [loadingPosts, setLoadingPosts] = useState(true);
 	const [postsLoadError, setPostsLoadError] = useState("");
 	const {
@@ -75,7 +78,7 @@ const Posts: React.FC<PostProps> = ({ communityData, user }) => {
 
 	useEffect(() => {
 		getPosts();
-	}, []);
+	}, [communityId]);
 
 	return (
 		<div className="w-full flex flex-col">
