@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaCaretDown, FaCaretRight } from "react-icons/fa";
 import { AiFillHome, AiOutlineHome } from "react-icons/ai";
 import Link from "next/link";
@@ -18,6 +18,7 @@ import useCommunityData from "@/hooks/useCommunityData";
 import CommunityListItem from "./CommunityListItem";
 import { UserCommunity } from "@/atoms/communitiesAtom";
 import Image from "next/image";
+import useDirectory from "@/hooks/useDirectory";
 
 type DirectoryProps = {};
 
@@ -56,6 +57,7 @@ export const feedsItems: FeedsItem[] = [
 const Directory: React.FC<DirectoryProps> = () => {
 	const router = useRouter();
 	const { communityStateValue } = useCommunityData();
+	const { directoryOpen, setDirectoryOpen } = useDirectory();
 	const [directory, setDirectory] = useState({
 		icon: feedsItems[0].icon,
 		active: feedsItems[0].active,
@@ -63,6 +65,7 @@ const Directory: React.FC<DirectoryProps> = () => {
 		path: feedsItems[0].path,
 		type: feedsItems[0].type,
 	});
+	const directoryRef = useRef<HTMLDetailsElement>(null);
 
 	const {
 		communityStateValue: { userCommunities },
@@ -134,7 +137,18 @@ const Directory: React.FC<DirectoryProps> = () => {
 	return (
 		<>
 			<section className="h-full flex z-20items-center w-max">
-				<details className="nav-bar-dropdown directory-container relative h-full max-w-[240px]">
+				<details
+					className="nav-bar-dropdown directory-container relative h-full max-w-[240px]"
+					ref={directoryRef}
+					onClick={(e) => {
+						e.preventDefault();
+						setDirectoryOpen((prev) => ({
+							...prev,
+							open: !prev.open,
+						}));
+					}}
+					open={directoryOpen.open}
+				>
 					<summary className="directory-header h-full w-max xs:w-[96px] md:w-[128px] lg:w-[129px] xl:w-[240px] flex items-center px-2 border-[1px] border-solid border-[#80808010] rounded-md gap-x-2">
 						{directory.active}
 						<h2 className="label hidden xs:block flex-1 text-sm">

@@ -7,9 +7,10 @@ import { IoIosLink } from "react-icons/io";
 import { IoImageOutline } from "react-icons/io5";
 import { useSetRecoilState } from "recoil";
 import { FormTabItem } from "../Posts/NewPostForm";
+import useDirectory from "@/hooks/useDirectory";
 
 type CreatePostLinkProps = {
-	communityData: any;
+	communityData?: any;
 	user?: User | null;
 	loading?: boolean;
 	error?: any;
@@ -30,6 +31,7 @@ const CreatePostLink: React.FC<CreatePostLinkProps> = ({
 }) => {
 	const router = useRouter();
 	const setAuthModalState = useSetRecoilState(authModalState);
+	const { setDirectoryOpen } = useDirectory();
 
 	/**
 	 *
@@ -47,13 +49,20 @@ const CreatePostLink: React.FC<CreatePostLinkProps> = ({
 				view: "login",
 			}));
 		} else {
-			router.push(
-				{
-					pathname: `/r/${communityData.id}/submit`,
-					query: { tabItem },
-				},
-				`/r/${communityData.id}/submit`
-			);
+			if (communityData) {
+				router.push(
+					{
+						pathname: `/r/${communityData.id}/submit`,
+						query: { tabItem },
+					},
+					`/r/${communityData.id}/submit`
+				);
+			} else {
+				setDirectoryOpen((prev) => ({
+					...prev,
+					open: true,
+				}));
+			}
 		}
 	};
 
