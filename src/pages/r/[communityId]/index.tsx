@@ -29,7 +29,7 @@ type CommunityPageProps = {
 const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
 	const { user, loading, error } = useAuth();
 	const { loading: loadingCommunities } = useCommunityData();
-	const { loadingPosts } = usePosts();
+	const { loadingPosts, setPostStateValue } = usePosts();
 	const [communityStateValue, setCommunityStateValue] =
 		useRecoilState(communityState);
 

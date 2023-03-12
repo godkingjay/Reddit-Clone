@@ -391,7 +391,7 @@ const usePosts = () => {
 	useEffect(() => {
 		if (!user?.uid || !communityStateValue.currentCommunity.id) return;
 		getCommunityPostVotes(communityStateValue.currentCommunity.id);
-	}, [user, communityStateValue.currentCommunity, router.query]);
+	}, [user, communityStateValue.currentCommunity]);
 
 	useEffect(() => {
 		if (!user?.uid && !loadingUser) {

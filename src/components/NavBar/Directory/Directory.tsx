@@ -2,18 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { FaCaretDown, FaCaretRight } from "react-icons/fa";
 import { AiFillHome, AiOutlineHome } from "react-icons/ai";
 import Link from "next/link";
-import {
-	BsArrowUpRightCircle,
-	BsArrowUpRightCircleFill,
-	BsBarChartLine,
-	BsBarChartLineFill,
-	BsReddit,
-} from "react-icons/bs";
+import { BsReddit } from "react-icons/bs";
 import { useRouter } from "next/router";
 import CreateCommunity from "./CreateCommunity";
 import CommunityModal from "@/components/Modal/CommunityModal/CommunityModal";
-import { useRecoilValue } from "recoil";
-import { commentState } from "@/atoms/commentAtom";
 import useCommunityData from "@/hooks/useCommunityData";
 import CommunityListItem from "./CommunityListItem";
 import { UserCommunity } from "@/atoms/communitiesAtom";
@@ -145,12 +137,15 @@ const Directory: React.FC<DirectoryProps> = () => {
 					}}
 					open={directoryOpen.open}
 				>
-					<summary className="directory-header h-full w-max xs:w-[96px] md:w-[128px] lg:w-[129px] xl:w-[240px] flex items-center px-2 border-[1px] border-solid border-[#80808010] rounded-md gap-x-2" onClick={(e) => {
+					<summary
+						className="directory-header h-full w-max xs:w-[96px] md:w-[128px] lg:w-[129px] xl:w-[240px] flex items-center px-2 border-[1px] border-solid border-[#80808010] rounded-md gap-x-2"
+						onClick={(e) => {
 							setDirectoryOpen((prev) => ({
 								...prev,
 								open: !prev.open,
 							}));
-						}}>
+						}}
+					>
 						{directory.active}
 						<h2 className="label hidden xs:block flex-1 text-sm">
 							{directory.title}

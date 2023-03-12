@@ -91,11 +91,11 @@ const Home = () => {
 	};
 
 	const getUserPostVotes = async () => {
-		setLoading(true);
 		try {
+			const postIds = postStateValue.posts.map((post) => post.id);
 			const postVotesQuery = query(
 				collection(firestore, `users/${user?.uid}/postVotes`),
-				limit(10)
+				where("postId", "in", postIds)
 			);
 
 			const postVotesDocs = await getDocs(postVotesQuery);
@@ -113,7 +113,6 @@ const Home = () => {
 		} catch (error: any) {
 			console.log("Fetching user post votes error: ", error.message);
 		}
-		setLoading(false);
 	};
 
 	useEffect(() => {
@@ -125,10 +124,10 @@ const Home = () => {
 	}, [user, loadingUser]);
 
 	useEffect(() => {
-		if (user && !loadingUser) {
+		if (user && !loadingUser && postStateValue.posts.length) {
 			getUserPostVotes();
 		}
-	}, [postStateValue.posts]);
+	}, [user, postStateValue.posts]);
 
 	return (
 		<>
