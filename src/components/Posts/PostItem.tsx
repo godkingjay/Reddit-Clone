@@ -277,7 +277,7 @@ const PostItem: React.FC<PostItemProps> = ({
 									<span className="hidden xs:inline"> Comments</span>
 								</p>
 							</button>
-							<details className="[&[open]>summary]:bg-gray-200 relative">
+							<details className="[&[open]>summary]:bg-gray-200 relative" onClick={(e) => e.stopPropagation()}>
 								<summary
 									title="Comments"
 									className="list-none p-2 flex flex-row items-center text-gray-500 gap-x-2 rounded-md hover:bg-gray-200 focus:bg-gray-200 cursor-pointer"
